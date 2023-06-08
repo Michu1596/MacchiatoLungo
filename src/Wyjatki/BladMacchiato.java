@@ -13,4 +13,7 @@ public class BladMacchiato extends RuntimeException{
     public BladMacchiato(){
         ;
     }
+    public BladMacchiato(String informacja){
+        super(informacja);
+    }
 }

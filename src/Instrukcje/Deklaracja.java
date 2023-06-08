@@ -5,6 +5,7 @@ import Wyrazenia.Wyrazenie;
 
 public class Deklaracja extends InstrukcjaPojedyncza{
     private char nazwa;
+
     private Wyrazenie wyrazenie;
     public Deklaracja(char nazwa, Wyrazenie wyrazenie){
         super();
@@ -20,6 +21,9 @@ public class Deklaracja extends InstrukcjaPojedyncza{
             e.aktualneWartosciowanie = wartNadrzedne;
             e.blednaInstrukcja = this;
         }
+    }
+    public void setWyrazenie(Wyrazenie wyrazenie) {
+        this.wyrazenie = wyrazenie;
     }
 
     @Override

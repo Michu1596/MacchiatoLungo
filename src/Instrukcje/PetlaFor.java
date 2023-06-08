@@ -10,7 +10,6 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
     protected int powtorzenia;
     private int licznikPetli;
     private boolean zainicjowano;
-    //private boolean policzonoWyrazenie;
     final private char nazwaZmiennej;
     public PetlaFor(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Wyrazenie wyrazenie){
         // zakladam że petla musi byc w bloku albo innej petli
@@ -21,12 +20,6 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
         this.deklaracja = new Deklaracja(nazwaZmiennej, new Literal(0)); // zaczyanmy od 0
         this.deklaracja.wartNadrzedne = wartWewnetrzne;
         this.wyrazenie = wyrazenie;
-
-        //Przypisanie inkrementacja = new Przypisanie(nazwaZmiennej, new Dodawanie(new Zmienna(nazwaZmiennej),
-        //        new Literal(1)));
-        //inkrementacja.wartNadrzedne = wartWewnetrzne;
-        //this.instrukcje.dodajInstrukcje(inkrementacja); // instrukcja inkrementacji zmiennej sterujacej na
-        //poczatku sekwencji instrukcji
     }
 
     @Override
@@ -65,12 +58,6 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
     @Override
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){ //TODO zwrocic wyliczanie wyrazenia na poczatku
         if(zainicjowano == false){
-            /*if(policzonoWyrazenie == false) {
-                policzonoWyrazenie = true;
-                debugger.setKtoraNastepna(deklaracja);
-                //powtorzenia = wyrazenie.ewaluuj(wartWewnetrzne);
-                return new WyliczenieWartosciFor(this);
-            }*/
             zainicjowano = true;
             powtorzenia = wyrazenie.ewaluuj(wartWewnetrzne);
             debugger.setKtoraNastepna(instrukcje.pierwszaInstrukcja());

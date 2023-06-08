@@ -1,5 +1,7 @@
 package Instrukcje;
 
+import KlasyPomocnicze.ZakresWidocznosciProcedur;
+import Wyjatki.BladMacchiato;
 import Wykonanie.Debugger;
 import Wyjatki.PodwojnaDeklaracja;
 import Wyrazenia.Wyrazenie;
@@ -8,12 +10,15 @@ import java.util.*;
 
 public class Blok extends InstrukcjaZWartosciowaniem{
     private Set<Character> zadklarowaneZmienne;
+    protected ZakresWidocznosciProcedur proceduryWewnetrzne;
     public Blok(){
         super(); //tworzy nowe wartosciowanie
+        proceduryWewnetrzne = new ZakresWidocznosciProcedur();
         zadklarowaneZmienne = new HashSet<Character>();
     }
     public Blok(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
         super(instr.wartWewnetrzne); //przyslania zmienne
+        proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.widocznoscProcedur);
         zadklarowaneZmienne = new HashSet<Character>();
     }
     public void dodajDeklaracje(char zmienna, Wyrazenie wartosc){
@@ -25,6 +30,14 @@ public class Blok extends InstrukcjaZWartosciowaniem{
         instrukcje.dodajInstrukcje(dekl);
     }
 
+    public void dodajProcedure(String nazwaProcedury, Procedura procedura){
+        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
+        // w tej metodzie
+    }
+    @Override
+    public Procedura getProcedura(String nazwa){
+        return proceduryWewnetrzne.get(nazwa);
+    }
     @Override
     public void wykonaj() {
         instrukcje.wykonaj();

@@ -4,6 +4,7 @@ import java.util.*;
 import Instrukcje.Instrukcja;
 import Instrukcje.InstrukcjaPojedyncza;
 import Instrukcje.Wartosciowanie;
+import Wyjatki.BladMacchiato;
 
 public class Program {
     protected Instrukcja program;
@@ -29,17 +30,27 @@ public class Program {
     }
     protected boolean step(int ile, Debugger debugger){
         int i = 0;
+        Debugger poprzedniDebugger = new Debugger();
         while (i < ile && nastepnaPojedyncza != null){
-            nastepnaPojedyncza.wykonaj();
-            nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debugger);
-            i++;
+            try {
+                nastepnaPojedyncza.wykonaj();
+                // to jest po to zeby nie podawal zbyt odleglej instrukcji
+                poprzedniDebugger.setKtoraNastepna(debugger.getKtoraNastepna());
+                nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debugger);
+                i++;
+            }
+            catch (BladMacchiato e){
+                System.out.println("Napotkano wyjatek");
+                System.out.println(e.toString());
+                nastepnaPojedyncza = null; // konczymy wykonywanie programu
+            }
         }
         if(nastepnaPojedyncza == null){
             System.out.println("Program zakonczyl sie przed wykonaniem zadanej liczby instrukcji");
             return false;
         }
-        System.out.println(debugger.getKtoraNastepna().toString());
         System.out.println("Nastepna instrukcja: \n");
+        System.out.println(poprzedniDebugger.getKtoraNastepna().toString());
         return true;
     }
     public void wykonajZDebugowaniem(){
@@ -49,6 +60,7 @@ public class Program {
        // System.out.print("Enter a string: ");
         //String komenda = sc.nextLine();
 
+        System.out.println("Nast Poj");
         nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debug);
 
         boolean petla = true;
@@ -80,8 +92,6 @@ public class Program {
                 case 's': {
                     komenda = komenda.substring(1);
                     komenda = komenda.trim();
-                    System.out.println("Liczba obliczona: ");
-                    System.out.println(Integer.parseInt(komenda));
                     petla = step(Integer.parseInt(komenda), debug);
                     break;
                 }

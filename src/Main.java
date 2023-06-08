@@ -3,13 +3,38 @@ import Wykonanie.Program;
 import Wyrazenia.*;
 import Wyjatki.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args){
+        Blok program = new Blok();
+        program.dodajDeklaracje('x', new Literal(57));
+        program.dodajDeklaracje('y', new Literal(15));
+        char[] argumenty = new char[1];
+        argumenty[0] = 'a';
+        Procedura out = new Procedura(program, argumenty);
+        out.dodajInstrukcje(new Print(new Zmienna('a')));
+        program.dodajProcedure("out", out);
+        program.dodajInstrukcje(new Przypisanie('x',
+                                    new Odejmowanie(
+                                            new Zmienna('x'),
+                                            new Zmienna('y'))));
+        List<Wyrazenie> param = new ArrayList<Wyrazenie>();
+        param.add(new Zmienna('x'));
+        program.dodajInstrukcje(new WywolanieProcedury("out", param, program));
+        //param.clear();
+        List<Wyrazenie> param2 = new ArrayList<Wyrazenie>();
+        param2.add(new Literal(125));
+        program.dodajInstrukcje(new WywolanieProcedury("out", param2, program));
+
+        Program procedury = new Program(program);
+        //procedury.wykonanieBezDebugowania();
+        procedury.wykonajZDebugowaniem();
+    }
+    public static void nieMain(String[] args) {
 
         Blok program = new Blok();
         program.dodajDeklaracje('n', new Literal(30));
