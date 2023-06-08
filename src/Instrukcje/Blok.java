@@ -18,7 +18,12 @@ public class Blok extends InstrukcjaZWartosciowaniem{
     }
     public Blok(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
         super(instr.wartWewnetrzne); //przyslania zmienne
-        proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.widocznoscProcedur);
+        zadklarowaneZmienne = new HashSet<Character>();
+    }
+
+    public Blok(Blok instr){ // blok jako Instrukcja Z Deklaracjami Procedur
+        super(instr.wartWewnetrzne); //przyslania zmienne
+        proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.proceduryWewnetrzne);
         zadklarowaneZmienne = new HashSet<Character>();
     }
     public void dodajDeklaracje(char zmienna, Wyrazenie wartosc){

@@ -1,9 +1,13 @@
 package Instrukcje;
 
+
+import Wyjatki.NieprawidloweArgumentyProcedury;
 import Wykonanie.Debugger;
+import Wyrazenia.Literal;
 import Wyrazenia.Wyrazenie;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+
 import java.util.List;
 
 public class WywolanieProcedury extends InstrukcjaZlozona{
@@ -23,18 +27,42 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
         zainicjalizowano = false;
         nazwaProcedury = nazwa;
         procedura = zakres.getProcedura(nazwa);
+        if (procedura.getLiczbaPArametrow() != argumenty.size())
+            throw new NieprawidloweArgumentyProcedury();
         this.argumenty = argumenty;
     }
+    public WywolanieProcedury(String nazwa, InstrukcjaZlozona zakres){
+        zainicjalizowano = false;
+        nazwaProcedury = nazwa;
+        procedura = zakres.getProcedura(nazwa);
+        if (procedura.getLiczbaPArametrow() != 0)
+            throw new NieprawidloweArgumentyProcedury();
+    }
+
+    /**
+     * metoda dajaca dostep do nastepnej instrukcji w procedurze. W momencie wywolania inicjalizuje wartosci argumentow
+     * procedury. Wylicza ich wartosci i tworzy liste Literalow ktora zostaje przekazana procedurze. Dzieje sie tak
+     * poniewaz chcemy przekazac procedurze argumenty przez wartosc i potrzebujemy mechanizmu wymuszajacego ich
+     * kopiowanie.
+     * @param debugger
+     * @return
+     */
+
     @Override
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        if(!zainicjalizowano)
-            procedura.ustawArgumenty(argumenty);
+        if(!zainicjalizowano){
+            List<Wyrazenie> wartosciWyrazen = new ArrayList<>();
+            for(Wyrazenie wyrazenie : argumenty) // tworzy liste literalow zawierajacych wartosci wyrazen obliczone
+                                                 // w miejscu wywolania procedury
+                wartosciWyrazen.add(new Literal(wyrazenie.ewaluuj(wartNadrzedne)));
+            procedura.ustawArgumenty(wartosciWyrazen);
+        }
         Instrukcja nastepnaInst = debugger.getKtoraNastepna();
         InstrukcjaPojedyncza instr = procedura.nastepnaInstrukcjaPojedyncza(debugger);
         if(debugger.getKtoraNastepna() == null) // jesli dojdziemy do konca procedury to nastepna instrukcja to ta ktora
-            // znajduje sie po wywolaniu
+                                                // znajduje sie po wywolaniu
             debugger.setKtoraNastepna(nastepnaInst);
-        if(instr == null) //jesli dojdzeimy do konca wykonania to aczynamy od poczatku
+        if(instr == null)                       //jesli dojdzeimy do konca wykonania to aczynamy od poczatku
             zainicjalizowano = false;
         return instr;
     }
@@ -44,7 +72,6 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
     }
     @Override
     public void wykonaj(){
-        //System.out.println("to tu");
         procedura.ustawArgumenty(argumenty);
         procedura.wykonaj();
     }

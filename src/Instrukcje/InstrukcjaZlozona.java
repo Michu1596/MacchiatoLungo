@@ -18,7 +18,7 @@ public abstract class InstrukcjaZlozona extends Instrukcja{
         return widocznoscProcedur.get(nazwa);
     }
     public void dodajInstrukcje(Instrukcja instr){
-        instr.wartNadrzedne = wartNadrzedne; //
+        instr.wartNadrzedne = wartNadrzedne;
         instrukcje.dodajInstrukcje(instr);
     }
 }

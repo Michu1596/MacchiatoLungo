@@ -41,9 +41,21 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
     }
 
     /**
+     * konstruktor procedury bezparametrowej
+     * @param zakresZewnetrzny  zakres widocznosci w ktorym zadeklarowana jest procedura
+     */
+    public Procedura(InstrukcjaZWartosciowaniem zakresZewnetrzny){
+        super(zakresZewnetrzny.wartWewnetrzne);
+        this.argumenty = new LinkedHashSet<Character>(); //pragniemy zachowac porzadek dodawania elementow
+        this.wartosciArgumentow = new ArrayList<Deklaracja>();
+        zadklarowaneZmienne = new HashSet<Character>();
+
+
+    }
+
+    /**
      * Przekazanie argumentow do procedury nastepuje w ten sposob, ze w momencie wywolania podajemy porcedurze
-     * wyrazenia, ktore podano przy wywolaniu. Wyrazenia te sa podstawa do deklaracji dla zmiennych reprezentujacych
-     * argumenty.
+     * liste literalow, ktore sa wynikiem ewaluacji wyrazen w miejscu wywolania procedury.
      * @param wyrazenia Lista wyrazen podanych w kolejnosci wystepowania argumentow
      */
     public void ustawArgumenty(List<Wyrazenie> wyrazenia){
@@ -77,6 +89,10 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
         return argumenty.toString();
     }
 
+    public int getLiczbaPArametrow(){
+        return argumenty.size();
+    }
+
     @Override
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         return instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
@@ -91,6 +107,6 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
     }
     @Override
     public String toString(){
-        return getArgumenty() + instrukcje.toString();
+        return getArgumenty() + '\n' + instrukcje.toString();
     }
 }
