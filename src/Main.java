@@ -1,3 +1,5 @@
+import Buildery.BlokBuilder;
+//import Buildery.ProgramBuilder;
 import Instrukcje.*;
 import Wykonanie.Program;
 import Wyrazenia.*;
@@ -10,6 +12,23 @@ import java.util.List;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args){
+       // ProgramBuilder bldr = new ProgramBuilder().rozpocznijBlok().zadeklarujZmienna('n', new Literal(1)).zakonczBlok();
+        Blok program = new BlokBuilder()
+                .zadeklarujZmienna('x', new Literal(57))
+                .zadeklarujZmienna('y', new Literal(15))
+                .rozpocznijProcedure("out", new char[] {'a'})
+                    .print(new Zmienna('a'))
+                .zamknijZakres()
+                .przypisanie('x', new Odejmowanie(new Zmienna('x'), new Zmienna('y')))
+                .wywolanieProcedury("out", List.of(new Zmienna('x')))
+                .wywolanieProcedury("out", List.of(new Literal(125)))
+                .zbuduj();
+
+        Program procedury = new Program(program);
+        //procedury.wykonanieBezDebugowania();
+        procedury.wykonajZDebugowaniem();
+    }
+    public static void nieMain2(String[] args){
         Blok program = new Blok();
         program.dodajDeklaracje('x', new Literal(57));
         program.dodajDeklaracje('y', new Literal(15));
