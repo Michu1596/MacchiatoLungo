@@ -107,6 +107,9 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
     }
     @Override
     public String toString(){
-        return getArgumenty() + '\n' + instrukcje.toString();
+        if(argumenty != null)
+            return getArgumenty() + '\n' + instrukcje.toString();
+        else
+            return instrukcje.toString();
     }
 }

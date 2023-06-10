@@ -1,6 +1,7 @@
 package Buildery;
 
 import Instrukcje.Blok;
+import Instrukcje.InstrukcjaZlozona;
 import Instrukcje.Procedura;
 import Wyrazenia.Wyrazenie;
 
@@ -16,6 +17,7 @@ public class ProceduraBuilder extends  Builder{ //dziedziczenie wynika stad ze p
     public ProceduraBuilder(BlokBuilder zakresZewnetrzny, Blok blok, String nazwa){
         super(zakresZewnetrzny);
         procedura = new Procedura(blok);
+        blok.dodajProcedure(nazwa, procedura);
         zagniezdzenieInstrukcji.push(procedura);
         zagniezdzenieWartosciowania.push(procedura);
     }
@@ -28,5 +30,9 @@ public class ProceduraBuilder extends  Builder{ //dziedziczenie wynika stad ze p
         zagniezdzenieInstrukcji.pop();
         zagniezdzenieWartosciowania.pop();
         return nadrzedny;
+    }
+    @Override
+    public InstrukcjaZlozona getInstrukcja(){
+        return procedura;
     }
 }

@@ -1,5 +1,6 @@
 import Buildery.BlokBuilder;
 //import Buildery.ProgramBuilder;
+import Buildery.ProgramBuilder;
 import Instrukcje.*;
 import Wykonanie.Program;
 import Wyrazenia.*;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args){
        // ProgramBuilder bldr = new ProgramBuilder().rozpocznijBlok().zadeklarujZmienna('n', new Literal(1)).zakonczBlok();
-        Blok program = new BlokBuilder()
+        Program program = new ProgramBuilder()
                 .zadeklarujZmienna('x', new Literal(57))
                 .zadeklarujZmienna('y', new Literal(15))
                 .rozpocznijProcedure("out", new char[] {'a'})
@@ -24,9 +25,9 @@ public class Main {
                 .wywolanieProcedury("out", List.of(new Literal(125)))
                 .zbuduj();
 
-        Program procedury = new Program(program);
-        //procedury.wykonanieBezDebugowania();
-        procedury.wykonajZDebugowaniem();
+
+        //program.wykonajZDebugowaniem();
+        program.wykonanieBezDebugowania();
     }
     public static void nieMain2(String[] args){
         Blok program = new Blok();

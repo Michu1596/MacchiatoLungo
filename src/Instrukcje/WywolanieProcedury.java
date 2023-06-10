@@ -77,6 +77,9 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
     }
     @Override
     public String toString(){
-        return nazwaProcedury + "( " + argumenty.toString() + " )";
+        if (argumenty != null)
+            return nazwaProcedury + "( " + argumenty.toString() + " )";
+        else
+            return nazwaProcedury + "()\n";
     }
 }

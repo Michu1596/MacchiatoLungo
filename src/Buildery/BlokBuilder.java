@@ -1,19 +1,22 @@
 package Buildery;
 
 import Instrukcje.Blok;
+import Instrukcje.InstrukcjaZlozona;
 import Instrukcje.Procedura;
 import Wyrazenia.Wyrazenie;
 
 public class BlokBuilder extends Builder{
+
     protected Blok blok;
     public BlokBuilder(Builder zakresZewnetrzny){
         super(zakresZewnetrzny);
 
         if(zagniezdzenieWartosciowania.isEmpty())
             this.blok = new Blok();
-        else
+        else {
             this.blok = new Blok(zagniezdzenieWartosciowania.peek());
-
+        }
+        zagniezdzenieInstrukcji.peek().dodajInstrukcje(blok);
         zagniezdzenieInstrukcji.push(blok);
         zagniezdzenieWartosciowania.push(blok);
         zagniezdzenieWidocznosciProcedur.push(blok);
@@ -49,9 +52,8 @@ public class BlokBuilder extends Builder{
         zagniezdzenieWidocznosciProcedur.pop();
         return nadrzedny;
     }
-
     @Override
-    public Blok zbuduj(){
+    public InstrukcjaZlozona getInstrukcja() {
         return blok;
     }
 

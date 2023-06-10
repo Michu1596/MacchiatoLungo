@@ -11,6 +11,7 @@ public class PetlaBuilder extends Builder{
     public PetlaBuilder(Builder zakresZewnetrzny, char zmienna, Wyrazenie wyr){
         super(zakresZewnetrzny);
         petla = new PetlaFor(zagniezdzenieWartosciowania.peek(), zmienna, wyr);
+        zagniezdzenieInstrukcji.peek().dodajInstrukcje(petla);
         zagniezdzenieInstrukcji.push(petla);
         zagniezdzenieWartosciowania.push(petla);
     }

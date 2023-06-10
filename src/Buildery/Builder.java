@@ -2,6 +2,7 @@ package Buildery;
 
 import Instrukcje.*;
 import Wyjatki.BladMacchiato;
+import Wykonanie.Program;
 import Wyrazenia.Wyrazenie;
 
 import java.util.List;
@@ -86,7 +87,24 @@ public abstract class Builder {
         return this;
     }
 
-    //te procedury musza byc nadpisane
+    /**
+     *  obslugujacy wszystkie instrukcje warunkowe
+     * @param warunek "<" , ">" , "==" , "<=" lub ">="
+     * @param wyr1 wyrazenie z lewej
+     * @param wyr2 wyrazenie z prawej
+     */
+    public IfBuilder rozpocznijInstrukcjeWarunkowa(String warunek, Wyrazenie wyr1, Wyrazenie wyr2){
+        return new IfBuilder(this, warunek, wyr1, wyr2);
+    }
+
+    public PetlaBuilder rozpocznijPetle(char zmiennaSterujaca, Wyrazenie wyrazenieInicjalizujace){
+        return new PetlaBuilder(this, zmiennaSterujaca, wyrazenieInicjalizujace);
+    }
+
+    public BlokBuilder rozpocznijBlok(){
+        return new BlokBuilder(this);
+    }
+    //Ponizsze procedury musza byc nadpisane
 
     /**
      * zamyka zakres aktualnie rozpatrywanej instrukcji; Tak jak '}' w kodzie
@@ -124,7 +142,15 @@ public abstract class Builder {
     public Builder zadeklarujZmienna(char nazwa, Wyrazenie wyr){
         throw new BladMacchiato("Blad budowy programu");
     }
-    public Blok zbuduj(){ //TODO stworzyc ProgramBuilder i przeniesc to tam
+
+    /**
+     * metoda tworzaca program
+     * @return
+     */
+    public Program zbuduj(){
+        throw new BladMacchiato("Blad budowy programu");
+    }
+    public InstrukcjaZlozona getInstrukcja(){
         throw new BladMacchiato("Blad budowy programu");
     }
 }

@@ -28,6 +28,9 @@ public class Deklaracja extends InstrukcjaPojedyncza{
 
     @Override
     public String toString(){
-        return "DEKLARACJA: " +  nazwa + " = " + wyrazenie.toString() + '\n';
+        if(wyrazenie == null)
+            return "DEKLARACJA: " +  nazwa + " = NULL\n";
+        else
+            return "DEKLARACJA: " +  nazwa + " = " + wyrazenie.toString() + '\n';
     }
 }
