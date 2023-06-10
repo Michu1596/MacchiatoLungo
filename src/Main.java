@@ -1,6 +1,9 @@
 import Buildery.BlokBuilder;
 //import Buildery.ProgramBuilder;
 import Buildery.ProgramBuilder;
+import Fabryki.OdejmowanieFabryka;
+import Fabryki.StalaFabryka;
+import Fabryki.ZmiennaFabryka;
 import Instrukcje.*;
 import Wykonanie.Program;
 import Wyrazenia.*;
@@ -13,6 +16,23 @@ import java.util.List;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args){
+        Program program = new ProgramBuilder()
+                .zadeklarujZmienna('x', StalaFabryka.wartosc(57))
+                .zadeklarujZmienna('y', StalaFabryka.wartosc(15))
+                .rozpocznijProcedure("out", new char[] {'a'})
+                .print(ZmiennaFabryka.nazwa('a'))
+                .zamknijZakres()
+                .przypisanie('x', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
+                                                                        ZmiennaFabryka.nazwa('y')))
+                .wywolanieProcedury("out", List.of(ZmiennaFabryka.nazwa('x')))
+                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(125)))
+                .zbuduj();
+
+
+        //program.wykonajZDebugowaniem();
+        program.wykonanieBezDebugowania();
+    }
+    public static void nieMain3(String[] args){
        // ProgramBuilder bldr = new ProgramBuilder().rozpocznijBlok().zadeklarujZmienna('n', new Literal(1)).zakonczBlok();
         Program program = new ProgramBuilder()
                 .zadeklarujZmienna('x', new Literal(57))
