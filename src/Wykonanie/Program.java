@@ -16,7 +16,13 @@ public class Program {
     }
 
     public void wykonanieBezDebugowania(){
-        program.wykonaj();
+
+        try {
+            program.wykonaj();
+        }
+        catch (BladMacchiato e){
+            System.out.println("Napotkano blad: " + e.getClass() + e);
+        }
     }
 
     protected void cont(Instrukcja nast, Debugger debugger){
@@ -106,7 +112,10 @@ public class Program {
                     {
                         Wartosciowanie doWyswietlenia = nastepnaPojedyncza.display(0);
                         ZakresWidocznosciProcedur procedury = nastepnaPojedyncza.getWidocznoscProcedur();
-                        plikWy.println(doWyswietlenia.toString() + '\n' + procedury.toString());
+                        if(procedury != null)
+                            plikWy.println(doWyswietlenia.toString() + '\n' + procedury.toString());
+                        else
+                            plikWy.println(doWyswietlenia.toString());
 
                     }catch (Exception e) {
                         System.out.println("Nie mozna utworzyc pliku wyjsciowego");

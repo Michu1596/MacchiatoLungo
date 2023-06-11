@@ -6,6 +6,10 @@ import Wyrazenia.Wyrazenie;
 
 import java.util.*;
 
+/**
+ * W momencie deklaracji procedury w bloku procedura zyskuje dostep do wartosciowania bloku. Co przeklada sie na to, ze
+ * korzysta ze Statycznego wiazania zmiennych
+ */
 public class Procedura extends InstrukcjaZWartosciowaniem{
     protected Set<Character> argumenty; // sluzy do upewnienia sie ze nazwy argumentow, w deklaracji procedury,
     // nie powtarzaja sie

@@ -22,10 +22,9 @@ public class Blok extends InstrukcjaZWartosciowaniem{
         proceduryWewnetrzne = new ZakresWidocznosciProcedur();
     }
 
-    public Blok(Blok instr){ // blok jako Instrukcja Z Deklaracjami Procedur
-        super(instr.wartWewnetrzne); //przyslania zmienne
+    //metoda potrzebna do tworzenia bloku bezposrednio zagniezdzonego w innym bloku
+    public void przypnijBlokZewnetrzny(Blok instr){ // blok jako Instrukcja Z Deklaracjami Procedur
         proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.proceduryWewnetrzne);
-        zadklarowaneZmienne = new HashSet<Character>();
     }
     public void dodajDeklaracje(char zmienna, Wyrazenie wartosc){
         if(zadklarowaneZmienne.contains(zmienna))

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+/**
+ * Debugger natrafiajac na instrukcje WywolanieProcedury od razu wchodzi do wnetrza procedury i uzyskuje dostep do
+ * wartosciociowania widocznego w bloku w ktorym procedura zostala zadeklarowana
+ */
 public class WywolanieProcedury extends InstrukcjaZlozona{
     protected String nazwaProcedury;
     protected List<Wyrazenie> argumenty;

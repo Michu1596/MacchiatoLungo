@@ -3,6 +3,8 @@ package Buildery;
 import Instrukcje.Blok;
 import Instrukcje.InstrukcjaZlozona;
 import Instrukcje.Procedura;
+import Wyjatki.BladMacchiato;
+import Wyjatki.PodwojnaDeklaracja;
 import Wyrazenia.Wyrazenie;
 
 public class BlokBuilder extends Builder{
@@ -22,6 +24,27 @@ public class BlokBuilder extends Builder{
         zagniezdzenieWidocznosciProcedur.push(blok);
     }
 
+    /**
+     * konstruktor do tworzenia bloku zagniezdzonego. Umozliwia on ustawienie zewnetrznego zakresu widocznosci procedur
+     * w bloku
+     * @param zakresZewnetrzny zewnetrzny zakres widocznosci
+     * @param blokZewnetrzny zewnetrzny blok w ktorym zadeklarowany jest nowy blok
+     */
+    public BlokBuilder(Builder zakresZewnetrzny, Blok blokZewnetrzny){
+        super(zakresZewnetrzny);
+
+        if(zagniezdzenieWartosciowania.isEmpty())
+            this.blok = new Blok();
+        else {
+            this.blok = new Blok(zagniezdzenieWartosciowania.peek());
+        }
+        blok.przypnijBlokZewnetrzny(blokZewnetrzny);
+        zagniezdzenieInstrukcji.peek().dodajInstrukcje(blok);
+        zagniezdzenieInstrukcji.push(blok);
+        zagniezdzenieWartosciowania.push(blok);
+        zagniezdzenieWidocznosciProcedur.push(blok);
+    }
+
     public BlokBuilder(){
         super();
         this.blok = new Blok();
@@ -31,7 +54,12 @@ public class BlokBuilder extends Builder{
     }
     @Override
     public BlokBuilder zadeklarujZmienna(char nazwa, Wyrazenie wyr){
-        blok.dodajDeklaracje(nazwa, wyr);
+
+        try {
+            blok.dodajDeklaracje(nazwa, wyr);
+        }catch (PodwojnaDeklaracja e){
+            System.out.println("Zmienna: " + nazwa + " zostala juz zadeklarowna w tym bloku");
+        }
         return this;
     }
 
@@ -43,6 +71,15 @@ public class BlokBuilder extends Builder{
     @Override
     public ProceduraBuilder rozpocznijProcedure(String nazwa){
         return new ProceduraBuilder(this, blok, nazwa);
+    }
+
+    /**
+     * metoda pozwalajaca utworzyc blok zagniezdony
+     * @return
+     */
+    @Override
+    public BlokBuilder rozpocznijBlok(){
+        return new BlokBuilder(this, blok);
     }
 
     @Override

@@ -12,7 +12,7 @@ public abstract class InstrukcjaZWartosciowaniem extends InstrukcjaZlozona {
     }
     @Override
     public void dodajInstrukcje(Instrukcja instr){
-        instr.wartNadrzedne = wartWewnetrzne; //
+        instr.wartNadrzedne = wartWewnetrzne; // stad wynika ze procedury maja statyczne wiazenie zmiennych
         instr.widocznoscProcedur = widocznoscProcedur;
         instrukcje.dodajInstrukcje(instr);
     }

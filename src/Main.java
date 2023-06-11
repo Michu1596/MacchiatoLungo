@@ -13,7 +13,29 @@ import java.util.List;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static void nmain(String[] args){
+    public static void main(String[] args){
+        //Nowy przyklad
+        Program program = new ProgramBuilder()
+                .zadeklarujZmienna('x', StalaFabryka.wartosc(101))
+                .zadeklarujZmienna('y', StalaFabryka.wartosc(1))
+                .rozpocznijProcedure("out", new char[] {'a'})
+                    .print(DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('x'), ZmiennaFabryka.nazwa('a')))
+                .zamknijZakres()
+                .przypisanie('x',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
+                        ZmiennaFabryka.nazwa('y')))
+                .wywolanieProcedury("out", List.of(ZmiennaFabryka.nazwa('x')))
+                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(100)))
+                .rozpocznijBlok()
+                .zadeklarujZmienna('x', StalaFabryka.wartosc(10))
+                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(100)))
+                .zamknijZakres()
+                .zbuduj();
+
+
+        program.wykonajZDebugowaniem();
+        //program.wykonanieBezDebugowania();
+    }
+    public static void przykladMacciato10(String[] args){
         Program program = new ProgramBuilder()
                 .zadeklarujZmienna('n', StalaFabryka.wartosc(30))
                 .rozpocznijPetle('k', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('n'),
@@ -39,7 +61,7 @@ public class Main {
                 .zbuduj();
         program.wykonanieBezDebugowania();
     }
-    public static void main(String[] args){
+    public static void staryPrzyklad(String[] args){
         Program program = new ProgramBuilder()
                 .zadeklarujZmienna('x', StalaFabryka.wartosc(57))
                 .zadeklarujZmienna('y', StalaFabryka.wartosc(15))
