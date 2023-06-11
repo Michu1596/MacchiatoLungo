@@ -1,7 +1,6 @@
 package Instrukcje;
 
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
-import Wyjatki.BladMacchiato;
 import Wykonanie.Debugger;
 import Wyjatki.PodwojnaDeklaracja;
 import Wyrazenia.Wyrazenie;
@@ -14,11 +13,11 @@ public class Blok extends InstrukcjaZWartosciowaniem{
     public Blok(){
         super(); //tworzy nowe wartosciowanie
         proceduryWewnetrzne = new ZakresWidocznosciProcedur();
-        zadklarowaneZmienne = new HashSet<Character>();
+        zadklarowaneZmienne = new HashSet<>();
     }
     public Blok(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
         super(instr.wartWewnetrzne); //przyslania zmienne
-        zadklarowaneZmienne = new HashSet<Character>();
+        zadklarowaneZmienne = new HashSet<>();
         proceduryWewnetrzne = new ZakresWidocznosciProcedur();
     }
 

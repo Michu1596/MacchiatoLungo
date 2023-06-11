@@ -10,7 +10,8 @@ import java.util.Stack;
 
 /**
  *  Klasa Builder zawiera wszystkie metody potrzbne do utworzenia programu. Implementacji metod dostarczaja odpowiednie
- *  podklasy. Wywolanie zlej metody jest mozliwe ale skutkuje rzuceniem wyjatku
+ *  podklasy. Wywolanie zlej metody jest mozliwe ale skutkuje rzuceniem wyjatku. Czesc metod jest jest wspolna dla
+ *  wszystkich builderow, stad zostaly zaimplementowane tutaj
  */
 public abstract class Builder {
     protected Stack<InstrukcjaZlozona> zagniezdzenieInstrukcji; //reprezentuje hierarchie zagniezdzenia instrukcji
@@ -28,7 +29,8 @@ public abstract class Builder {
 
     /**
      * konstruktor tworzacy shallow copy buildera instrukcji nadrzednej. Pozwala on otrzymac dostep do hierarchii
-     * zagniezdzen instrukcji.
+     * zagniezdzen instrukcji, wartosciowan oraz widocznosci procedur. Uzywamy go wywolujac metody zaczynajace sie od
+     * "rozpocznij"
      * @param program instrukcja nadrzedna. W jej zakresie znajduje sie aktualnie rozpatrywna instrukcja
      */
     public Builder(Builder program){
@@ -104,6 +106,8 @@ public abstract class Builder {
     public BlokBuilder rozpocznijBlok(){
         return new BlokBuilder(this);
     }
+
+
     //Ponizsze procedury musza byc nadpisane
 
     /**
@@ -121,7 +125,7 @@ public abstract class Builder {
      * @return builder stworzonej procedury
      */
     public ProceduraBuilder rozpocznijProcedure(String nazwa, char[] argumenty){
-        throw new BladMacchiato("Blad budowy programu");
+        throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
     }
     /**
      * Tworzy nowa procedure (bez argumentow) widoczna w bloku w ktorym ja zadeklarowano; mozna wywolac tylko na
@@ -130,7 +134,7 @@ public abstract class Builder {
      * @return builder stworzonej procedury
      */
     public ProceduraBuilder rozpocznijProcedure(String nazwa){
-        throw new BladMacchiato("Blad budowy programu");
+        throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
     }
 
     /**
@@ -140,15 +144,15 @@ public abstract class Builder {
      * @return builder instrukcji w ktorej zostala zadeklarowana zmienna
      */
     public Builder zadeklarujZmienna(char nazwa, Wyrazenie wyr){
-        throw new BladMacchiato("Blad budowy programu");
+        throw new BladMacchiato("Deklaracja zmiennej moze nastapic jedynie w bloku lub procedurze");
     }
 
     /**
      * metoda tworzaca program
-     * @return
+     * @return gotowy program
      */
     public Program zbuduj(){
-        throw new BladMacchiato("Blad budowy programu");
+        throw new BladMacchiato("Zbudownia programu mozliwe jest jedynie z poziomu ProgramBuilder'a");
     }
     public InstrukcjaZlozona getInstrukcja(){
         throw new BladMacchiato("Blad budowy programu");

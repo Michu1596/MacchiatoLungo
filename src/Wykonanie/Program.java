@@ -42,14 +42,14 @@ public class Program {
         while (i < ile && nastepnaPojedyncza != null){
             try {
                 nastepnaPojedyncza.wykonaj();
-                // to jest po to zeby nie podawal zbyt odleglej instrukcji
+                // zapisujemy stan nastepnej instrukcji zeby ja wyswitlic, a nie nastena nastepna instrukcje
                 poprzedniDebugger.setKtoraNastepna(debugger.getKtoraNastepna());
                 nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debugger);
                 i++;
             }
             catch (BladMacchiato e){
                 System.out.println("Napotkano wyjatek");
-                System.out.println(e.toString());
+                System.out.println(e);
                 nastepnaPojedyncza = null; // konczymy wykonywanie programu
             }
         }
@@ -57,16 +57,13 @@ public class Program {
             System.out.println("Program zakonczyl sie przed wykonaniem zadanej liczby instrukcji");
             return false;
         }
-        System.out.println("Nastepna instrukcja: \n");
+        System.out.println("Nastepna instrukcja:");
         System.out.println(poprzedniDebugger.getKtoraNastepna().toString());
         return true;
     }
     public void wykonajZDebugowaniem(){
         Debugger debug = new Debugger();
-
         Scanner sc= new Scanner(System.in);
-
-        System.out.println("Nast Poj");
         nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debug);
 
         boolean petla = true;
@@ -86,7 +83,7 @@ public class Program {
                 }
                 case 'd': {
                     komenda = komenda.substring(1);
-                    komenda = komenda.trim();
+                    komenda = komenda.trim(); // wycinamy spacje
                     Wartosciowanie doWyswitlenia = nastepnaPojedyncza.display(Integer.parseInt(komenda));
                     if(doWyswitlenia == null){
                         System.out.println("Za duzy parametr dla komendy d");
@@ -119,8 +116,6 @@ public class Program {
 
                     }catch (Exception e) {
                         System.out.println("Nie mozna utworzyc pliku wyjsciowego");
-                        System.out.println(e.getClass());
-                        System.out.println(e);
                         throw new RuntimeException();
                     }
                 }

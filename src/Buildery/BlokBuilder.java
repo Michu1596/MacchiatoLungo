@@ -2,14 +2,20 @@ package Buildery;
 
 import Instrukcje.Blok;
 import Instrukcje.InstrukcjaZlozona;
-import Instrukcje.Procedura;
-import Wyjatki.BladMacchiato;
 import Wyjatki.PodwojnaDeklaracja;
 import Wyrazenia.Wyrazenie;
 
+/**
+ * Klasa BlokBuilder implementuje metody zadeklarujZmienna oraz rozpocznijProcedure - w wersji z argumentami i bez
+ */
 public class BlokBuilder extends Builder{
 
     protected Blok blok;
+
+    /**
+     * konstruktor pozwalajacy stworzyc blok wewnatrz innej instrukcji zlozonej
+     * @param zakresZewnetrzny
+     */
     public BlokBuilder(Builder zakresZewnetrzny){
         super(zakresZewnetrzny);
 
@@ -25,8 +31,8 @@ public class BlokBuilder extends Builder{
     }
 
     /**
-     * konstruktor do tworzenia bloku zagniezdzonego. Umozliwia on ustawienie zewnetrznego zakresu widocznosci procedur
-     * w bloku
+     * konstruktor do tworzenia bloku zagniezdzonego. Umozliwia on poprawne utworzenie zakresu widocznosci procedur
+     * bazujacego na bloku zewnetrznym
      * @param zakresZewnetrzny zewnetrzny zakres widocznosci
      * @param blokZewnetrzny zewnetrzny blok w ktorym zadeklarowany jest nowy blok
      */

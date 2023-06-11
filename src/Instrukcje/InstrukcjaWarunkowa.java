@@ -46,7 +46,7 @@ public abstract class InstrukcjaWarunkowa extends InstrukcjaZlozona{
         return nast;
     }
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){ //TODO poprawic
+    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         if(!sprawdzonoWarunek) {
             sprawdz();
             return new IfSprawdz(this);

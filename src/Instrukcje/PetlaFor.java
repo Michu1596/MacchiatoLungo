@@ -56,7 +56,7 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
 
 
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){ //TODO zwrocic wyliczanie wyrazenia na poczatku
+    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         if(zainicjowano == false){
             zainicjowano = true;
             powtorzenia = wyrazenie.ewaluuj(wartWewnetrzne);

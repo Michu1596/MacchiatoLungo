@@ -13,7 +13,7 @@ public class Dzielenie implements Wyrazenie{
     @Override
     public int ewaluuj(Wartosciowanie wart){
         if(wyr2.ewaluuj(wart) == 0)
-            throw new BladWyrazenia(); //TODO dookrelisc
+            throw new BladWyrazenia("Proba podznielenia przez zero");
         return wyr1.ewaluuj(wart) / wyr2.ewaluuj(wart);
     }
 

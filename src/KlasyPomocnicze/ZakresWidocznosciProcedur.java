@@ -4,6 +4,7 @@ import Instrukcje.Procedura;
 import Wyjatki.BladMacchiato;
 import Wyjatki.NiezadeklarowanaProcedura;
 import Wyjatki.NiezadeklarowanaZmienna;
+import Wyjatki.PodwojnaDeklaracjaProcedury;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +22,8 @@ public class ZakresWidocznosciProcedur {
     }
 
     public void deklarujProcedure(String nazwaProcedury, Procedura procedura){
-        if (procedury.containsKey(nazwaProcedury)) //TODO zrobic wyjatek o podwojnej dekl. procedury
-            throw new BladMacchiato("Podwojna deklaracja procedury w tym samym zakresie widocznosci");
+        if (procedury.containsKey(nazwaProcedury))
+            throw new PodwojnaDeklaracjaProcedury(nazwaProcedury);
         else {
             procedury.put(nazwaProcedury, procedura);
         }
@@ -39,7 +40,6 @@ public class ZakresWidocznosciProcedur {
         else if(nadrzedny != null)
             return nadrzedny.get(nazwaProcedury);
         throw new NiezadeklarowanaProcedura();
-        //TODO przetestowac pod katem wywolania niezadeklarownej procedury
     }
 
     public boolean czyZawiera(String nazwaProcedury){
