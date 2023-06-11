@@ -4,18 +4,19 @@ import Wyjatki.BladMacchiato;
 import Wyjatki.NiezadeklarowanaZmienna;
 
 public class Wartosciowanie {
+    private final static int liczbaZmiennych = 26;
     private Wartosciowanie nadrzedne;
     private int[] zmienne;
     private boolean[] zadeklarowane;
     public Wartosciowanie(){
         this.nadrzedne = null;
-        zmienne = new int[26];
-        zadeklarowane = new boolean[26];
+        zmienne = new int[liczbaZmiennych];
+        zadeklarowane = new boolean[liczbaZmiennych];
     }
     public Wartosciowanie(Wartosciowanie nadrzedne){
         this.nadrzedne = nadrzedne;
-        zmienne = new int[26];
-        zadeklarowane = new boolean[26];
+        zmienne = new int[liczbaZmiennych];
+        zadeklarowane = new boolean[liczbaZmiennych];
     }
     public Wartosciowanie wartosciowanie(int glebokosc){
         if(glebokosc == 0 && nadrzedne != null){

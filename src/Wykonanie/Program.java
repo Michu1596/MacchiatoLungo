@@ -1,9 +1,11 @@
 package Wykonanie;
+import java.io.PrintWriter;
 import java.util.*;
 
 import Instrukcje.Instrukcja;
 import Instrukcje.InstrukcjaPojedyncza;
 import Instrukcje.Wartosciowanie;
+import KlasyPomocnicze.ZakresWidocznosciProcedur;
 import Wyjatki.BladMacchiato;
 
 public class Program {
@@ -56,9 +58,7 @@ public class Program {
     public void wykonajZDebugowaniem(){
         Debugger debug = new Debugger();
 
-        Scanner sc= new Scanner(System.in); //System.in is a standard input stream
-       // System.out.print("Enter a string: ");
-        //String komenda = sc.nextLine();
+        Scanner sc= new Scanner(System.in);
 
         System.out.println("Nast Poj");
         nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debug);
@@ -92,8 +92,28 @@ public class Program {
                 case 's': {
                     komenda = komenda.substring(1);
                     komenda = komenda.trim();
-                    petla = step(Integer.parseInt(komenda), debug);
+                    if (Integer.parseInt(komenda) < 1)
+                        System.out.println("Liczba krokow musi byc dodatnia");
+                    else
+                        petla = step(Integer.parseInt(komenda), debug);
                     break;
+                }
+                case 'm': {
+                    String nazwaPlikuWy = komenda.substring(1);
+                    nazwaPlikuWy = nazwaPlikuWy.trim();
+                    try (PrintWriter plikWy = new PrintWriter(nazwaPlikuWy, "UTF-8")
+                    )
+                    {
+                        Wartosciowanie doWyswietlenia = nastepnaPojedyncza.display(0);
+                        ZakresWidocznosciProcedur procedury = nastepnaPojedyncza.getWidocznoscProcedur();
+                        plikWy.println(doWyswietlenia.toString() + '\n' + procedury.toString());
+
+                    }catch (Exception e) {
+                        System.out.println("Nie mozna utworzyc pliku wyjsciowego");
+                        System.out.println(e.getClass());
+                        System.out.println(e);
+                        throw new RuntimeException();
+                    }
                 }
             }
         }

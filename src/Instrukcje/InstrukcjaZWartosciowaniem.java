@@ -13,6 +13,7 @@ public abstract class InstrukcjaZWartosciowaniem extends InstrukcjaZlozona {
     @Override
     public void dodajInstrukcje(Instrukcja instr){
         instr.wartNadrzedne = wartWewnetrzne; //
+        instr.widocznoscProcedur = widocznoscProcedur;
         instrukcje.dodajInstrukcje(instr);
     }
     @Override

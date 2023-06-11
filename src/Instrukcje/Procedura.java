@@ -62,8 +62,9 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
         Iterator<Wyrazenie> wyrazenieZWywolania = wyrazenia.iterator();
         Iterator<Deklaracja> deklaracjaArgumentu = wartosciArgumentow.iterator();
         while (deklaracjaArgumentu.hasNext()){
-            deklaracjaArgumentu.next().setWyrazenie(
-                    wyrazenieZWywolania.next());
+            Deklaracja argument = deklaracjaArgumentu.next();
+            argument.setWyrazenie(wyrazenieZWywolania.next());
+            argument.widocznoscProcedur = widocznoscProcedur;
         }
     }
 

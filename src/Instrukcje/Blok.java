@@ -19,6 +19,7 @@ public class Blok extends InstrukcjaZWartosciowaniem{
     public Blok(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
         super(instr.wartWewnetrzne); //przyslania zmienne
         zadklarowaneZmienne = new HashSet<Character>();
+        proceduryWewnetrzne = new ZakresWidocznosciProcedur();
     }
 
     public Blok(Blok instr){ // blok jako Instrukcja Z Deklaracjami Procedur
@@ -37,6 +38,7 @@ public class Blok extends InstrukcjaZWartosciowaniem{
 
     public void dodajProcedure(String nazwaProcedury, Procedura procedura){
         proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
+        procedura.widocznoscProcedur = proceduryWewnetrzne;
         // w tej metodzie
     }
     @Override
@@ -57,7 +59,16 @@ public class Blok extends InstrukcjaZWartosciowaniem{
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         return instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
     }
-
+    @Override
+    public void dodajInstrukcje(Instrukcja instr){
+        instr.wartNadrzedne = wartWewnetrzne; //
+        instr.widocznoscProcedur = proceduryWewnetrzne;
+        instrukcje.dodajInstrukcje(instr);
+    }
+    @Override
+    public ZakresWidocznosciProcedur getWidocznoscProcedur() {
+        return proceduryWewnetrzne;
+    }
     @Override
     public String toString(){
         return "BLOK: { " + '\n' + instrukcje.toString() + '}' + '\n';

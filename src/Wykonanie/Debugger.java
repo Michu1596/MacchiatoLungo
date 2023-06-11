@@ -8,7 +8,6 @@ public class Debugger {
     protected Instrukcja ktoraNastepna;
 
     public static void main(String[] args){
-        System.out.printf("Hello and welcome!");
 
         Blok program = new Blok();
         program.dodajDeklaracje('n', new Literal(30));

@@ -11,7 +11,6 @@ public class Print extends InstrukcjaPojedyncza{
     @Override
     public void wykonaj(){
         System.out.println(wyr1.ewaluuj(wartNadrzedne));
-        System.out.println('\n');
     }
     @Override
     public String toString(){

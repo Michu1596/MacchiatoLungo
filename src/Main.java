@@ -1,9 +1,7 @@
 import Buildery.BlokBuilder;
 //import Buildery.ProgramBuilder;
 import Buildery.ProgramBuilder;
-import Fabryki.OdejmowanieFabryka;
-import Fabryki.StalaFabryka;
-import Fabryki.ZmiennaFabryka;
+import Fabryki.*;
 import Instrukcje.*;
 import Wykonanie.Program;
 import Wyrazenia.*;
@@ -15,6 +13,32 @@ import java.util.List;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
+    public static void nmain(String[] args){
+        Program program = new ProgramBuilder()
+                .zadeklarujZmienna('n', StalaFabryka.wartosc(30))
+                .rozpocznijPetle('k', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('n'),
+                                                                                    StalaFabryka.wartosc(1)))
+                .rozpocznijBlok()
+                .zadeklarujZmienna('p', StalaFabryka.wartosc(1))
+                .przypisanie('k', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('k'),
+                        StalaFabryka.wartosc(2)))
+                .rozpocznijPetle('i',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('k'),
+                        StalaFabryka.wartosc(2)))
+                .przypisanie('i', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('i'),
+                        StalaFabryka.wartosc(2)))
+                .rozpocznijInstrukcjeWarunkowa("==", ModuloFabryka.modulo(ZmiennaFabryka.nazwa('k'),
+                        ZmiennaFabryka.nazwa('i')), StalaFabryka.wartosc(0))
+                .przypisanie('p', StalaFabryka.wartosc(0))
+                .zamknijZakres()
+                .zamknijZakres()
+                .rozpocznijInstrukcjeWarunkowa("==", ZmiennaFabryka.nazwa('p'), StalaFabryka.wartosc(1))
+                .print(ZmiennaFabryka.nazwa('k'))
+                .zamknijZakres()
+                .zamknijZakres()
+                .zamknijZakres()
+                .zbuduj();
+        program.wykonanieBezDebugowania();
+    }
     public static void main(String[] args){
         Program program = new ProgramBuilder()
                 .zadeklarujZmienna('x', StalaFabryka.wartosc(57))
@@ -29,8 +53,8 @@ public class Main {
                 .zbuduj();
 
 
-        //program.wykonajZDebugowaniem();
-        program.wykonanieBezDebugowania();
+        program.wykonajZDebugowaniem();
+        //program.wykonanieBezDebugowania();
     }
     public static void nieMain3(String[] args){
        // ProgramBuilder bldr = new ProgramBuilder().rozpocznijBlok().zadeklarujZmienna('n', new Literal(1)).zakonczBlok();
