@@ -1,5 +1,6 @@
 package Instrukcje;
 
+import KlasyPomocnicze.ZakresWidocznosciProcedur;
 import Wyjatki.PodwojnaDeklaracja;
 import Wykonanie.Debugger;
 import Wyrazenia.Wyrazenie;
@@ -17,6 +18,8 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
     //sie do nich zmienne o nazwach argumentow
     protected List<Deklaracja> wartosciArgumentow; //deklaracje zmiennych odpowiadajacych argumentom znajdujace sie na
     // poczatku listy instrukcji. z poczatku wyrazenie = null. Jest uzupelniane w momencie wywolania procedury
+
+    protected ZakresWidocznosciProcedur proceduryWewnetrzne;
 
     /**
      * Procedura musi znajdowac sie w jakims bloku i wymaga informacji o nim
@@ -84,6 +87,12 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
         Deklaracja dekl = new Deklaracja(zmienna, wartosc);
         dekl.wartNadrzedne = wartWewnetrzne;
         instrukcje.dodajInstrukcje(dekl);
+    }
+
+    public void dodajProcedure(String nazwaProcedury, Procedura procedura){
+        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
+        // w tej metodzie
+        procedura.widocznoscProcedur = proceduryWewnetrzne;
     }
 
     /**

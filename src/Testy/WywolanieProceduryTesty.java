@@ -48,6 +48,7 @@ public class WywolanieProceduryTesty {
         Blok wewn = new Blok(blok);
         wewn.dodajDeklaracje('x', new Literal(57));
         wewn.dodajDeklaracje('y', new Literal(561));
+        wewn.przypnijBlokZewnetrzny(blok);
         WywolanieProcedury wewnWyw = new WywolanieProcedury("proc",
                     List.of(new Zmienna('x'), new Zmienna('y')), wewn);
         wewn.dodajInstrukcje(wewnWyw);

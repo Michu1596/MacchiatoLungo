@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        //Nowy przyklad
+        //Nowy przyklad - demonostruje statyczne wiazanie zmiennych
         Program program = new ProgramBuilder()
                 .zadeklarujZmienna('x', StalaFabryka.wartosc(101))
                 .zadeklarujZmienna('y', StalaFabryka.wartosc(1))

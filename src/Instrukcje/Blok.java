@@ -36,8 +36,8 @@ public class Blok extends InstrukcjaZWartosciowaniem{
 
     public void dodajProcedure(String nazwaProcedury, Procedura procedura){
         proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
-        procedura.widocznoscProcedur = proceduryWewnetrzne;
         // w tej metodzie
+        procedura.widocznoscProcedur = proceduryWewnetrzne;
     }
     @Override
     public Procedura getProcedura(String nazwa){
