@@ -1,11 +1,11 @@
 package Buildery;
 
 import Instrukcje.*;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 public class IfBuilder extends Builder{
     protected InstrukcjaWarunkowa instrWar;
-    public IfBuilder(Builder zakresZewn, String warunek, Wyrazenie wyr1, Wyrazenie wyr2){
+    public IfBuilder(Builder zakresZewn, String warunek, Expresion wyr1, Expresion wyr2){
         super(zakresZewn);
         switch (warunek){
             case "<":
@@ -24,13 +24,13 @@ public class IfBuilder extends Builder{
                 instrWar = new IfWiekszeRowne(wyr1, wyr2);
                 break;
         }
-        zagniezdzenieInstrukcji.peek().dodajInstrukcje(instrWar);
-        zagniezdzenieInstrukcji.push(instrWar);
+        instructionNesting.peek().addIntruction(instrWar);
+        instructionNesting.push(instrWar);
     }
 
     @Override
-    public Builder zamknijZakres(){
-        zagniezdzenieInstrukcji.pop();
-        return nadrzedny;
+    public Builder finishScope(){
+        instructionNesting.pop();
+        return parent;
     }
 }

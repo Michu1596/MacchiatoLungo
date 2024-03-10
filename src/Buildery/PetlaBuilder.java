@@ -1,25 +1,25 @@
 package Buildery;
 
 import Instrukcje.PetlaFor;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 /**
  * petla musi znajdowac sie wewnatrz jakiegos bloku
  */
 public class PetlaBuilder extends Builder{
     protected PetlaFor petla;
-    public PetlaBuilder(Builder zakresZewnetrzny, char zmienna, Wyrazenie wyr){
+    public PetlaBuilder(Builder zakresZewnetrzny, char zmienna, Expresion wyr){
         super(zakresZewnetrzny);
-        petla = new PetlaFor(zagniezdzenieWartosciowania.peek(), zmienna, wyr);
-        zagniezdzenieInstrukcji.peek().dodajInstrukcje(petla);
-        zagniezdzenieInstrukcji.push(petla);
-        zagniezdzenieWartosciowania.push(petla);
+        petla = new PetlaFor(scopesNesting.peek(), zmienna, wyr);
+        instructionNesting.peek().addIntruction(petla);
+        instructionNesting.push(petla);
+        scopesNesting.push(petla);
     }
 
     @Override
-    public Builder zamknijZakres() {
-        zagniezdzenieWartosciowania.pop();
-        zagniezdzenieInstrukcji.pop();
-        return nadrzedny;
+    public Builder finishScope() {
+        scopesNesting.pop();
+        instructionNesting.pop();
+        return parent;
     }
 }

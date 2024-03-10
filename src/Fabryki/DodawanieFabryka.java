@@ -1,10 +1,10 @@
 package Fabryki;
 
 import Wyrazenia.Dodawanie;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 public class DodawanieFabryka {
-    public static Dodawanie dodawanie(Wyrazenie wyr1, Wyrazenie wyr2){
+    public static Dodawanie dodawanie(Expresion wyr1, Expresion wyr2){
         return new Dodawanie(wyr1, wyr2);
     }
 }

@@ -2,32 +2,32 @@ package Instrukcje;
 
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
 import Wykonanie.Debugger;
-import Wyjatki.PodwojnaDeklaracja;
-import Wyrazenia.Wyrazenie;
+import Wyjatki.DoubleDeclaration;
+import Wyrazenia.Expresion;
 
 import java.util.*;
 
-public class Blok extends InstrukcjaZWartosciowaniem{
+public class Block extends InstrukcjaZWartosciowaniem{
     private Set<Character> zadklarowaneZmienne;
     protected ZakresWidocznosciProcedur proceduryWewnetrzne;
-    public Blok(){
+    public Block(){
         super(); //tworzy nowe wartosciowanie
         proceduryWewnetrzne = new ZakresWidocznosciProcedur();
         zadklarowaneZmienne = new HashSet<>();
     }
-    public Blok(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
+    public Block(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
         super(instr.wartWewnetrzne); //przyslania zmienne
         zadklarowaneZmienne = new HashSet<>();
         proceduryWewnetrzne = new ZakresWidocznosciProcedur();
     }
 
     //metoda potrzebna do tworzenia bloku bezposrednio zagniezdzonego w innym bloku
-    public void przypnijBlokZewnetrzny(Blok instr){ // blok jako Instrukcja Z Deklaracjami Procedur
+    public void connectOuterBlock(Block instr){ // blok jako Instrukcja Z Deklaracjami Procedur
         proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.proceduryWewnetrzne);
     }
-    public void dodajDeklaracje(char zmienna, Wyrazenie wartosc){
+    public void addDeclaration(char zmienna, Expresion wartosc){
         if(zadklarowaneZmienne.contains(zmienna))
-            throw new PodwojnaDeklaracja(zmienna);
+            throw new DoubleDeclaration(zmienna);
         zadklarowaneZmienne.add(zmienna);
         Deklaracja dekl = new Deklaracja(zmienna, wartosc);
         dekl.wartNadrzedne = wartWewnetrzne;
@@ -58,7 +58,7 @@ public class Blok extends InstrukcjaZWartosciowaniem{
         return instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
     }
     @Override
-    public void dodajInstrukcje(Instrukcja instr){
+    public void addIntruction(Instrukcja instr){
         instr.wartNadrzedne = wartWewnetrzne; //
         instr.widocznoscProcedur = proceduryWewnetrzne;
         instrukcje.dodajInstrukcje(instr);

@@ -1,10 +1,10 @@
 package Fabryki;
 
 import Wyrazenia.Modulo;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 public class ModuloFabryka {
-    public static Modulo modulo(Wyrazenie wyr1, Wyrazenie wyr2){
+    public static Modulo modulo(Expresion wyr1, Expresion wyr2){
         return new Modulo(wyr1, wyr2);
     }
 }

@@ -3,10 +3,10 @@ package Wyrazenia;
 import Instrukcje.Wartosciowanie;
 import Wyjatki.BladWyrazenia;
 
-public class Dzielenie implements Wyrazenie{
-    private Wyrazenie wyr1;
-    private Wyrazenie wyr2;
-    public Dzielenie(Wyrazenie wyr1, Wyrazenie wyr2){
+public class Dzielenie implements Expresion {
+    private Expresion wyr1;
+    private Expresion wyr2;
+    public Dzielenie(Expresion wyr1, Expresion wyr2){
         this.wyr1 = wyr1;
         this.wyr2 = wyr2;
     }

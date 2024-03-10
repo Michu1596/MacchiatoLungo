@@ -1,14 +1,11 @@
 package Buildery;
 
-import Instrukcje.Blok;
 import Wykonanie.Program;
 
-import java.util.Stack;
-
-public class ProgramBuilder extends BlokBuilder{
+public class ProgramBuilder extends BlockBuilder {
 
     @Override
     public Program zbuduj(){
-        return new Program(blok);
+        return new Program(block);
     }
 }

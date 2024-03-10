@@ -1,8 +1,8 @@
 package Wyjatki;
 
-public class PodwojnaDeklaracja extends BladMacchiato{
+public class DoubleDeclaration extends BladMacchiato{
     private char zmienna;
-    public PodwojnaDeklaracja(char zmienna){
+    public DoubleDeclaration(char zmienna){
         this.zmienna = zmienna;
     }
     public String toString(){

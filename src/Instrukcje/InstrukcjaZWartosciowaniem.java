@@ -1,6 +1,6 @@
 package Instrukcje;
 
-public abstract class InstrukcjaZWartosciowaniem extends InstrukcjaZlozona {
+public abstract class InstrukcjaZWartosciowaniem extends complexInstruction {
     final protected Wartosciowanie wartWewnetrzne;
     protected InstrukcjaZWartosciowaniem(Wartosciowanie nadrzedne){ // do zagniezdzonych blokow
         super(); //tworzy sekwencje instrukcji
@@ -11,7 +11,7 @@ public abstract class InstrukcjaZWartosciowaniem extends InstrukcjaZlozona {
         wartWewnetrzne = new Wartosciowanie();
     }
     @Override
-    public void dodajInstrukcje(Instrukcja instr){
+    public void addIntruction(Instrukcja instr){
         instr.wartNadrzedne = wartWewnetrzne; // stad wynika ze procedury maja statyczne wiazenie zmiennych
         instr.widocznoscProcedur = widocznoscProcedur;
         instrukcje.dodajInstrukcje(instr);

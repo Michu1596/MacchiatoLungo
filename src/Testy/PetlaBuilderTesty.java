@@ -1,6 +1,6 @@
 package Testy;
 
-import Buildery.BlokBuilder;
+import Buildery.BlockBuilder;
 import Instrukcje.*;
 import Wyrazenia.Literal;
 import Wyrazenia.Zmienna;
@@ -11,24 +11,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PetlaBuilderTesty {
     @Test
     public void test1(){
-        InstrukcjaZlozona blok = new BlokBuilder()
-                .zadeklarujZmienna('x', new Literal(7))
+        complexInstruction blok = new BlockBuilder()
+                .declareVariable('x', new Literal(7))
                 .przypisanie('x', new Literal(561))
                 .rozpocznijPetle('k', new Literal(6))
                 .rozpocznijInstrukcjeWarunkowa("==", new Zmienna('x'), new Literal(1))
                 .print(new Zmienna('x'))
-                .zamknijZakres()
-                .zamknijZakres()
-                .getInstrukcja();
+                .finishScope()
+                .finishScope()
+                .getInstruction();
 
-        Blok wzor = new Blok();
-        wzor.dodajDeklaracje('x', new Literal(7));
-        wzor.dodajInstrukcje(new Przypisanie('x', new Literal(561)));
+        Block wzor = new Block();
+        wzor.addDeclaration('x', new Literal(7));
+        wzor.addIntruction(new Przypisanie('x', new Literal(561)));
         InstrukcjaWarunkowa warunkowa = new IfRowne(new Zmienna('x'), new Literal(1));
-        warunkowa.dodajInstrukcje(new Print(new Zmienna('x')));
+        warunkowa.addIntruction(new Print(new Zmienna('x')));
         PetlaFor petla = new PetlaFor(wzor, 'k', new Literal(6));
-        petla.dodajInstrukcje(warunkowa);
-        wzor.dodajInstrukcje(petla);
+        petla.addIntruction(warunkowa);
+        wzor.addIntruction(petla);
 
         assertEquals(wzor.toString(), blok.toString());
     }

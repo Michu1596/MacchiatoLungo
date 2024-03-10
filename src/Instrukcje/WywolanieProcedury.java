@@ -4,7 +4,7 @@ package Instrukcje;
 import Wyjatki.NieprawidloweArgumentyProcedury;
 import Wykonanie.Debugger;
 import Wyrazenia.Literal;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 import java.util.ArrayList;
 
@@ -14,9 +14,9 @@ import java.util.List;
  * Debugger natrafiajac na instrukcje WywolanieProcedury od razu wchodzi do wnetrza procedury i uzyskuje dostep do
  * wartosciociowania widocznego w bloku w ktorym procedura zostala zadeklarowana
  */
-public class WywolanieProcedury extends InstrukcjaZlozona{
+public class WywolanieProcedury extends complexInstruction {
     protected String nazwaProcedury;
-    protected List<Wyrazenie> argumenty;
+    protected List<Expresion> argumenty;
     protected Procedura procedura;
     protected boolean zainicjalizowano; // uzywane przy debugowaniu. jesli wartosc jest nieustawiona a nastapilo
     // wywolanie to nalezy przekazac procedure argumenty
@@ -27,7 +27,7 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
      * @param argumenty lista wyrazen podanych w kolejnosci wystepowania argumentow
      * @param zakres mowi o tym w zakresie Jakiej innej instrukcji znajduje sie wywowalnie
      */
-    public WywolanieProcedury(String nazwa, List<Wyrazenie> argumenty, InstrukcjaZlozona zakres){
+    public WywolanieProcedury(String nazwa, List<Expresion> argumenty, complexInstruction zakres){
         zainicjalizowano = false;
         nazwaProcedury = nazwa;
         procedura = zakres.getProcedura(nazwa);
@@ -35,7 +35,7 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
             throw new NieprawidloweArgumentyProcedury();
         this.argumenty = argumenty;
     }
-    public WywolanieProcedury(String nazwa, InstrukcjaZlozona zakres){
+    public WywolanieProcedury(String nazwa, complexInstruction zakres){
         zainicjalizowano = false;
         nazwaProcedury = nazwa;
         procedura = zakres.getProcedura(nazwa);
@@ -55,10 +55,10 @@ public class WywolanieProcedury extends InstrukcjaZlozona{
     @Override
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         if(!zainicjalizowano){
-            List<Wyrazenie> wartosciWyrazen = new ArrayList<>();
-            for(Wyrazenie wyrazenie : argumenty) // tworzy liste literalow zawierajacych wartosci wyrazen obliczone
+            List<Expresion> wartosciWyrazen = new ArrayList<>();
+            for(Expresion expresion : argumenty) // tworzy liste literalow zawierajacych wartosci wyrazen obliczone
                                                  // w miejscu wywolania procedury
-                wartosciWyrazen.add(new Literal(wyrazenie.ewaluuj(wartNadrzedne)));
+                wartosciWyrazen.add(new Literal(expresion.ewaluuj(wartNadrzedne)));
             procedura.ustawArgumenty(wartosciWyrazen);
         }
         Instrukcja nastepnaInst = debugger.getKtoraNastepna();

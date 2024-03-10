@@ -3,7 +3,7 @@ package Buildery;
 import Instrukcje.*;
 import Wyjatki.BladMacchiato;
 import Wykonanie.Program;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 import java.util.List;
 import java.util.Stack;
@@ -14,17 +14,17 @@ import java.util.Stack;
  *  wszystkich builderow, stad zostaly zaimplementowane tutaj
  */
 public abstract class Builder {
-    protected Stack<InstrukcjaZlozona> zagniezdzenieInstrukcji; //reprezentuje hierarchie zagniezdzenia instrukcji
-    protected Stack<InstrukcjaZWartosciowaniem> zagniezdzenieWartosciowania; //reprezentuje hierarchie zagniezdzenia
-    protected Stack<Blok> zagniezdzenieWidocznosciProcedur;
-    protected Builder nadrzedny; //pole uzupelniane w momencie dodawania instrukcji zlozonej do jakiegos zakrsu
+    protected Stack<complexInstruction> instructionNesting; //reprezentuje hierarchie zagniezdzenia instrukcji
+    protected Stack<InstrukcjaZWartosciowaniem> scopesNesting; //reprezentuje hierarchie zagniezdzenia
+    protected Stack<Block> proceduresVisibilityNesting;
+    protected Builder parent; //pole uzupelniane w momencie dodawania instrukcji zlozonej do jakiegos zakrsu
     // widocznosci; wartosc ta jest zwracana w momencie zamkniecia zakresu widocznosci.
 
     public Builder(){
-        zagniezdzenieInstrukcji = new Stack<>();
-        zagniezdzenieWartosciowania = new Stack<>();
-        zagniezdzenieWidocznosciProcedur = new Stack<>();
-        nadrzedny = null;
+        instructionNesting = new Stack<>();
+        scopesNesting = new Stack<>();
+        proceduresVisibilityNesting = new Stack<>();
+        parent = null;
     }
 
     /**
@@ -34,10 +34,10 @@ public abstract class Builder {
      * @param program instrukcja nadrzedna. W jej zakresie znajduje sie aktualnie rozpatrywna instrukcja
      */
     public Builder(Builder program){
-        zagniezdzenieInstrukcji = program.zagniezdzenieInstrukcji;
-        zagniezdzenieWartosciowania = program.zagniezdzenieWartosciowania;
-        zagniezdzenieWidocznosciProcedur = program.zagniezdzenieWidocznosciProcedur;
-        nadrzedny = program;
+        instructionNesting = program.instructionNesting;
+        scopesNesting = program.scopesNesting;
+        proceduresVisibilityNesting = program.proceduresVisibilityNesting;
+        parent = program;
     }
 
     /**
@@ -45,9 +45,9 @@ public abstract class Builder {
      * @param wyr wyrazenie do wydrukowania
      * @return
      */
-    public Builder print(Wyrazenie wyr){
-        InstrukcjaZlozona zakres = zagniezdzenieInstrukcji.peek();
-        zakres.dodajInstrukcje(new Print(wyr));
+    public Builder print(Expresion wyr){
+        complexInstruction zakres = instructionNesting.peek();
+        zakres.addIntruction(new Print(wyr));
         return this;
     }
 
@@ -58,9 +58,9 @@ public abstract class Builder {
      * @return
      */
 
-    public Builder przypisanie(char zmienna, Wyrazenie wyr2){
-        InstrukcjaZlozona zakres = zagniezdzenieInstrukcji.peek();
-        zakres.dodajInstrukcje(new Przypisanie(zmienna, wyr2));
+    public Builder przypisanie(char zmienna, Expresion wyr2){
+        complexInstruction zakres = instructionNesting.peek();
+        zakres.addIntruction(new Przypisanie(zmienna, wyr2));
         return this;
     }
 
@@ -70,10 +70,10 @@ public abstract class Builder {
      * @param argumenty lista wyrazen zawierajaca argumenty
      * @return
      */
-    public Builder wywolanieProcedury(String nazwa, List<Wyrazenie> argumenty){
-        InstrukcjaZlozona zakres = zagniezdzenieInstrukcji.peek();
-        InstrukcjaZlozona widocznoscProcedur = zagniezdzenieWidocznosciProcedur.peek();
-        zakres.dodajInstrukcje(new WywolanieProcedury(nazwa, argumenty, widocznoscProcedur));
+    public Builder wywolanieProcedury(String nazwa, List<Expresion> argumenty){
+        complexInstruction zakres = instructionNesting.peek();
+        complexInstruction widocznoscProcedur = proceduresVisibilityNesting.peek();
+        zakres.addIntruction(new WywolanieProcedury(nazwa, argumenty, widocznoscProcedur));
         return this;
     }
 
@@ -83,9 +83,9 @@ public abstract class Builder {
      * @return
      */
     public Builder wywolanieProcedury(String nazwa){
-        InstrukcjaZlozona zakres = zagniezdzenieInstrukcji.peek();
-        InstrukcjaZlozona widocznoscProcedur = zagniezdzenieWidocznosciProcedur.peek();
-        zakres.dodajInstrukcje(new WywolanieProcedury(nazwa, widocznoscProcedur));
+        complexInstruction zakres = instructionNesting.peek();
+        complexInstruction widocznoscProcedur = proceduresVisibilityNesting.peek();
+        zakres.addIntruction(new WywolanieProcedury(nazwa, widocznoscProcedur));
         return this;
     }
 
@@ -95,16 +95,16 @@ public abstract class Builder {
      * @param wyr1 wyrazenie z lewej
      * @param wyr2 wyrazenie z prawej
      */
-    public IfBuilder rozpocznijInstrukcjeWarunkowa(String warunek, Wyrazenie wyr1, Wyrazenie wyr2){
+    public IfBuilder rozpocznijInstrukcjeWarunkowa(String warunek, Expresion wyr1, Expresion wyr2){
         return new IfBuilder(this, warunek, wyr1, wyr2);
     }
 
-    public PetlaBuilder rozpocznijPetle(char zmiennaSterujaca, Wyrazenie wyrazenieInicjalizujace){
-        return new PetlaBuilder(this, zmiennaSterujaca, wyrazenieInicjalizujace);
+    public PetlaBuilder rozpocznijPetle(char zmiennaSterujaca, Expresion expresionInicjalizujace){
+        return new PetlaBuilder(this, zmiennaSterujaca, expresionInicjalizujace);
     }
 
-    public BlokBuilder rozpocznijBlok(){
-        return new BlokBuilder(this);
+    public BlockBuilder beginBlock(){
+        return new BlockBuilder(this);
     }
 
 
@@ -114,7 +114,7 @@ public abstract class Builder {
      * zamyka zakres aktualnie rozpatrywanej instrukcji; Tak jak '}' w kodzie
      * @return Builder instrukcji nadrzednej
      */
-    public Builder zamknijZakres(){
+    public Builder finishScope(){
         throw new BladMacchiato("Blad budowy programu");
     }
 
@@ -124,7 +124,7 @@ public abstract class Builder {
      * @param argumenty argumenty jakie przyjmuje porcedura
      * @return builder stworzonej procedury
      */
-    public ProceduraBuilder rozpocznijProcedure(String nazwa, char[] argumenty){
+    public ProcedureBuilder beginProcedure(String nazwa, char[] argumenty){
         throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
     }
     /**
@@ -133,7 +133,7 @@ public abstract class Builder {
      * @param nazwa nazwa procedury
      * @return builder stworzonej procedury
      */
-    public ProceduraBuilder rozpocznijProcedure(String nazwa){
+    public ProcedureBuilder beginProcedure(String nazwa){
         throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
     }
 
@@ -143,7 +143,7 @@ public abstract class Builder {
      * @param wyr wyrazenie do zainicjowania
      * @return builder instrukcji w ktorej zostala zadeklarowana zmienna
      */
-    public Builder zadeklarujZmienna(char nazwa, Wyrazenie wyr){
+    public Builder declareVariable(char nazwa, Expresion wyr){
         throw new BladMacchiato("Deklaracja zmiennej moze nastapic jedynie w bloku lub procedurze");
     }
 
@@ -154,7 +154,7 @@ public abstract class Builder {
     public Program zbuduj(){
         throw new BladMacchiato("Zbudownia programu mozliwe jest jedynie z poziomu ProgramBuilder'a");
     }
-    public InstrukcjaZlozona getInstrukcja(){
+    public complexInstruction getInstruction(){
         throw new BladMacchiato("Blad budowy programu");
     }
 }

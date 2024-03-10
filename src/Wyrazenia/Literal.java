@@ -2,7 +2,7 @@ package Wyrazenia;
 
 import Instrukcje.Wartosciowanie;
 
-public class Literal implements Wyrazenie{
+public class Literal implements Expresion {
     final private int wartosc;
     public Literal(int wartosc){
         this.wartosc = wartosc;

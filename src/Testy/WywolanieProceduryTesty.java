@@ -1,6 +1,6 @@
 package Testy;
 
-import Instrukcje.Blok;
+import Instrukcje.Block;
 import Instrukcje.Procedura;
 import Instrukcje.WywolanieProcedury;
 import Wyjatki.BladMacchiato;
@@ -17,46 +17,46 @@ import java.util.List;
 import static  org.junit.jupiter.api.Assertions.*;
 
 public class WywolanieProceduryTesty {
-    protected Blok blok;
+    protected Block block;
     protected Procedura proc;
     protected char[] arg;
     @BeforeEach
     public void init(){
-        blok = new Blok();
+        block = new Block();
         arg = new char[] {'a', 'b'};
-        proc = new Procedura(blok, arg);
-        blok.dodajProcedure("proc", proc);
+        proc = new Procedura(block, arg);
+        block.dodajProcedure("proc", proc);
     }
     @Test
     public void zlaLiczbaArgumentow(){
         assertThrows(BladMacchiato.class, () -> new WywolanieProcedury("proc",
-                                                                        List.of(new Literal(25)), blok));
+                                                                        List.of(new Literal(25)), block));
     }
     @Test
     public void procBezArg(){
-        Procedura bezArg = new Procedura(blok);
-        blok.dodajProcedure("procBezArg", bezArg);
+        Procedura bezArg = new Procedura(block);
+        block.dodajProcedure("procBezArg", bezArg);
         assertThrows(NieprawidloweArgumentyProcedury.class, () -> new WywolanieProcedury("procBezArg",
-                                                    List.of(new Literal(25)), blok));
+                                                    List.of(new Literal(25)), block));
     }
     @Test
     public void nieistniejacaProcedura(){
-        assertThrows(NiezadeklarowanaProcedura.class, () -> new WywolanieProcedury("nieistniejcProcedura", blok));
+        assertThrows(NiezadeklarowanaProcedura.class, () -> new WywolanieProcedury("nieistniejcProcedura", block));
     }
     @Test
     public void wewnetrzneWywolanie(){
-        Blok wewn = new Blok(blok);
-        wewn.dodajDeklaracje('x', new Literal(57));
-        wewn.dodajDeklaracje('y', new Literal(561));
-        wewn.przypnijBlokZewnetrzny(blok);
+        Block wewn = new Block(block);
+        wewn.addDeclaration('x', new Literal(57));
+        wewn.addDeclaration('y', new Literal(561));
+        wewn.connectOuterBlock(block);
         WywolanieProcedury wewnWyw = new WywolanieProcedury("proc",
                     List.of(new Zmienna('x'), new Zmienna('y')), wewn);
-        wewn.dodajInstrukcje(wewnWyw);
-        assertDoesNotThrow(() -> blok.wykonaj());
+        wewn.addIntruction(wewnWyw);
+        assertDoesNotThrow(() -> block.wykonaj());
 
         WywolanieProcedury zewnWyw = new WywolanieProcedury("proc",
-                List.of(new Zmienna('x'), new Zmienna('y')), blok);
-        wewn.dodajInstrukcje(wewnWyw);
+                List.of(new Zmienna('x'), new Zmienna('y')), block);
+        wewn.addIntruction(wewnWyw);
 
         assertThrows(NiezadeklarowanaZmienna.class, () -> zewnWyw.wykonaj());
     }

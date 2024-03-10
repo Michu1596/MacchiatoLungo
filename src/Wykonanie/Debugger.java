@@ -9,15 +9,15 @@ public class Debugger {
 
     public static void main(String[] args){
 
-        Blok program = new Blok();
-        program.dodajDeklaracje('n', new Literal(30));
+        Block program = new Block();
+        program.addDeclaration('n', new Literal(30));
 
         PetlaFor petla = new PetlaFor(program,
                 'k',
                 new Odejmowanie(new Zmienna('n'), new Literal(1)));
-        Blok wnetrzePetli = new Blok(petla);
-        wnetrzePetli.dodajDeklaracje('p', new Literal(1));
-        wnetrzePetli.dodajInstrukcje(new Przypisanie('k',
+        Block wnetrzePetli = new Block(petla);
+        wnetrzePetli.addDeclaration('p', new Literal(1));
+        wnetrzePetli.addIntruction(new Przypisanie('k',
                 new Dodawanie(new Zmienna('k'),
                         new Literal(2))));
 
@@ -25,20 +25,20 @@ public class Debugger {
                 'i',
                 new Odejmowanie(new Zmienna('k'),
                         new Literal(2)));
-        petal2.dodajInstrukcje(new Przypisanie('i', new Dodawanie(new Zmienna('i'),
+        petal2.addIntruction(new Przypisanie('i', new Dodawanie(new Zmienna('i'),
                 new Literal(2))));
         InstrukcjaWarunkowa warunkowa = new IfRowne(new Modulo(new Zmienna('k'),
                 new Zmienna('i')), new Literal(0));
-        petal2.dodajInstrukcje(warunkowa);
-        warunkowa.dodajInstrukcje(new Przypisanie('p', new Literal(0)));
+        petal2.addIntruction(warunkowa);
+        warunkowa.addIntruction(new Przypisanie('p', new Literal(0)));
 
         InstrukcjaWarunkowa warunkowa2 = new IfRowne(new Zmienna('p'), new Literal(1));
-        wnetrzePetli.dodajInstrukcje(petal2);
-        wnetrzePetli.dodajInstrukcje(warunkowa2);
-        warunkowa2.dodajInstrukcje(new Print(new Zmienna('k')));
+        wnetrzePetli.addIntruction(petal2);
+        wnetrzePetli.addIntruction(warunkowa2);
+        warunkowa2.addIntruction(new Print(new Zmienna('k')));
 
-        petla.dodajInstrukcje(wnetrzePetli);
-        program.dodajInstrukcje(petla);
+        petla.addIntruction(wnetrzePetli);
+        program.addIntruction(petla);
         //program.wykonaj();
 
         /*Debugger debugger = new Debugger();

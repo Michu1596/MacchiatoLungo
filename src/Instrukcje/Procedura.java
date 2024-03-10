@@ -1,9 +1,9 @@
 package Instrukcje;
 
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
-import Wyjatki.PodwojnaDeklaracja;
+import Wyjatki.DoubleDeclaration;
 import Wykonanie.Debugger;
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 import java.util.*;
 
@@ -35,7 +35,7 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
         // jak rowniez zagwarantowac to ze sie nie powtorza
         for (char arg : argumenty) {
             if(this.argumenty.contains(arg))
-                throw new PodwojnaDeklaracja(arg);
+                throw new DoubleDeclaration(arg);
             this.argumenty.add(arg);
             Deklaracja dekl = new Deklaracja(arg, null); //przy konstrukcji obiektu dajemy tu nulla,
             //podmieniamy na prawdziwe wyrazenie w momencie wywolania procedury
@@ -65,8 +65,8 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * liste literalow, ktore sa wynikiem ewaluacji wyrazen w miejscu wywolania procedury.
      * @param wyrazenia Lista wyrazen podanych w kolejnosci wystepowania argumentow
      */
-    public void ustawArgumenty(List<Wyrazenie> wyrazenia){
-        Iterator<Wyrazenie> wyrazenieZWywolania = wyrazenia.iterator();
+    public void ustawArgumenty(List<Expresion> wyrazenia){
+        Iterator<Expresion> wyrazenieZWywolania = wyrazenia.iterator();
         Iterator<Deklaracja> deklaracjaArgumentu = wartosciArgumentow.iterator();
         while (deklaracjaArgumentu.hasNext()){
             Deklaracja argument = deklaracjaArgumentu.next();
@@ -80,9 +80,9 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * @param zmienna
      * @param wartosc
      */
-    public void dodajDeklaracje(char zmienna, Wyrazenie wartosc){
+    public void dodajDeklaracje(char zmienna, Expresion wartosc){
         if(zadklarowaneZmienne.contains(zmienna))
-            throw new PodwojnaDeklaracja(zmienna);
+            throw new DoubleDeclaration(zmienna);
         zadklarowaneZmienne.add(zmienna);
         Deklaracja dekl = new Deklaracja(zmienna, wartosc);
         dekl.wartNadrzedne = wartWewnetrzne;

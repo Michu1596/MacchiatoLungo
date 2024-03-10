@@ -3,10 +3,10 @@ package Wyrazenia;
 import Instrukcje.Wartosciowanie;
 import Wyjatki.BladWyrazenia;
 
-public class Mnozenie implements Wyrazenie{
-    private Wyrazenie wyr1;
-    private Wyrazenie wyr2;
-    public Mnozenie(Wyrazenie wyr1, Wyrazenie wyr2){
+public class Mnozenie implements Expresion {
+    private Expresion wyr1;
+    private Expresion wyr2;
+    public Mnozenie(Expresion wyr1, Expresion wyr2){
         this.wyr1 = wyr1;
         this.wyr2 = wyr2;
     }

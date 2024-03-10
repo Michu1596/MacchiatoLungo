@@ -1,9 +1,9 @@
 package Instrukcje;
 
-import Wyrazenia.Wyrazenie;
+import Wyrazenia.Expresion;
 
 public class IfWieksze extends InstrukcjaWarunkowa{
-    public IfWieksze(Wyrazenie wyr1, Wyrazenie wyr2){
+    public IfWieksze(Expresion wyr1, Expresion wyr2){
         super(wyr1, wyr2);
     }
     @Override

@@ -1,11 +1,9 @@
 package Instrukcje;
 
-import KlasyPomocnicze.ZakresWidocznosciProcedur;
-
-public abstract class InstrukcjaZlozona extends Instrukcja{
+public abstract class complexInstruction extends Instrukcja{
     protected SekwencjaInstrukcji instrukcje;
 
-    protected InstrukcjaZlozona(){
+    protected complexInstruction(){
         instrukcje = new SekwencjaInstrukcji();
     }
 
@@ -15,7 +13,7 @@ public abstract class InstrukcjaZlozona extends Instrukcja{
     public Procedura getProcedura(String nazwa){
         return widocznoscProcedur.get(nazwa);
     }
-    public void dodajInstrukcje(Instrukcja instr){
+    public void addIntruction(Instrukcja instr){
         instr.wartNadrzedne = wartNadrzedne;
         instr.widocznoscProcedur = widocznoscProcedur;
         instrukcje.dodajInstrukcje(instr);
