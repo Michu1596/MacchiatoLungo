@@ -1,19 +1,19 @@
 package Buildery;
 
-import Instrukcje.PetlaFor;
+import Instrukcje.ForLoop;
 import Wyrazenia.Expression;
 
 /**
- * petla musi znajdowac sie wewnatrz jakiegos bloku
+ * loop has to be inside a block
  */
 public class LoopBuilder extends Builder{
-    protected PetlaFor petla;
-    public LoopBuilder(Builder zakresZewnetrzny, char zmienna, Expression wyr){
-        super(zakresZewnetrzny);
-        petla = new PetlaFor(scopesNesting.peek(), zmienna, wyr);
-        instructionNesting.peek().addIntruction(petla);
-        instructionNesting.push(petla);
-        scopesNesting.push(petla);
+    protected ForLoop loop;
+    public LoopBuilder(Builder outerScope, char variableName, Expression exp){
+        super(outerScope);
+        loop = new ForLoop(scopesNesting.peek(), variableName, exp);
+        instructionNesting.peek().addIntruction(loop);
+        instructionNesting.push(loop);
+        scopesNesting.push(loop);
     }
 
     @Override

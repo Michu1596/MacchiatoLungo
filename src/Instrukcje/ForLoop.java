@@ -4,14 +4,14 @@ import Wykonanie.Debugger;
 import Wyrazenia.Literal;
 import Wyrazenia.Expression;
 
-public class PetlaFor extends InstrukcjaZWartosciowaniem{
+public class ForLoop extends InstrukcjaZWartosciowaniem{
     private Deklaracja deklaracja;
     protected Expression expression;
     protected int powtorzenia;
     private int licznikPetli;
     private boolean zainicjowano;
     final private char nazwaZmiennej;
-    public PetlaFor(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Expression expression){
+    public ForLoop(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Expression expression){
         // zakladam że petla musi byc w bloku albo innej petli
         super(instr.wartWewnetrzne); // przyslaniecie zmiennych
         zainicjowano = false;

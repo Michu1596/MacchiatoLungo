@@ -12,7 +12,7 @@ public class Debugger {
         Block program = new Block();
         program.addDeclaration('n', new Literal(30));
 
-        PetlaFor petla = new PetlaFor(program,
+        ForLoop petla = new ForLoop(program,
                 'k',
                 new Odejmowanie(new Zmienna('n'), new Literal(1)));
         Block wnetrzePetli = new Block(petla);
@@ -21,7 +21,7 @@ public class Debugger {
                 new Dodawanie(new Zmienna('k'),
                         new Literal(2))));
 
-        PetlaFor petal2 = new PetlaFor(wnetrzePetli,
+        ForLoop petal2 = new ForLoop(wnetrzePetli,
                 'i',
                 new Odejmowanie(new Zmienna('k'),
                         new Literal(2)));
