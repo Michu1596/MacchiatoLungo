@@ -3,7 +3,7 @@ package Instrukcje;
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
 import Wyjatki.DoubleDeclaration;
 import Wykonanie.Debugger;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 import java.util.*;
 
@@ -65,8 +65,8 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * liste literalow, ktore sa wynikiem ewaluacji wyrazen w miejscu wywolania procedury.
      * @param wyrazenia Lista wyrazen podanych w kolejnosci wystepowania argumentow
      */
-    public void ustawArgumenty(List<Expresion> wyrazenia){
-        Iterator<Expresion> wyrazenieZWywolania = wyrazenia.iterator();
+    public void ustawArgumenty(List<Expression> wyrazenia){
+        Iterator<Expression> wyrazenieZWywolania = wyrazenia.iterator();
         Iterator<Deklaracja> deklaracjaArgumentu = wartosciArgumentow.iterator();
         while (deklaracjaArgumentu.hasNext()){
             Deklaracja argument = deklaracjaArgumentu.next();
@@ -80,7 +80,7 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * @param zmienna
      * @param wartosc
      */
-    public void dodajDeklaracje(char zmienna, Expresion wartosc){
+    public void dodajDeklaracje(char zmienna, Expression wartosc){
         if(zadklarowaneZmienne.contains(zmienna))
             throw new DoubleDeclaration(zmienna);
         zadklarowaneZmienne.add(zmienna);

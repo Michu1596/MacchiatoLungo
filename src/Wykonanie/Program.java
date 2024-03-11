@@ -6,7 +6,7 @@ import Instrukcje.Instrukcja;
 import Instrukcje.InstrukcjaPojedyncza;
 import Instrukcje.Wartosciowanie;
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
-import Wyjatki.BladMacchiato;
+import Wyjatki.MacchiatosError;
 
 public class Program {
     protected Instrukcja program;
@@ -20,7 +20,7 @@ public class Program {
         try {
             program.wykonaj();
         }
-        catch (BladMacchiato e){
+        catch (MacchiatosError e){
             System.out.println("Napotkano blad: " + e.getClass() + e);
         }
     }
@@ -47,7 +47,7 @@ public class Program {
                 nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debugger);
                 i++;
             }
-            catch (BladMacchiato e){
+            catch (MacchiatosError e){
                 System.out.println("Napotkano wyjatek");
                 System.out.println(e);
                 nastepnaPojedyncza = null; // konczymy wykonywanie programu

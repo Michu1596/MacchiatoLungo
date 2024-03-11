@@ -5,7 +5,7 @@ import Wykonanie.Program;
 public class ProgramBuilder extends BlockBuilder {
 
     @Override
-    public Program zbuduj(){
+    public Program build(){
         return new Program(block);
     }
 }

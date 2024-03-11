@@ -1,4 +1,4 @@
 package Wyjatki;
 
-public class NieprawidloweArgumentyProcedury extends BladMacchiato {
+public class NieprawidloweArgumentyProcedury extends MacchiatosError {
 }

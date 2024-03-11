@@ -1,24 +1,25 @@
 package Buildery;
 
 import Instrukcje.*;
-import Wyjatki.BladMacchiato;
+import Wyjatki.MacchiatosError;
 import Wykonanie.Program;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 import java.util.List;
 import java.util.Stack;
 
 /**
- *  Klasa Builder zawiera wszystkie metody potrzbne do utworzenia programu. Implementacji metod dostarczaja odpowiednie
- *  podklasy. Wywolanie zlej metody jest mozliwe ale skutkuje rzuceniem wyjatku. Czesc metod jest jest wspolna dla
- *  wszystkich builderow, stad zostaly zaimplementowane tutaj
+ *  Builder class contains all methods needed to create a program. The implementation of the methods is provided by
+ *  the appropriate subclasses. Calling the wrong method is possible but results in an exception being thrown. Some
+ *  methods are common to all builders, so they have been implemented here
  */
 public abstract class Builder {
-    protected Stack<complexInstruction> instructionNesting; //reprezentuje hierarchie zagniezdzenia instrukcji
-    protected Stack<InstrukcjaZWartosciowaniem> scopesNesting; //reprezentuje hierarchie zagniezdzenia
+    protected Stack<complexInstruction> instructionNesting; // represents the hierarchy of nested instructions
+    protected Stack<InstrukcjaZWartosciowaniem> scopesNesting; // represents the hierarchy of nested scopes
     protected Stack<Block> proceduresVisibilityNesting;
     protected Builder parent; //pole uzupelniane w momencie dodawania instrukcji zlozonej do jakiegos zakrsu
     // widocznosci; wartosc ta jest zwracana w momencie zamkniecia zakresu widocznosci.
+    // variable set when instruction is added to a scope; returned when the scope is closed
 
     public Builder(){
         instructionNesting = new Stack<>();
@@ -28,10 +29,9 @@ public abstract class Builder {
     }
 
     /**
-     * konstruktor tworzacy shallow copy buildera instrukcji nadrzednej. Pozwala on otrzymac dostep do hierarchii
-     * zagniezdzen instrukcji, wartosciowan oraz widocznosci procedur. Uzywamy go wywolujac metody zaczynajace sie od
-     * "rozpocznij"
-     * @param program instrukcja nadrzedna. W jej zakresie znajduje sie aktualnie rozpatrywna instrukcja
+     * constructor creating a shallow copy of the parent instruction builder. It allows access to the hierarchy of nested
+     * instructions, valuations, and procedure visibility. We use it by calling methods starting with "open"
+     * @param program parent instruction. The currently considered instruction is within its scope
      */
     public Builder(Builder program){
         instructionNesting = program.instructionNesting;
@@ -41,120 +41,120 @@ public abstract class Builder {
     }
 
     /**
-     * dodaje instrukcje Print do aktualnej instrukcji
-     * @param wyr wyrazenie do wydrukowania
+     * add Print instruction to the current instruction
+     * @param exp expression to be printed
      * @return
      */
-    public Builder print(Expresion wyr){
-        complexInstruction zakres = instructionNesting.peek();
-        zakres.addIntruction(new Print(wyr));
+    public Builder print(Expression exp){
+        complexInstruction scope = instructionNesting.peek();
+        scope.addIntruction(new Print(exp));
         return this;
     }
 
     /**
-     * dodaje instrukcje przypisania do aktualnej instrukcji
-     * @param zmienna zmienna do ktorej przypisujemy
-     * @param wyr2 wyrazenie jakiego wartosc przypisujemy
+     * add assignment instruction to the current instruction
+     * @param variable variable to which we assign the value
+     * @param exp2 expression to be assigned
      * @return
      */
 
-    public Builder przypisanie(char zmienna, Expresion wyr2){
-        complexInstruction zakres = instructionNesting.peek();
-        zakres.addIntruction(new Przypisanie(zmienna, wyr2));
+    public Builder assignment(char variable, Expression exp2){
+        complexInstruction scope = instructionNesting.peek();
+        scope.addIntruction(new Przypisanie(variable, exp2));
         return this;
     }
 
     /**
-     * dodaje instrukcje wywolania procedury
-     * @param nazwa nazwa procedury do wywolania
-     * @param argumenty lista wyrazen zawierajaca argumenty
+     * adds a procedure call instruction
+     * @param name procedure name to be called
+     * @param args list of expressions to be passed as arguments
      * @return
      */
-    public Builder wywolanieProcedury(String nazwa, List<Expresion> argumenty){
-        complexInstruction zakres = instructionNesting.peek();
-        complexInstruction widocznoscProcedur = proceduresVisibilityNesting.peek();
-        zakres.addIntruction(new WywolanieProcedury(nazwa, argumenty, widocznoscProcedur));
+    public Builder procedureCall(String name, List<Expression> args){
+        complexInstruction scope = instructionNesting.peek();
+        complexInstruction proceduresVisibility = proceduresVisibilityNesting.peek();
+        scope.addIntruction(new ProcedureCall(name, args, proceduresVisibility));
         return this;
     }
 
     /**
-     * dodaje instrukcje wywolania procedury bezargumentowej
-     * @param nazwa
+     * adds a procedure call instruction without arguments
+     * @param name
      * @return
      */
-    public Builder wywolanieProcedury(String nazwa){
-        complexInstruction zakres = instructionNesting.peek();
-        complexInstruction widocznoscProcedur = proceduresVisibilityNesting.peek();
-        zakres.addIntruction(new WywolanieProcedury(nazwa, widocznoscProcedur));
+    public Builder procedureCall(String name){
+        complexInstruction scope = instructionNesting.peek();
+        complexInstruction proceduresVisibility = proceduresVisibilityNesting.peek();
+        scope.addIntruction(new ProcedureCall(name, proceduresVisibility));
         return this;
     }
 
     /**
-     *  obslugujacy wszystkie instrukcje warunkowe
-     * @param warunek "<" , ">" , "==" , "<=" lub ">="
-     * @param wyr1 wyrazenie z lewej
-     * @param wyr2 wyrazenie z prawej
+     *  controlling all conditional instructions
+     * @param cond "<" , ">" , "==" , "<=" or ">="
+     * @param exp1 left expression
+     * @param exp2 right expression
      */
-    public IfBuilder rozpocznijInstrukcjeWarunkowa(String warunek, Expresion wyr1, Expresion wyr2){
-        return new IfBuilder(this, warunek, wyr1, wyr2);
+    public IfBuilder openIfInstruction(String cond, Expression exp1, Expression exp2){
+        return new IfBuilder(this, cond, exp1, exp2);
     }
 
-    public PetlaBuilder rozpocznijPetle(char zmiennaSterujaca, Expresion expresionInicjalizujace){
-        return new PetlaBuilder(this, zmiennaSterujaca, expresionInicjalizujace);
+    public LoopBuilder openLoopInstruction(char steeringVar, Expression iniExp){ // initializing expression
+        return new LoopBuilder(this, steeringVar, iniExp);
     }
 
-    public BlockBuilder beginBlock(){
+    public BlockBuilder openBlock(){
         return new BlockBuilder(this);
     }
 
 
-    //Ponizsze procedury musza byc nadpisane
+    // Following methods must be overridden
 
     /**
-     * zamyka zakres aktualnie rozpatrywanej instrukcji; Tak jak '}' w kodzie
-     * @return Builder instrukcji nadrzednej
+     * closes the scope of the currently considered instruction; like '}' in the code
+     * @return parent builder
      */
-    public Builder finishScope(){
-        throw new BladMacchiato("Blad budowy programu");
+    public Builder closeScope(){
+        throw new MacchiatosError("program build error");
     }
 
     /**
-     * Tworzy nowa procedure widoczna w bloku w ktorym ja zadeklarowano; mozna wywolac tylko na BlokBuilder
-     * @param nazwa nazwa procedury
-     * @param argumenty argumenty jakie przyjmuje porcedura
-     * @return builder stworzonej procedury
+     * Creates a new procedure (with arguments) visible in the block in which it was declared; can only be called on
+     * @param name procedure name
+     * @param args arguments taken by the procedure
+     * @return created procedure builder
      */
-    public ProcedureBuilder beginProcedure(String nazwa, char[] argumenty){
-        throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
+    public ProcedureBuilder openProcedure(String name, char[] args){
+        throw new MacchiatosError("opening procedure is only possible in a block");
     }
     /**
-     * Tworzy nowa procedure (bez argumentow) widoczna w bloku w ktorym ja zadeklarowano; mozna wywolac tylko na
-     * BlokBuilder
-     * @param nazwa nazwa procedury
-     * @return builder stworzonej procedury
+     * Creeates a new procedure (without arguments) visible in the block in which it was declared; can only be called on
+     * BlockBuilder
+     * @param name procedure name
+     * @return created procedure builder
      */
-    public ProcedureBuilder beginProcedure(String nazwa){
-        throw new BladMacchiato("Rozpoczecie procedury mozliwe jest jedynie w bloku");
-    }
-
-    /**
-     * Deklaruje zmienna; mozliwe do wywolania tylko na BlokBuilder lub ProceduraBuilder
-     * @param nazwa nazwa zmiennej
-     * @param wyr wyrazenie do zainicjowania
-     * @return builder instrukcji w ktorej zostala zadeklarowana zmienna
-     */
-    public Builder declareVariable(char nazwa, Expresion wyr){
-        throw new BladMacchiato("Deklaracja zmiennej moze nastapic jedynie w bloku lub procedurze");
+    public ProcedureBuilder openProcedure(String name){
+        throw new MacchiatosError("opening procedure is only possible in a block");
     }
 
     /**
-     * metoda tworzaca program
-     * @return gotowy program
+     * Declares a variable; can only be called on BlockBuilder or ProcedureBuilder
+     * @param name variable name
+     * @param exp expression to be assigned to the variable
+     * @return builder of instruction in which the variable was declared
      */
-    public Program zbuduj(){
-        throw new BladMacchiato("Zbudownia programu mozliwe jest jedynie z poziomu ProgramBuilder'a");
+    public Builder declareVariable(char name, Expression exp){
+        throw new MacchiatosError("Variable declaration is only possible in a block or a procedure");
+    }
+
+    /**
+     * method creating a program
+     * @return program
+     */
+    public Program build(){
+        throw new MacchiatosError("building a program is only possible in a ProgramBuilder");
     }
     public complexInstruction getInstruction(){
-        throw new BladMacchiato("Blad budowy programu");
+        throw new MacchiatosError("program build error");
     }
 }

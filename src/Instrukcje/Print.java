@@ -1,10 +1,10 @@
 package Instrukcje;
 
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class Print extends InstrukcjaPojedyncza{
-    private Expresion wyr1;
-    public Print(Expresion wyr1){
+    private Expression wyr1;
+    public Print(Expression wyr1){
         super();
         this.wyr1 = wyr1;
     }

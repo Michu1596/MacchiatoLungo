@@ -1,9 +1,9 @@
 package Instrukcje;
 
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class IfMniejszeRowne extends InstrukcjaWarunkowa{
-    public IfMniejszeRowne(Expresion wyr1, Expresion wyr2){
+    public IfMniejszeRowne(Expression wyr1, Expression wyr2){
         super(wyr1, wyr2);
     }
     @Override

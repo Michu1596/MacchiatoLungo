@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PetlaBuilderTesty {
+public class LoopBuilderTesty {
     @Test
     public void test1(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijPetle('k', new Literal(6))
-                .rozpocznijInstrukcjeWarunkowa("==", new Zmienna('x'), new Literal(1))
+                .assignment('x', new Literal(561))
+                .openLoopInstruction('k', new Literal(6))
+                .openIfInstruction("==", new Zmienna('x'), new Literal(1))
                 .print(new Zmienna('x'))
-                .finishScope()
-                .finishScope()
+                .closeScope()
+                .closeScope()
                 .getInstruction();
 
         Block wzor = new Block();

@@ -2,10 +2,10 @@ package Wyrazenia;
 
 import Instrukcje.Wartosciowanie;
 
-public class Odejmowanie implements Expresion {
-    private Expresion wyr1;
-    private Expresion wyr2;
-    public Odejmowanie(Expresion wyr1, Expresion wyr2){
+public class Odejmowanie implements Expression {
+    private Expression wyr1;
+    private Expression wyr2;
+    public Odejmowanie(Expression wyr1, Expression wyr2){
         this.wyr1 = wyr1;
         this.wyr2 = wyr2;
     }

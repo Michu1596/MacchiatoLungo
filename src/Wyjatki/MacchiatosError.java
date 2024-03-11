@@ -3,17 +3,17 @@ package Wyjatki;
 import Instrukcje.Instrukcja;
 import Instrukcje.Wartosciowanie;
 
-public class BladMacchiato extends RuntimeException{
+public class MacchiatosError extends RuntimeException{
     public Instrukcja blednaInstrukcja;
     public Wartosciowanie aktualneWartosciowanie;
-    public BladMacchiato(Instrukcja instrukcja, Wartosciowanie aktualneWartosciowanie){
+    public MacchiatosError(Instrukcja instrukcja, Wartosciowanie aktualneWartosciowanie){
         this.blednaInstrukcja = instrukcja;
         this.aktualneWartosciowanie = aktualneWartosciowanie;
     }
-    public BladMacchiato(){
+    public MacchiatosError(){
         ;
     }
-    public BladMacchiato(String informacja){
+    public MacchiatosError(String informacja){
         super(informacja);
     }
 }

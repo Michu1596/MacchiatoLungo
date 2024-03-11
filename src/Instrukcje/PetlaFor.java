@@ -2,16 +2,16 @@ package Instrukcje;
 
 import Wykonanie.Debugger;
 import Wyrazenia.Literal;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class PetlaFor extends InstrukcjaZWartosciowaniem{
     private Deklaracja deklaracja;
-    protected Expresion expresion;
+    protected Expression expression;
     protected int powtorzenia;
     private int licznikPetli;
     private boolean zainicjowano;
     final private char nazwaZmiennej;
-    public PetlaFor(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Expresion expresion){
+    public PetlaFor(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Expression expression){
         // zakladam że petla musi byc w bloku albo innej petli
         super(instr.wartWewnetrzne); // przyslaniecie zmiennych
         zainicjowano = false;
@@ -19,12 +19,12 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
         this.nazwaZmiennej = nazwaZmiennej;
         this.deklaracja = new Deklaracja(nazwaZmiennej, new Literal(0)); // zaczyanmy od 0
         this.deklaracja.wartNadrzedne = wartWewnetrzne;
-        this.expresion = expresion;
+        this.expression = expression;
     }
 
     @Override
     public void wykonaj(){
-        powtorzenia = expresion.ewaluuj(wartWewnetrzne);
+        powtorzenia = expression.ewaluuj(wartWewnetrzne);
         deklaracja.wykonaj();
         for (int i = 0; i<powtorzenia; i++){
             wartWewnetrzne.set(nazwaZmiennej, i);
@@ -37,7 +37,7 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
     public Instrukcja nastepnaInstrukcja(){
         if(zainicjowano == false){
             zainicjowano = true;
-            powtorzenia = expresion.ewaluuj(wartWewnetrzne);
+            powtorzenia = expression.ewaluuj(wartWewnetrzne);
             return  deklaracja;
         }
         if(licznikPetli < powtorzenia) {
@@ -59,7 +59,7 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
     public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
         if(zainicjowano == false){
             zainicjowano = true;
-            powtorzenia = expresion.ewaluuj(wartWewnetrzne);
+            powtorzenia = expression.ewaluuj(wartWewnetrzne);
             debugger.setKtoraNastepna(instrukcje.pierwszaInstrukcja());
             return  deklaracja;
         }
@@ -88,7 +88,7 @@ public class PetlaFor extends InstrukcjaZWartosciowaniem{
 
     @Override
     public String toString(){
-        return "FOR: " + nazwaZmiennej + " " + expresion.toString()  + "{" + '\n' + instrukcje.toString() + "}" + '\n';
+        return "FOR: " + nazwaZmiennej + " " + expression.toString()  + "{" + '\n' + instrukcje.toString() + "}" + '\n';
     }
 
 }

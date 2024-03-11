@@ -2,8 +2,8 @@ package Testy;
 
 import Instrukcje.Block;
 import Instrukcje.Procedura;
-import Instrukcje.WywolanieProcedury;
-import Wyjatki.BladMacchiato;
+import Instrukcje.ProcedureCall;
+import Wyjatki.MacchiatosError;
 import Wyjatki.NieprawidloweArgumentyProcedury;
 import Wyjatki.NiezadeklarowanaProcedura;
 import Wyjatki.NiezadeklarowanaZmienna;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static  org.junit.jupiter.api.Assertions.*;
 
-public class WywolanieProceduryTesty {
+public class ProcedureCallTesty {
     protected Block block;
     protected Procedura proc;
     protected char[] arg;
@@ -29,19 +29,19 @@ public class WywolanieProceduryTesty {
     }
     @Test
     public void zlaLiczbaArgumentow(){
-        assertThrows(BladMacchiato.class, () -> new WywolanieProcedury("proc",
+        assertThrows(MacchiatosError.class, () -> new ProcedureCall("proc",
                                                                         List.of(new Literal(25)), block));
     }
     @Test
     public void procBezArg(){
         Procedura bezArg = new Procedura(block);
         block.dodajProcedure("procBezArg", bezArg);
-        assertThrows(NieprawidloweArgumentyProcedury.class, () -> new WywolanieProcedury("procBezArg",
+        assertThrows(NieprawidloweArgumentyProcedury.class, () -> new ProcedureCall("procBezArg",
                                                     List.of(new Literal(25)), block));
     }
     @Test
     public void nieistniejacaProcedura(){
-        assertThrows(NiezadeklarowanaProcedura.class, () -> new WywolanieProcedury("nieistniejcProcedura", block));
+        assertThrows(NiezadeklarowanaProcedura.class, () -> new ProcedureCall("nieistniejcProcedura", block));
     }
     @Test
     public void wewnetrzneWywolanie(){
@@ -49,12 +49,12 @@ public class WywolanieProceduryTesty {
         wewn.addDeclaration('x', new Literal(57));
         wewn.addDeclaration('y', new Literal(561));
         wewn.connectOuterBlock(block);
-        WywolanieProcedury wewnWyw = new WywolanieProcedury("proc",
+        ProcedureCall wewnWyw = new ProcedureCall("proc",
                     List.of(new Zmienna('x'), new Zmienna('y')), wewn);
         wewn.addIntruction(wewnWyw);
         assertDoesNotThrow(() -> block.wykonaj());
 
-        WywolanieProcedury zewnWyw = new WywolanieProcedury("proc",
+        ProcedureCall zewnWyw = new ProcedureCall("proc",
                 List.of(new Zmienna('x'), new Zmienna('y')), block);
         wewn.addIntruction(wewnWyw);
 

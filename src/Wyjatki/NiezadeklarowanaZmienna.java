@@ -1,4 +1,4 @@
 package Wyjatki;
 
-public class NiezadeklarowanaZmienna extends BladMacchiato{
+public class NiezadeklarowanaZmienna extends MacchiatosError {
 }

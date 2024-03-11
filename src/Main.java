@@ -9,18 +9,18 @@ public class Main {
         Program program = new ProgramBuilder()
                 .declareVariable('x', StalaFabryka.wartosc(101))
                 .declareVariable('y', StalaFabryka.wartosc(1))
-                .beginProcedure("out", new char[] {'a'})
+                .openProcedure("out", new char[] {'a'})
                     .print(DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('x'), ZmiennaFabryka.nazwa('a')))
-                .finishScope()
-                .przypisanie('x',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
+                .closeScope()
+                .assignment('x',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
                         ZmiennaFabryka.nazwa('y')))
-                .wywolanieProcedury("out", List.of(ZmiennaFabryka.nazwa('x')))
-                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(100)))
-                .beginBlock()
+                .procedureCall("out", List.of(ZmiennaFabryka.nazwa('x')))
+                .procedureCall("out", List.of(StalaFabryka.wartosc(100)))
+                .openBlock()
                 .declareVariable('x', StalaFabryka.wartosc(10))
-                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(100)))
-                .finishScope()
-                .zbuduj();
+                .procedureCall("out", List.of(StalaFabryka.wartosc(100)))
+                .closeScope()
+                .build();
 
 
         program.wykonajZDebugowaniem();
@@ -30,14 +30,14 @@ public class Main {
         Program program = new ProgramBuilder()
                 .declareVariable('x', StalaFabryka.wartosc(57))
                 .declareVariable('y', StalaFabryka.wartosc(15))
-                .beginProcedure("out", new char[] {'a'})
+                .openProcedure("out", new char[] {'a'})
                 .print(ZmiennaFabryka.nazwa('a'))
-                .finishScope()
-                .przypisanie('x', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
+                .closeScope()
+                .assignment('x', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('x'),
                         ZmiennaFabryka.nazwa('y')))
-                .wywolanieProcedury("out", List.of(ZmiennaFabryka.nazwa('x')))
-                .wywolanieProcedury("out", List.of(StalaFabryka.wartosc(125)))
-                .zbuduj();
+                .procedureCall("out", List.of(ZmiennaFabryka.nazwa('x')))
+                .procedureCall("out", List.of(StalaFabryka.wartosc(125)))
+                .build();
 
 
         program.wykonajZDebugowaniem();
@@ -46,27 +46,27 @@ public class Main {
     public static void przykladzPoprzedniegoZadania(String[] args){
         Program program = new ProgramBuilder()
                 .declareVariable('n', StalaFabryka.wartosc(30))
-                .rozpocznijPetle('k', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('n'),
+                .openLoopInstruction('k', OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('n'),
                                                                                     StalaFabryka.wartosc(1)))
-                .beginBlock()
+                .openBlock()
                 .declareVariable('p', StalaFabryka.wartosc(1))
-                .przypisanie('k', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('k'),
+                .assignment('k', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('k'),
                         StalaFabryka.wartosc(2)))
-                .rozpocznijPetle('i',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('k'),
+                .openLoopInstruction('i',OdejmowanieFabryka.odejmowanie(ZmiennaFabryka.nazwa('k'),
                         StalaFabryka.wartosc(2)))
-                .przypisanie('i', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('i'),
+                .assignment('i', DodawanieFabryka.dodawanie(ZmiennaFabryka.nazwa('i'),
                         StalaFabryka.wartosc(2)))
-                .rozpocznijInstrukcjeWarunkowa("==", ModuloFabryka.modulo(ZmiennaFabryka.nazwa('k'),
+                .openIfInstruction("==", ModuloFabryka.modulo(ZmiennaFabryka.nazwa('k'),
                         ZmiennaFabryka.nazwa('i')), StalaFabryka.wartosc(0))
-                .przypisanie('p', StalaFabryka.wartosc(0))
-                .finishScope()
-                .finishScope()
-                .rozpocznijInstrukcjeWarunkowa("==", ZmiennaFabryka.nazwa('p'), StalaFabryka.wartosc(1))
+                .assignment('p', StalaFabryka.wartosc(0))
+                .closeScope()
+                .closeScope()
+                .openIfInstruction("==", ZmiennaFabryka.nazwa('p'), StalaFabryka.wartosc(1))
                 .print(ZmiennaFabryka.nazwa('k'))
-                .finishScope()
-                .finishScope()
-                .finishScope()
-                .zbuduj();
+                .closeScope()
+                .closeScope()
+                .closeScope()
+                .build();
         program.wykonanieBezDebugowania();
         //program.wykonajZDebugowaniem();
     }

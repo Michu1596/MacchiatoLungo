@@ -3,7 +3,7 @@ package Buildery;
 import Instrukcje.Block;
 import Instrukcje.complexInstruction;
 import Wyjatki.DoubleDeclaration;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 /**
  * BlockBuilder class implements the zadeklarujZmienna and rozpocznijProcedure methods - with and without arguments
@@ -59,7 +59,7 @@ public class BlockBuilder extends Builder{
         proceduresVisibilityNesting.push(block);
     }
     @Override
-    public BlockBuilder declareVariable(char name, Expresion exp){
+    public BlockBuilder declareVariable(char name, Expression exp){
 
         try {
             block.addDeclaration(name, exp);
@@ -70,12 +70,12 @@ public class BlockBuilder extends Builder{
     }
 
     @Override
-    public ProcedureBuilder beginProcedure(String name, char[] args){
+    public ProcedureBuilder openProcedure(String name, char[] args){
         return new ProcedureBuilder(this, block, name, args);
     }
     // argument-less version
     @Override
-    public ProcedureBuilder beginProcedure(String name){
+    public ProcedureBuilder openProcedure(String name){
         return new ProcedureBuilder(this, block, name);
     }
 
@@ -84,12 +84,12 @@ public class BlockBuilder extends Builder{
      * @return
      */
     @Override
-    public BlockBuilder beginBlock(){
+    public BlockBuilder openBlock(){
         return new BlockBuilder(this, block);
     }
 
     @Override
-    public Builder finishScope(){
+    public Builder closeScope(){
         instructionNesting.pop();
         scopesNesting.pop();
         proceduresVisibilityNesting.pop();

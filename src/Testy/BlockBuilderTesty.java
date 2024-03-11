@@ -27,9 +27,9 @@ public class BlockBuilderTesty {
     public void blokWewn(){
         complexInstruction blok = new BlockBuilder()
         .declareVariable('x', new Literal(7))
-            .beginBlock()
+            .openBlock()
             .declareVariable('y', new Literal(561))
-        .finishScope()
+        .closeScope()
         .getInstruction();
 
         Block wzor = new Block();
@@ -44,7 +44,7 @@ public class BlockBuilderTesty {
     public void instrukcjePojedyncze(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
+                .assignment('x', new Literal(561))
                 .print(new Zmienna('x'))
                 .getInstruction();
 
@@ -60,10 +60,10 @@ public class BlockBuilderTesty {
     public void procedura(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .beginProcedure("proc", new char[] {'a', 'b', 'c'})
+                .openProcedure("proc", new char[] {'a', 'b', 'c'})
                 .print(new Zmienna('a'))
-                .finishScope()
-                .wywolanieProcedury("proc",List.of(new Literal(1),
+                .closeScope()
+                .procedureCall("proc",List.of(new Literal(1),
                         new Literal(2),new Literal(1)))
                 .getInstruction();
 
@@ -72,7 +72,7 @@ public class BlockBuilderTesty {
         Procedura proc = new Procedura(wzor, new char[] {'a', 'b', 'c'});
         proc.addIntruction(new Print(new Zmienna('a')));
         wzor.dodajProcedure("proc",proc);
-        wzor.addIntruction(new WywolanieProcedury("proc", List.of(new Literal(1),
+        wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));
         assertEquals(wzor.toString(), blok.toString());
     }

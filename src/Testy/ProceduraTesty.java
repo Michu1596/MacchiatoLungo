@@ -3,7 +3,7 @@ package Testy;
 import Instrukcje.Block;
 import Instrukcje.Print;
 import Instrukcje.Procedura;
-import Instrukcje.WywolanieProcedury;
+import Instrukcje.ProcedureCall;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Literal;
 import Wyrazenia.Zmienna;
@@ -60,7 +60,7 @@ public class ProceduraTesty {
         Procedura proc = new Procedura(block);
         proc.addIntruction(new Print(new Literal(125)));
         block.dodajProcedure("proc", proc);
-        assertDoesNotThrow( () ->  block.addIntruction(new WywolanieProcedury("proc", block)));
+        assertDoesNotThrow( () ->  block.addIntruction(new ProcedureCall("proc", block)));
         assertEquals("[]\nPRINT( 125 )\n", proc.toString());
     }
     @Test
@@ -68,7 +68,7 @@ public class ProceduraTesty {
         Procedura proc = new Procedura(block, arg);
         proc.dodajDeklaracje('a', new Literal(123));
         block.dodajProcedure("proc", proc);
-        block.addIntruction(new WywolanieProcedury("proc",
+        block.addIntruction(new ProcedureCall("proc",
                 List.of(new Literal(123), new Literal(456), new Literal(789)),
                 block));
 

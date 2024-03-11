@@ -3,7 +3,7 @@ package Instrukcje;
 import KlasyPomocnicze.ZakresWidocznosciProcedur;
 import Wykonanie.Debugger;
 import Wyjatki.DoubleDeclaration;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 import java.util.*;
 
@@ -25,7 +25,7 @@ public class Block extends InstrukcjaZWartosciowaniem{
     public void connectOuterBlock(Block instr){ // blok jako Instrukcja Z Deklaracjami Procedur
         proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.proceduryWewnetrzne);
     }
-    public void addDeclaration(char zmienna, Expresion wartosc){
+    public void addDeclaration(char zmienna, Expression wartosc){
         if(zadklarowaneZmienne.contains(zmienna))
             throw new DoubleDeclaration(zmienna);
         zadklarowaneZmienne.add(zmienna);

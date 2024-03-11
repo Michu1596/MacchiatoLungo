@@ -1,11 +1,11 @@
 package Buildery;
 
 import Instrukcje.*;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class IfBuilder extends Builder{
     protected InstrukcjaWarunkowa instrWar;
-    public IfBuilder(Builder zakresZewn, String warunek, Expresion wyr1, Expresion wyr2){
+    public IfBuilder(Builder zakresZewn, String warunek, Expression wyr1, Expression wyr2){
         super(zakresZewn);
         switch (warunek){
             case "<":
@@ -29,7 +29,7 @@ public class IfBuilder extends Builder{
     }
 
     @Override
-    public Builder finishScope(){
+    public Builder closeScope(){
         instructionNesting.pop();
         return parent;
     }

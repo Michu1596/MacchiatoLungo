@@ -1,18 +1,18 @@
 package Instrukcje;
 
 import Wykonanie.Debugger;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public abstract class InstrukcjaWarunkowa extends complexInstruction {
-    protected Expresion wyr1;
-    protected Expresion wyr2;
+    protected Expression wyr1;
+    protected Expression wyr2;
     protected boolean sprawdzonoWarunek;
     protected boolean warunekZaszedl;
     protected SekwencjaInstrukcji wPrzeciwnymWypadku;
     protected InstrukcjaWarunkowa(){
         super();
     }
-    protected InstrukcjaWarunkowa(Expresion wyr1, Expresion wyr2){
+    protected InstrukcjaWarunkowa(Expression wyr1, Expression wyr2){
         super();
         wPrzeciwnymWypadku = new SekwencjaInstrukcji();
         sprawdzonoWarunek = false;

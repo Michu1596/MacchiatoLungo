@@ -10,10 +10,10 @@ public class IfBuilderTesty {
     public void IfRowne(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijInstrukcjeWarunkowa("==", new Zmienna('x'), new Literal(561))
+                .assignment('x', new Literal(561))
+                .openIfInstruction("==", new Zmienna('x'), new Literal(561))
                 .print(new Zmienna('x'))
-                .finishScope()
+                .closeScope()
                 .getInstruction();
 
         Block wzor = new Block();
@@ -30,10 +30,10 @@ public class IfBuilderTesty {
     public void IfMniejsze(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijInstrukcjeWarunkowa("<", new Zmienna('x'), new Literal(561))
+                .assignment('x', new Literal(561))
+                .openIfInstruction("<", new Zmienna('x'), new Literal(561))
                 .print(new Zmienna('x'))
-                .finishScope()
+                .closeScope()
                 .getInstruction();
 
         Block wzor = new Block();
@@ -50,11 +50,11 @@ public class IfBuilderTesty {
     public void IfMniejszeRowne(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijInstrukcjeWarunkowa("<=", new Zmienna('x'), new Literal(561))
+                .assignment('x', new Literal(561))
+                .openIfInstruction("<=", new Zmienna('x'), new Literal(561))
                 .print(new Zmienna('x'))
-                .finishScope()
-                .przypisanie('y', new Literal(25))
+                .closeScope()
+                .assignment('y', new Literal(25))
                 .getInstruction();
 
         Block wzor = new Block();
@@ -72,11 +72,11 @@ public class IfBuilderTesty {
     public void IfWiekszeRowne(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijInstrukcjeWarunkowa(">=", new Zmienna('x'), new Literal(561))
+                .assignment('x', new Literal(561))
+                .openIfInstruction(">=", new Zmienna('x'), new Literal(561))
                 .print(new Zmienna('x'))
-                .finishScope()
-                .przypisanie('y', new Literal(25))
+                .closeScope()
+                .assignment('y', new Literal(25))
                 .getInstruction();
 
         Block wzor = new Block();
@@ -94,11 +94,11 @@ public class IfBuilderTesty {
     public void IfWieksze(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .przypisanie('x', new Literal(561))
-                .rozpocznijInstrukcjeWarunkowa(">", new Zmienna('x'), new Literal(561))
+                .assignment('x', new Literal(561))
+                .openIfInstruction(">", new Zmienna('x'), new Literal(561))
                 .print(new Zmienna('x'))
-                .finishScope()
-                .przypisanie('y', new Literal(25))
+                .closeScope()
+                .assignment('y', new Literal(25))
                 .getInstruction();
 
         Block wzor = new Block();

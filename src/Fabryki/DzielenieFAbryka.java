@@ -1,10 +1,10 @@
 package Fabryki;
 
 import Wyrazenia.Dzielenie;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class DzielenieFAbryka {
-    public static Dzielenie dzielenie(Expresion wyr1, Expresion wyr2){
+    public static Dzielenie dzielenie(Expression wyr1, Expression wyr2){
         return new Dzielenie(wyr1, wyr2);
     }
 }

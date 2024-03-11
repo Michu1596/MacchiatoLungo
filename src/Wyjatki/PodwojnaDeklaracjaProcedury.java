@@ -1,6 +1,6 @@
 package Wyjatki;
 
-public class PodwojnaDeklaracjaProcedury extends BladMacchiato{
+public class PodwojnaDeklaracjaProcedury extends MacchiatosError {
     public String nazwa;
     public PodwojnaDeklaracjaProcedury(String nazwa){
         this.nazwa = nazwa;

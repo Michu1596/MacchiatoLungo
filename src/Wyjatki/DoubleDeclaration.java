@@ -1,6 +1,6 @@
 package Wyjatki;
 
-public class DoubleDeclaration extends BladMacchiato{
+public class DoubleDeclaration extends MacchiatosError {
     private char zmienna;
     public DoubleDeclaration(char zmienna){
         this.zmienna = zmienna;

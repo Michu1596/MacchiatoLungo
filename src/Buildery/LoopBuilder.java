@@ -1,14 +1,14 @@
 package Buildery;
 
 import Instrukcje.PetlaFor;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 /**
  * petla musi znajdowac sie wewnatrz jakiegos bloku
  */
-public class PetlaBuilder extends Builder{
+public class LoopBuilder extends Builder{
     protected PetlaFor petla;
-    public PetlaBuilder(Builder zakresZewnetrzny, char zmienna, Expresion wyr){
+    public LoopBuilder(Builder zakresZewnetrzny, char zmienna, Expression wyr){
         super(zakresZewnetrzny);
         petla = new PetlaFor(scopesNesting.peek(), zmienna, wyr);
         instructionNesting.peek().addIntruction(petla);
@@ -17,7 +17,7 @@ public class PetlaBuilder extends Builder{
     }
 
     @Override
-    public Builder finishScope() {
+    public Builder closeScope() {
         scopesNesting.pop();
         instructionNesting.pop();
         return parent;

@@ -1,36 +1,36 @@
 package Instrukcje;
 
 import Wyjatki.BladWyrazenia;
-import Wyrazenia.Expresion;
+import Wyrazenia.Expression;
 
 public class Deklaracja extends InstrukcjaPojedyncza{
     private char nazwa;
 
-    private Expresion expresion;
-    public Deklaracja(char nazwa, Expresion expresion){
+    private Expression expression;
+    public Deklaracja(char nazwa, Expression expression){
         super();
         this.nazwa = nazwa;
-        this.expresion = expresion;
+        this.expression = expression;
     }
 
     public void wykonaj(){
         try {
-            wartNadrzedne.deklaruj(nazwa, expresion.ewaluuj(wartNadrzedne));
+            wartNadrzedne.deklaruj(nazwa, expression.ewaluuj(wartNadrzedne));
         }
         catch (BladWyrazenia e){
             e.aktualneWartosciowanie = wartNadrzedne;
             e.blednaInstrukcja = this;
         }
     }
-    public void setWyrazenie(Expresion expresion) {
-        this.expresion = expresion;
+    public void setWyrazenie(Expression expression) {
+        this.expression = expression;
     }
 
     @Override
     public String toString(){
-        if(expresion == null)
+        if(expression == null)
             return "DEKLARACJA: " +  nazwa + " = NULL\n";
         else
-            return "DEKLARACJA: " +  nazwa + " = " + expresion.toString() + '\n';
+            return "DEKLARACJA: " +  nazwa + " = " + expression.toString() + '\n';
     }
 }

@@ -1,23 +1,23 @@
 package Instrukcje;
 
-import Wyjatki.BladMacchiato;
-import Wyrazenia.Expresion;
+import Wyjatki.MacchiatosError;
+import Wyrazenia.Expression;
 
 public class Przypisanie extends InstrukcjaPojedyncza{
     final private char nazwa;
-    private Expresion expresion;
-    public Przypisanie(char nazwa, Expresion expresion){
+    private Expression expression;
+    public Przypisanie(char nazwa, Expression expression){
         super();
         this.nazwa = nazwa;
-        this.expresion = expresion;
+        this.expression = expression;
     }
 
     @Override
     public void wykonaj(){
         try {
-            wartNadrzedne.set(nazwa, expresion.ewaluuj(wartNadrzedne));
+            wartNadrzedne.set(nazwa, expression.ewaluuj(wartNadrzedne));
         }
-        catch (BladMacchiato e){
+        catch (MacchiatosError e){
             e.blednaInstrukcja = this;
             e.aktualneWartosciowanie = wartNadrzedne;
             throw e;
@@ -26,7 +26,7 @@ public class Przypisanie extends InstrukcjaPojedyncza{
 
     @Override
     public String toString(){
-        return "PRZYPISANIE: " + nazwa + " = " + expresion.toString() + '\n';
+        return "PRZYPISANIE: " + nazwa + " = " + expression.toString() + '\n';
     }
 
 }

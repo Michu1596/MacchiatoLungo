@@ -1,9 +1,7 @@
 package KlasyPomocnicze;
 
 import Instrukcje.Procedura;
-import Wyjatki.BladMacchiato;
 import Wyjatki.NiezadeklarowanaProcedura;
-import Wyjatki.NiezadeklarowanaZmienna;
 import Wyjatki.PodwojnaDeklaracjaProcedury;
 
 import java.util.HashMap;

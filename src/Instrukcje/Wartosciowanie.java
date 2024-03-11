@@ -1,6 +1,6 @@
 package Instrukcje;
 
-import Wyjatki.BladMacchiato;
+import Wyjatki.MacchiatosError;
 import Wyjatki.NiezadeklarowanaZmienna;
 
 public class Wartosciowanie {
@@ -45,7 +45,7 @@ public class Wartosciowanie {
     }
 
     //kod wywalujacy ta metode bedzie musial uzupelnic blad o brakujace dane o instrukcji i wartosciowaniu
-    public void set(char nazwaZmiennej, int nowaWartosc) throws BladMacchiato{
+    public void set(char nazwaZmiennej, int nowaWartosc) throws MacchiatosError {
         if (zadeklarowane[nazwaZmiennej - 'a'])
             zmienne[nazwaZmiennej - 'a'] = nowaWartosc;
         else if(nadrzedne != null)
@@ -54,7 +54,7 @@ public class Wartosciowanie {
             throw new NiezadeklarowanaZmienna(); //nie ustawiamy wartosciowania bo moglibysmy dostac to nadrzedne
     }
 
-    public int get(char nazwaZmiennej) throws BladMacchiato{
+    public int get(char nazwaZmiennej) throws MacchiatosError {
         if (zadeklarowane[nazwaZmiennej - 'a'])
             return zmienne[nazwaZmiennej - 'a'];
         else if(nadrzedne != null)

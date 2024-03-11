@@ -2,7 +2,7 @@ package Testy;
 
 import Buildery.BlockBuilder;
 import Buildery.ProgramBuilder;
-import Wyjatki.BladMacchiato;
+import Wyjatki.MacchiatosError;
 import Wyrazenia.Literal;
 import Wyrazenia.Zmienna;
 import org.junit.jupiter.api.Test;
@@ -10,61 +10,61 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BuilderTesty {
     @Test
     public void niepoprawnaDeklaracja(){
-    assertThrows(BladMacchiato.class, ()-> new BlockBuilder()
+    assertThrows(MacchiatosError.class, ()-> new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .rozpocznijPetle('k', new Literal(3))
+                .openLoopInstruction('k', new Literal(3))
                 .declareVariable('m', new Literal(5))
-                .finishScope()
+                .closeScope()
                 .getInstruction());
     }
     @Test
     public void niepoprawnaRozpoczecieProceduryZArg(){
-        assertThrows(BladMacchiato.class, ()-> new ProgramBuilder()
+        assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .rozpocznijPetle('k', new Literal(6))
-                .beginProcedure("proc", new char[]{'a', 'b'})
-                .finishScope()
-                .finishScope()
+                .openLoopInstruction('k', new Literal(6))
+                .openProcedure("proc", new char[]{'a', 'b'})
+                .closeScope()
+                .closeScope()
                 .getInstruction());
-        assertThrows(BladMacchiato.class, ()-> new ProgramBuilder()
+        assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .beginProcedure("proc", new char[]{'a', 'b'})
-                .beginProcedure("proc2", new char[]{'c', 'd'})
-                .finishScope()
-                .finishScope()
+                .openProcedure("proc", new char[]{'a', 'b'})
+                .openProcedure("proc2", new char[]{'c', 'd'})
+                .closeScope()
+                .closeScope()
                 .getInstruction());
     }
 
     @Test
     public void niepoprawnaRozpoczecieProceduryBezArg(){
-        assertThrows(BladMacchiato.class, ()-> new ProgramBuilder()
+        assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .rozpocznijPetle('k', new Literal(6))
-                .beginProcedure("proc")
-                .finishScope()
-                .finishScope()
+                .openLoopInstruction('k', new Literal(6))
+                .openProcedure("proc")
+                .closeScope()
+                .closeScope()
                 .getInstruction());
-        assertThrows(BladMacchiato.class, ()-> new ProgramBuilder()
+        assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .beginProcedure("proc")
-                .beginProcedure("proc2")
-                .finishScope()
-                .finishScope()
+                .openProcedure("proc")
+                .openProcedure("proc2")
+                .closeScope()
+                .closeScope()
                 .getInstruction());
     }
 
     @Test
     public void niepoprawnaZbudowanie(){
-        assertThrows(BladMacchiato.class, ()-> new ProgramBuilder()
+        assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Zmienna('x'))
-                .beginProcedure("proc")
+                .openProcedure("proc")
                 .print(new Zmienna('x'))
-                .zbuduj());
+                .build());
     }
 }
