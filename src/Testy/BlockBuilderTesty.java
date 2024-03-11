@@ -1,10 +1,10 @@
 package Testy;
 
 
-import Buildery.BlockBuilder;
+import Builders.BlockBuilder;
 import Instrukcje.*;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -16,11 +16,11 @@ public class BlockBuilderTesty {
     public void deklaracja(){
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .getInstruction();
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
-        wzor.addDeclaration('y', new Zmienna('x'));
+        wzor.addDeclaration('y', new Variable('x'));
         assertEquals(wzor.toString(), blok.toString());
     }
     @Test
@@ -45,13 +45,13 @@ public class BlockBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .print(new Zmienna('x'))
+                .print(new Variable('x'))
                 .getInstruction();
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        wzor.addIntruction(new Print(new Zmienna('x')));
+        wzor.addIntruction(new Print(new Variable('x')));
 
         assertEquals(wzor.toString(), blok.toString());
     }
@@ -61,7 +61,7 @@ public class BlockBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc", new char[] {'a', 'b', 'c'})
-                .print(new Zmienna('a'))
+                .print(new Variable('a'))
                 .closeScope()
                 .procedureCall("proc",List.of(new Literal(1),
                         new Literal(2),new Literal(1)))
@@ -70,7 +70,7 @@ public class BlockBuilderTesty {
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
-        proc.addIntruction(new Print(new Zmienna('a')));
+        proc.addIntruction(new Print(new Variable('a')));
         wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));

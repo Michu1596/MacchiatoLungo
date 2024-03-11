@@ -1,10 +1,10 @@
 package Testy;
 
-import Buildery.BlockBuilder;
-import Buildery.ProgramBuilder;
+import Builders.BlockBuilder;
+import Builders.ProgramBuilder;
 import Wyjatki.MacchiatosError;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class BuilderTesty {
@@ -12,7 +12,7 @@ public class BuilderTesty {
     public void niepoprawnaDeklaracja(){
     assertThrows(MacchiatosError.class, ()-> new BlockBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openLoopInstruction('k', new Literal(3))
                 .declareVariable('m', new Literal(5))
                 .closeScope()
@@ -22,7 +22,7 @@ public class BuilderTesty {
     public void niepoprawnaRozpoczecieProceduryZArg(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openLoopInstruction('k', new Literal(6))
                 .openProcedure("proc", new char[]{'a', 'b'})
                 .closeScope()
@@ -30,7 +30,7 @@ public class BuilderTesty {
                 .getInstruction());
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openProcedure("proc", new char[]{'a', 'b'})
                 .openProcedure("proc2", new char[]{'c', 'd'})
                 .closeScope()
@@ -42,7 +42,7 @@ public class BuilderTesty {
     public void niepoprawnaRozpoczecieProceduryBezArg(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openLoopInstruction('k', new Literal(6))
                 .openProcedure("proc")
                 .closeScope()
@@ -50,7 +50,7 @@ public class BuilderTesty {
                 .getInstruction());
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openProcedure("proc")
                 .openProcedure("proc2")
                 .closeScope()
@@ -62,9 +62,9 @@ public class BuilderTesty {
     public void niepoprawnaZbudowanie(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
-                .declareVariable('y', new Zmienna('x'))
+                .declareVariable('y', new Variable('x'))
                 .openProcedure("proc")
-                .print(new Zmienna('x'))
+                .print(new Variable('x'))
                 .build());
     }
 }

@@ -14,28 +14,28 @@ public class Debugger {
 
         ForLoop petla = new ForLoop(program,
                 'k',
-                new Odejmowanie(new Zmienna('n'), new Literal(1)));
+                new Subtraction(new Variable('n'), new Literal(1)));
         Block wnetrzePetli = new Block(petla);
         wnetrzePetli.addDeclaration('p', new Literal(1));
         wnetrzePetli.addIntruction(new Przypisanie('k',
-                new Dodawanie(new Zmienna('k'),
+                new Addition(new Variable('k'),
                         new Literal(2))));
 
         ForLoop petal2 = new ForLoop(wnetrzePetli,
                 'i',
-                new Odejmowanie(new Zmienna('k'),
+                new Subtraction(new Variable('k'),
                         new Literal(2)));
-        petal2.addIntruction(new Przypisanie('i', new Dodawanie(new Zmienna('i'),
+        petal2.addIntruction(new Przypisanie('i', new Addition(new Variable('i'),
                 new Literal(2))));
-        Conditional warunkowa = new CondEqual(new Modulo(new Zmienna('k'),
-                new Zmienna('i')), new Literal(0));
+        Conditional warunkowa = new CondEqual(new Modulo(new Variable('k'),
+                new Variable('i')), new Literal(0));
         petal2.addIntruction(warunkowa);
         warunkowa.addIntruction(new Przypisanie('p', new Literal(0)));
 
-        Conditional warunkowa2 = new CondEqual(new Zmienna('p'), new Literal(1));
+        Conditional warunkowa2 = new CondEqual(new Variable('p'), new Literal(1));
         wnetrzePetli.addIntruction(petal2);
         wnetrzePetli.addIntruction(warunkowa2);
-        warunkowa2.addIntruction(new Print(new Zmienna('k')));
+        warunkowa2.addIntruction(new Print(new Variable('k')));
 
         petla.addIntruction(wnetrzePetli);
         program.addIntruction(petla);

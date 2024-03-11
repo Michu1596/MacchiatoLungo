@@ -6,7 +6,7 @@ import Instrukcje.Procedure;
 import Instrukcje.ProcedureCall;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public class ProcedureTesty {
     public void deklaracje(){
         Procedure proc = new Procedure(block, arg);
         proc.addVariable('a', new Literal(123));
-        proc.addVariable('b', new Zmienna('a'));
+        proc.addVariable('b', new Variable('a'));
         assertThrows(DoubleDeclaration.class, () -> proc.addVariable('a', new Literal(456)));
     }
 

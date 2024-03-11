@@ -1,9 +1,9 @@
 package Testy;
 
-import Buildery.BlockBuilder;
+import Builders.BlockBuilder;
 import Instrukcje.*;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ProcedureBuilderTesty {
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc", new char[] {'a', 'b', 'c'})
                 .declareVariable('a', new Literal(561))
-                .print(new Zmienna('a'))
+                .print(new Variable('a'))
                 .closeScope()
                 .procedureCall("proc", List.of(new Literal(1),
                         new Literal(2),new Literal(1)))
@@ -27,7 +27,7 @@ public class ProcedureBuilderTesty {
         wzor.addDeclaration('x', new Literal(7));
         Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
         proc.addVariable('a', new Literal(561));
-        proc.addIntruction(new Print(new Zmienna('a')));
+        proc.addIntruction(new Print(new Variable('a')));
         wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));
@@ -40,7 +40,7 @@ public class ProcedureBuilderTesty {
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc")
                 .declareVariable('a', new Literal(561))
-                .print(new Zmienna('x'))
+                .print(new Variable('x'))
                 .closeScope()
                 .procedureCall("proc")
                 .getInstruction();
@@ -49,7 +49,7 @@ public class ProcedureBuilderTesty {
         wzor.addDeclaration('x', new Literal(7));
         Procedure proc = new Procedure(wzor);
         proc.addVariable('a', new Literal(561));
-        proc.addIntruction(new Print(new Zmienna('x')));
+        proc.addIntruction(new Print(new Variable('x')));
         wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", wzor));
         assertEquals(wzor.toString(), blok.toString());
@@ -61,14 +61,14 @@ public class ProcedureBuilderTesty {
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc", new char[] {'a', 'b', 'c'})
                 .declareVariable('a', new Literal(561))
-                .print(new Zmienna('a'))
+                .print(new Variable('a'))
                 .getInstruction();
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
         proc.addVariable('a', new Literal(561));
-        proc.addIntruction(new Print(new Zmienna('a')));
+        proc.addIntruction(new Print(new Variable('a')));
         wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));

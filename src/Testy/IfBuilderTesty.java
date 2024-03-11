@@ -1,8 +1,8 @@
 package Testy;
-import Buildery.BlockBuilder;
+import Builders.BlockBuilder;
 import Instrukcje.*;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class IfBuilderTesty {
@@ -11,16 +11,16 @@ public class IfBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .openIfInstruction("==", new Zmienna('x'), new Literal(561))
-                .print(new Zmienna('x'))
+                .openIfInstruction("==", new Variable('x'), new Literal(561))
+                .print(new Variable('x'))
                 .closeScope()
                 .getInstruction();
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        Conditional warunkowa = new CondEqual(new Zmienna('x'), new Literal(561));
-        warunkowa.addIntruction(new Print(new Zmienna('x')));
+        Conditional warunkowa = new CondEqual(new Variable('x'), new Literal(561));
+        warunkowa.addIntruction(new Print(new Variable('x')));
         wzor.addIntruction(warunkowa);
 
         assertEquals(wzor.toString(), blok.toString());
@@ -31,16 +31,16 @@ public class IfBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .openIfInstruction("<", new Zmienna('x'), new Literal(561))
-                .print(new Zmienna('x'))
+                .openIfInstruction("<", new Variable('x'), new Literal(561))
+                .print(new Variable('x'))
                 .closeScope()
                 .getInstruction();
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        Conditional warunkowa = new CondLess(new Zmienna('x'), new Literal(561));
-        warunkowa.addIntruction(new Print(new Zmienna('x')));
+        Conditional warunkowa = new CondLess(new Variable('x'), new Literal(561));
+        warunkowa.addIntruction(new Print(new Variable('x')));
         wzor.addIntruction(warunkowa);
 
         assertEquals(wzor.toString(), blok.toString());
@@ -51,8 +51,8 @@ public class IfBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .openIfInstruction("<=", new Zmienna('x'), new Literal(561))
-                .print(new Zmienna('x'))
+                .openIfInstruction("<=", new Variable('x'), new Literal(561))
+                .print(new Variable('x'))
                 .closeScope()
                 .assignment('y', new Literal(25))
                 .getInstruction();
@@ -60,8 +60,8 @@ public class IfBuilderTesty {
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        Conditional warunkowa = new CondLessEq(new Zmienna('x'), new Literal(561));
-        warunkowa.addIntruction(new Print(new Zmienna('x')));
+        Conditional warunkowa = new CondLessEq(new Variable('x'), new Literal(561));
+        warunkowa.addIntruction(new Print(new Variable('x')));
         wzor.addIntruction(warunkowa);
         wzor.addIntruction(new Przypisanie('y', new Literal(25)));
 
@@ -73,8 +73,8 @@ public class IfBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .openIfInstruction(">=", new Zmienna('x'), new Literal(561))
-                .print(new Zmienna('x'))
+                .openIfInstruction(">=", new Variable('x'), new Literal(561))
+                .print(new Variable('x'))
                 .closeScope()
                 .assignment('y', new Literal(25))
                 .getInstruction();
@@ -82,8 +82,8 @@ public class IfBuilderTesty {
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        Conditional warunkowa = new CondGreaterEq(new Zmienna('x'), new Literal(561));
-        warunkowa.addIntruction(new Print(new Zmienna('x')));
+        Conditional warunkowa = new CondGreaterEq(new Variable('x'), new Literal(561));
+        warunkowa.addIntruction(new Print(new Variable('x')));
         wzor.addIntruction(warunkowa);
         wzor.addIntruction(new Przypisanie('y', new Literal(25)));
 
@@ -95,8 +95,8 @@ public class IfBuilderTesty {
         complexInstruction blok = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .assignment('x', new Literal(561))
-                .openIfInstruction(">", new Zmienna('x'), new Literal(561))
-                .print(new Zmienna('x'))
+                .openIfInstruction(">", new Variable('x'), new Literal(561))
+                .print(new Variable('x'))
                 .closeScope()
                 .assignment('y', new Literal(25))
                 .getInstruction();
@@ -104,8 +104,8 @@ public class IfBuilderTesty {
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        Conditional warunkowa = new CondGreater(new Zmienna('x'), new Literal(561));
-        warunkowa.addIntruction(new Print(new Zmienna('x')));
+        Conditional warunkowa = new CondGreater(new Variable('x'), new Literal(561));
+        warunkowa.addIntruction(new Print(new Variable('x')));
         wzor.addIntruction(warunkowa);
         wzor.addIntruction(new Przypisanie('y', new Literal(25)));
 

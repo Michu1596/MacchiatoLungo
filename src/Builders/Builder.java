@@ -1,4 +1,4 @@
-package Buildery;
+package Builders;
 
 import Instrukcje.*;
 import Wyjatki.MacchiatosError;

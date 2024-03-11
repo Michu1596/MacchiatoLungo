@@ -8,7 +8,7 @@ import Wyjatki.NieprawidloweArgumentyProcedury;
 import Wyjatki.NiezadeklarowanaProcedura;
 import Wyjatki.NiezadeklarowanaZmienna;
 import Wyrazenia.Literal;
-import Wyrazenia.Zmienna;
+import Wyrazenia.Variable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,12 +50,12 @@ public class ProcedureCallTesty {
         wewn.addDeclaration('y', new Literal(561));
         wewn.connectOuterBlock(block);
         ProcedureCall wewnWyw = new ProcedureCall("proc",
-                    List.of(new Zmienna('x'), new Zmienna('y')), wewn);
+                    List.of(new Variable('x'), new Variable('y')), wewn);
         wewn.addIntruction(wewnWyw);
         assertDoesNotThrow(() -> block.wykonaj());
 
         ProcedureCall zewnWyw = new ProcedureCall("proc",
-                List.of(new Zmienna('x'), new Zmienna('y')), block);
+                List.of(new Variable('x'), new Variable('y')), block);
         wewn.addIntruction(wewnWyw);
 
         assertThrows(NiezadeklarowanaZmienna.class, () -> zewnWyw.wykonaj());

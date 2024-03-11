@@ -20,19 +20,19 @@ public class Macciato10Testy {
 
     @Test
     public void dodawanie(){
-        Dodawanie dod = new Dodawanie(new Zmienna('n'), new Literal(57));
+        Addition dod = new Addition(new Variable('n'), new Literal(57));
         assertEquals("n + 57", dod.toString());
     }
 
     @Test
     public void odejmowanie(){
-        Odejmowanie od = new Odejmowanie(new Zmienna('l'), new Zmienna('k'));
+        Subtraction od = new Subtraction(new Variable('l'), new Variable('k'));
         assertEquals("l - k", od.toString());
     }
 
     @Test
     public void dzielenie(){
-        Dzielenie dz = new Dzielenie(new Literal(21), new Literal(37));
+        Division dz = new Division(new Literal(21), new Literal(37));
         assertEquals("21 / 37", dz.toString());
     }
 
@@ -44,7 +44,7 @@ public class Macciato10Testy {
 
     @Test
     public void zmienna(){
-        Zmienna zm = new Zmienna('k');
+        Variable zm = new Variable('k');
         assertEquals("k" , zm.toString());
     }
 

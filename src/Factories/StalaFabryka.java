@@ -1,4 +1,4 @@
-package Fabryki;
+package Factories;
 
 import Wyrazenia.Literal;
 

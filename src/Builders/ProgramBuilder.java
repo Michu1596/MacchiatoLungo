@@ -1,4 +1,4 @@
-package Buildery;
+package Builders;
 
 import Wykonanie.Program;
 

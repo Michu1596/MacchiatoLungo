@@ -2,9 +2,9 @@ package Wyrazenia;
 
 import Instrukcje.Wartosciowanie;
 
-public class Zmienna implements Expression {
+public class Variable implements Expression {
     final private char nazwaZmiennej;
-    public Zmienna(char nazwaZmiennej){
+    public Variable(char nazwaZmiennej){
         this.nazwaZmiennej = nazwaZmiennej;
     }
     @Override
