@@ -11,7 +11,7 @@ import java.util.*;
  * W momencie deklaracji procedury w bloku procedura zyskuje dostep do wartosciowania bloku. Co przeklada sie na to, ze
  * korzysta ze Statycznego wiazania zmiennych
  */
-public class Procedura extends InstrukcjaZWartosciowaniem{
+public class Procedure extends InstrukcjaZWartosciowaniem{
     protected Set<Character> argumenty; // sluzy do upewnienia sie ze nazwy argumentow, w deklaracji procedury,
     // nie powtarzaja sie
     protected Set<Character> zadklarowaneZmienne; // odpowiada zmiennym z ciagu deklaracji w procedurze; nie zaliczaja
@@ -26,7 +26,7 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * @param zakresZewnetrzny zakres widocznosci w ktorym zadeklarowana jest procedura
      * @param argumenty tablica char zawierajace podane w kolejnosci nazwy argumentow
      */
-    public Procedura(InstrukcjaZWartosciowaniem zakresZewnetrzny, char argumenty[]){
+    public Procedure(InstrukcjaZWartosciowaniem zakresZewnetrzny, char argumenty[]){
         super(zakresZewnetrzny.wartWewnetrzne);
         this.argumenty = new LinkedHashSet<Character>(); //pragniemy zachowac porzadek dodawania elementow
         this.wartosciArgumentow = new ArrayList<Deklaracja>();
@@ -51,7 +51,7 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * konstruktor procedury bezparametrowej
      * @param zakresZewnetrzny  zakres widocznosci w ktorym zadeklarowana jest procedura
      */
-    public Procedura(InstrukcjaZWartosciowaniem zakresZewnetrzny){
+    public Procedure(InstrukcjaZWartosciowaniem zakresZewnetrzny){
         super(zakresZewnetrzny.wartWewnetrzne);
         this.argumenty = new LinkedHashSet<Character>(); //pragniemy zachowac porzadek dodawania elementow
         this.wartosciArgumentow = new ArrayList<Deklaracja>();
@@ -80,7 +80,7 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
      * @param zmienna
      * @param wartosc
      */
-    public void dodajDeklaracje(char zmienna, Expression wartosc){
+    public void addVariable(char zmienna, Expression wartosc){
         if(zadklarowaneZmienne.contains(zmienna))
             throw new DoubleDeclaration(zmienna);
         zadklarowaneZmienne.add(zmienna);
@@ -89,10 +89,10 @@ public class Procedura extends InstrukcjaZWartosciowaniem{
         instrukcje.dodajInstrukcje(dekl);
     }
 
-    public void dodajProcedure(String nazwaProcedury, Procedura procedura){
-        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
+    public void dodajProcedure(String nazwaProcedury, Procedure procedure){
+        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedure); //obsluga po2jnej deklaracji znajduje sie
         // w tej metodzie
-        procedura.widocznoscProcedur = proceduryWewnetrzne;
+        procedure.widocznoscProcedur = proceduryWewnetrzne;
     }
 
     /**

@@ -1,7 +1,7 @@
 package Testy;
 
 import Instrukcje.Block;
-import Instrukcje.Procedura;
+import Instrukcje.Procedure;
 import Wyjatki.NiezadeklarowanaProcedura;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -20,7 +20,7 @@ public class ZakresWidocznosciProcedurTesty {
         ZakresWidocznosciProcedur poziom0 = new ZakresWidocznosciProcedur();
         ZakresWidocznosciProcedur poziom1 = new ZakresWidocznosciProcedur(poziom0);
         ZakresWidocznosciProcedur poziom2 = new ZakresWidocznosciProcedur(poziom1);
-        Procedura pr = new Procedura(block);
+        Procedure pr = new Procedure(block);
         poziom0.deklarujProcedure("proc0", pr);
         assertEquals(pr, poziom2.get("proc0"));
 
@@ -38,9 +38,9 @@ public class ZakresWidocznosciProcedurTesty {
     @Test
     public void toStringTest(){
         ZakresWidocznosciProcedur poziom0 = new ZakresWidocznosciProcedur();
-        poziom0.deklarujProcedure("proc0", new Procedura(block));
-        poziom0.deklarujProcedure("proc1", new Procedura(block, new char[]{'a', 'b'}));
-        poziom0.deklarujProcedure("proc2", new Procedura(block));
+        poziom0.deklarujProcedure("proc0", new Procedure(block));
+        poziom0.deklarujProcedure("proc1", new Procedure(block, new char[]{'a', 'b'}));
+        poziom0.deklarujProcedure("proc2", new Procedure(block));
 
         assertEquals("proc2( [] )\n" +
                 "proc1( [a, b] )\n" +

@@ -10,7 +10,7 @@ public abstract class complexInstruction extends Instrukcja{
     /*public InstrukcjaZlozona(InstrukcjaZlozona nadrzedna){
         widocznoscProcedur = nadrzedna.widocznoscProcedur;
     }*/
-    public Procedura getProcedura(String nazwa){
+    public Procedure getProcedura(String nazwa){
         return widocznoscProcedur.get(nazwa);
     }
     public void addIntruction(Instrukcja instr){

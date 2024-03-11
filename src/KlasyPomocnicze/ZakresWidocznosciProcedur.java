@@ -1,6 +1,6 @@
 package KlasyPomocnicze;
 
-import Instrukcje.Procedura;
+import Instrukcje.Procedure;
 import Wyjatki.NiezadeklarowanaProcedura;
 import Wyjatki.PodwojnaDeklaracjaProcedury;
 
@@ -9,21 +9,21 @@ import java.util.Map;
 
 public class ZakresWidocznosciProcedur {
     protected ZakresWidocznosciProcedur nadrzedny;
-    protected Map<String, Procedura> procedury;
+    protected Map<String, Procedure> procedury;
 
     public ZakresWidocznosciProcedur(){
-        procedury = new HashMap<String, Procedura>();
+        procedury = new HashMap<String, Procedure>();
     }
     public ZakresWidocznosciProcedur(ZakresWidocznosciProcedur nadrzedny){
-        procedury = new HashMap<String, Procedura>();
+        procedury = new HashMap<String, Procedure>();
         this.nadrzedny = nadrzedny;
     }
 
-    public void deklarujProcedure(String nazwaProcedury, Procedura procedura){
+    public void deklarujProcedure(String nazwaProcedury, Procedure procedure){
         if (procedury.containsKey(nazwaProcedury))
             throw new PodwojnaDeklaracjaProcedury(nazwaProcedury);
         else {
-            procedury.put(nazwaProcedury, procedura);
+            procedury.put(nazwaProcedury, procedure);
         }
     }
 
@@ -32,7 +32,7 @@ public class ZakresWidocznosciProcedur {
      * @param nazwaProcedury
      * @return
      */
-    public Procedura get(String nazwaProcedury){
+    public Procedure get(String nazwaProcedury){
         if (procedury.containsKey(nazwaProcedury))
             return procedury.get(nazwaProcedury);
         else if(nadrzedny != null)
@@ -46,7 +46,7 @@ public class ZakresWidocznosciProcedur {
 
     public String toString(){
         String wynik ="";
-        for (Map.Entry<String, Procedura> para : procedury.entrySet())
+        for (Map.Entry<String, Procedure> para : procedury.entrySet())
             wynik += para.getKey() + "( " + para.getValue().getArgumenty() + " )" + '\n';
 
         return wynik;

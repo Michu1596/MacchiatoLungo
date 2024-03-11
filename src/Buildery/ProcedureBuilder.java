@@ -2,31 +2,31 @@ package Buildery;
 
 import Instrukcje.Block;
 import Instrukcje.complexInstruction;
-import Instrukcje.Procedura;
+import Instrukcje.Procedure;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Expression;
 
 public class ProcedureBuilder extends  Builder{ //dziedziczenie wynika stad ze procedura musi byc wewnatrz bloku
-    Procedura procedura;
-    public ProcedureBuilder(BlockBuilder zakresZewnetrzny, Block block, String nazwa, char[] argumenty){
-        super(zakresZewnetrzny);
-        procedura = new Procedura(block, argumenty);
-        block.dodajProcedure(nazwa, procedura);
-        instructionNesting.push(procedura);
-        scopesNesting.push(procedura);
+    Procedure procedure;
+    public ProcedureBuilder(BlockBuilder outerScope, Block block, String name, char[] args){
+        super(outerScope);
+        procedure = new Procedure(block, args);
+        block.addProcedure(name, procedure);
+        instructionNesting.push(procedure);
+        scopesNesting.push(procedure);
     }
-    public ProcedureBuilder(BlockBuilder zakresZewnetrzny, Block block, String nazwa){
-        super(zakresZewnetrzny);
-        procedura = new Procedura(block);
-        block.dodajProcedure(nazwa, procedura);
-        instructionNesting.push(procedura);
-        scopesNesting.push(procedura);
+    public ProcedureBuilder(BlockBuilder outerScope, Block block, String name){
+        super(outerScope);
+        procedure = new Procedure(block);
+        block.addProcedure(name, procedure);
+        instructionNesting.push(procedure);
+        scopesNesting.push(procedure);
     }
     public ProcedureBuilder declareVariable(char name, Expression exp){
         try {
-            procedura.dodajDeklaracje(name, exp);
+            procedure.addVariable(name, exp);
         }catch (DoubleDeclaration e){
-            System.out.println("Zmienna: " + name + " zostala juz zadeklarowana w tej procedurze");
+            System.out.println("Variable: " + name + " has been declared in this procedure");
         }
         return this;
     }
@@ -38,6 +38,6 @@ public class ProcedureBuilder extends  Builder{ //dziedziczenie wynika stad ze p
     }
     @Override
     public complexInstruction getInstruction(){
-        return procedura;
+        return procedure;
     }
 }

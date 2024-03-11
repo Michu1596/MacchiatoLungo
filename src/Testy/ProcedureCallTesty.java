@@ -1,7 +1,7 @@
 package Testy;
 
 import Instrukcje.Block;
-import Instrukcje.Procedura;
+import Instrukcje.Procedure;
 import Instrukcje.ProcedureCall;
 import Wyjatki.MacchiatosError;
 import Wyjatki.NieprawidloweArgumentyProcedury;
@@ -18,14 +18,14 @@ import static  org.junit.jupiter.api.Assertions.*;
 
 public class ProcedureCallTesty {
     protected Block block;
-    protected Procedura proc;
+    protected Procedure proc;
     protected char[] arg;
     @BeforeEach
     public void init(){
         block = new Block();
         arg = new char[] {'a', 'b'};
-        proc = new Procedura(block, arg);
-        block.dodajProcedure("proc", proc);
+        proc = new Procedure(block, arg);
+        block.addProcedure("proc", proc);
     }
     @Test
     public void zlaLiczbaArgumentow(){
@@ -34,8 +34,8 @@ public class ProcedureCallTesty {
     }
     @Test
     public void procBezArg(){
-        Procedura bezArg = new Procedura(block);
-        block.dodajProcedure("procBezArg", bezArg);
+        Procedure bezArg = new Procedure(block);
+        block.addProcedure("procBezArg", bezArg);
         assertThrows(NieprawidloweArgumentyProcedury.class, () -> new ProcedureCall("procBezArg",
                                                     List.of(new Literal(25)), block));
     }

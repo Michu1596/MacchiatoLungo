@@ -25,10 +25,10 @@ public class ProcedureBuilderTesty {
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
-        Procedura proc = new Procedura(wzor, new char[] {'a', 'b', 'c'});
-        proc.dodajDeklaracje('a', new Literal(561));
+        Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
+        proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Zmienna('a')));
-        wzor.dodajProcedure("proc",proc);
+        wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));
         assertEquals(wzor.toString(), blok.toString());
@@ -47,10 +47,10 @@ public class ProcedureBuilderTesty {
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
-        Procedura proc = new Procedura(wzor);
-        proc.dodajDeklaracje('a', new Literal(561));
+        Procedure proc = new Procedure(wzor);
+        proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Zmienna('x')));
-        wzor.dodajProcedure("proc",proc);
+        wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", wzor));
         assertEquals(wzor.toString(), blok.toString());
     }
@@ -66,10 +66,10 @@ public class ProcedureBuilderTesty {
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
-        Procedura proc = new Procedura(wzor, new char[] {'a', 'b', 'c'});
-        proc.dodajDeklaracje('a', new Literal(561));
+        Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
+        proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Zmienna('a')));
-        wzor.dodajProcedure("proc",proc);
+        wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));
         assertEquals(proc.toString(), procedura.toString());

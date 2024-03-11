@@ -17,7 +17,7 @@ import java.util.List;
 public class ProcedureCall extends complexInstruction {
     protected String nazwaProcedury;
     protected List<Expression> argumenty;
-    protected Procedura procedura;
+    protected Procedure procedure;
     protected boolean zainicjalizowano; // uzywane przy debugowaniu. jesli wartosc jest nieustawiona a nastapilo
     // wywolanie to nalezy przekazac procedure argumenty
 
@@ -30,16 +30,16 @@ public class ProcedureCall extends complexInstruction {
     public ProcedureCall(String nazwa, List<Expression> argumenty, complexInstruction zakres){
         zainicjalizowano = false;
         nazwaProcedury = nazwa;
-        procedura = zakres.getProcedura(nazwa);
-        if (procedura.getLiczbaPArametrow() != argumenty.size())
+        procedure = zakres.getProcedura(nazwa);
+        if (procedure.getLiczbaPArametrow() != argumenty.size())
             throw new NieprawidloweArgumentyProcedury();
         this.argumenty = argumenty;
     }
     public ProcedureCall(String nazwa, complexInstruction zakres){
         zainicjalizowano = false;
         nazwaProcedury = nazwa;
-        procedura = zakres.getProcedura(nazwa);
-        if (procedura.getLiczbaPArametrow() != 0)
+        procedure = zakres.getProcedura(nazwa);
+        if (procedure.getLiczbaPArametrow() != 0)
             throw new NieprawidloweArgumentyProcedury();
     }
 
@@ -59,10 +59,10 @@ public class ProcedureCall extends complexInstruction {
             for(Expression expression : argumenty) // tworzy liste literalow zawierajacych wartosci wyrazen obliczone
                                                  // w miejscu wywolania procedury
                 wartosciWyrazen.add(new Literal(expression.ewaluuj(wartNadrzedne)));
-            procedura.ustawArgumenty(wartosciWyrazen);
+            procedure.ustawArgumenty(wartosciWyrazen);
         }
         Instrukcja nastepnaInst = debugger.getKtoraNastepna();
-        InstrukcjaPojedyncza instr = procedura.nastepnaInstrukcjaPojedyncza(debugger);
+        InstrukcjaPojedyncza instr = procedure.nastepnaInstrukcjaPojedyncza(debugger);
         if(debugger.getKtoraNastepna() == null) // jesli dojdziemy do konca procedury to nastepna instrukcja to ta ktora
                                                 // znajduje sie po wywolaniu
             debugger.setKtoraNastepna(nastepnaInst);
@@ -76,8 +76,8 @@ public class ProcedureCall extends complexInstruction {
     }
     @Override
     public void wykonaj(){
-        procedura.ustawArgumenty(argumenty);
-        procedura.wykonaj();
+        procedure.ustawArgumenty(argumenty);
+        procedure.wykonaj();
     }
     @Override
     public String toString(){

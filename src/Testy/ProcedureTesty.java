@@ -2,7 +2,7 @@ package Testy;
 
 import Instrukcje.Block;
 import Instrukcje.Print;
-import Instrukcje.Procedura;
+import Instrukcje.Procedure;
 import Instrukcje.ProcedureCall;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Literal;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Testy klasy Procedura
  */
-public class ProceduraTesty {
+public class ProcedureTesty {
     protected Block block;
     char[] arg;
     @BeforeEach
@@ -28,26 +28,26 @@ public class ProceduraTesty {
     @Test
     public void powtorzoneArgumenty(){
         char[] argumenty = {'a', 'b', 'c', 'a'};
-        assertThrows(DoubleDeclaration.class, () -> new Procedura(block, argumenty));
+        assertThrows(DoubleDeclaration.class, () -> new Procedure(block, argumenty));
     }
 
     @Test
     public void zmienne(){
-        Procedura proc = new Procedura(block, arg);
+        Procedure proc = new Procedure(block, arg);
         assertEquals("[a, b, c]", proc.getArgumenty());
     }
 
     @Test
     public void deklaracje(){
-        Procedura proc = new Procedura(block, arg);
-        proc.dodajDeklaracje('a', new Literal(123));
-        proc.dodajDeklaracje('b', new Zmienna('a'));
-        assertThrows(DoubleDeclaration.class, () -> proc.dodajDeklaracje('a', new Literal(456)));
+        Procedure proc = new Procedure(block, arg);
+        proc.addVariable('a', new Literal(123));
+        proc.addVariable('b', new Zmienna('a'));
+        assertThrows(DoubleDeclaration.class, () -> proc.addVariable('a', new Literal(456)));
     }
 
     @Test
     public void ustawArgumenty(){
-        Procedura proc = new Procedura(block, arg);
+        Procedure proc = new Procedure(block, arg);
         proc.ustawArgumenty( List.of(new Literal(123), new Literal(456), new Literal(789)));
         assertEquals("[a, b, c]\n" +
                 "DEKLARACJA: a = 123\n" +
@@ -57,17 +57,17 @@ public class ProceduraTesty {
 
     @Test
     public void bezparametrow(){
-        Procedura proc = new Procedura(block);
+        Procedure proc = new Procedure(block);
         proc.addIntruction(new Print(new Literal(125)));
-        block.dodajProcedure("proc", proc);
+        block.addProcedure("proc", proc);
         assertDoesNotThrow( () ->  block.addIntruction(new ProcedureCall("proc", block)));
         assertEquals("[]\nPRINT( 125 )\n", proc.toString());
     }
     @Test
     public void argumentPlusDeklaracja(){
-        Procedura proc = new Procedura(block, arg);
-        proc.dodajDeklaracje('a', new Literal(123));
-        block.dodajProcedure("proc", proc);
+        Procedure proc = new Procedure(block, arg);
+        proc.addVariable('a', new Literal(123));
+        block.addProcedure("proc", proc);
         block.addIntruction(new ProcedureCall("proc",
                 List.of(new Literal(123), new Literal(456), new Literal(789)),
                 block));

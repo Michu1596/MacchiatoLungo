@@ -69,9 +69,9 @@ public class BlockBuilderTesty {
 
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
-        Procedura proc = new Procedura(wzor, new char[] {'a', 'b', 'c'});
+        Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
         proc.addIntruction(new Print(new Zmienna('a')));
-        wzor.dodajProcedure("proc",proc);
+        wzor.addProcedure("proc",proc);
         wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
                 new Literal(2),new Literal(1)), wzor));
         assertEquals(wzor.toString(), blok.toString());

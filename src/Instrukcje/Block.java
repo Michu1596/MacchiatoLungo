@@ -34,13 +34,13 @@ public class Block extends InstrukcjaZWartosciowaniem{
         instrukcje.dodajInstrukcje(dekl);
     }
 
-    public void dodajProcedure(String nazwaProcedury, Procedura procedura){
-        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedura); //obsluga po2jnej deklaracji znajduje sie
+    public void addProcedure(String nazwaProcedury, Procedure procedure){
+        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedure); //obsluga po2jnej deklaracji znajduje sie
         // w tej metodzie
-        procedura.widocznoscProcedur = proceduryWewnetrzne;
+        procedure.widocznoscProcedur = proceduryWewnetrzne;
     }
     @Override
-    public Procedura getProcedura(String nazwa){
+    public Procedure getProcedura(String nazwa){
         return proceduryWewnetrzne.get(nazwa);
     }
     @Override
