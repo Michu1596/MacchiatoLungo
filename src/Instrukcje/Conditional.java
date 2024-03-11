@@ -3,16 +3,16 @@ package Instrukcje;
 import Wykonanie.Debugger;
 import Wyrazenia.Expression;
 
-public abstract class InstrukcjaWarunkowa extends complexInstruction {
+public abstract class Conditional extends complexInstruction {
     protected Expression wyr1;
     protected Expression wyr2;
     protected boolean sprawdzonoWarunek;
     protected boolean warunekZaszedl;
     protected SekwencjaInstrukcji wPrzeciwnymWypadku;
-    protected InstrukcjaWarunkowa(){
+    protected Conditional(){
         super();
     }
-    protected InstrukcjaWarunkowa(Expression wyr1, Expression wyr2){
+    protected Conditional(Expression wyr1, Expression wyr2){
         super();
         wPrzeciwnymWypadku = new SekwencjaInstrukcji();
         sprawdzonoWarunek = false;

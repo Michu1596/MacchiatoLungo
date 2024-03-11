@@ -27,12 +27,12 @@ public class Debugger {
                         new Literal(2)));
         petal2.addIntruction(new Przypisanie('i', new Dodawanie(new Zmienna('i'),
                 new Literal(2))));
-        InstrukcjaWarunkowa warunkowa = new IfRowne(new Modulo(new Zmienna('k'),
+        Conditional warunkowa = new CondEqual(new Modulo(new Zmienna('k'),
                 new Zmienna('i')), new Literal(0));
         petal2.addIntruction(warunkowa);
         warunkowa.addIntruction(new Przypisanie('p', new Literal(0)));
 
-        InstrukcjaWarunkowa warunkowa2 = new IfRowne(new Zmienna('p'), new Literal(1));
+        Conditional warunkowa2 = new CondEqual(new Zmienna('p'), new Literal(1));
         wnetrzePetli.addIntruction(petal2);
         wnetrzePetli.addIntruction(warunkowa2);
         warunkowa2.addIntruction(new Print(new Zmienna('k')));

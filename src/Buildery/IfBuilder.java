@@ -4,28 +4,28 @@ import Instrukcje.*;
 import Wyrazenia.Expression;
 
 public class IfBuilder extends Builder{
-    protected InstrukcjaWarunkowa instrWar;
-    public IfBuilder(Builder zakresZewn, String warunek, Expression wyr1, Expression wyr2){
-        super(zakresZewn);
-        switch (warunek){
+    protected Conditional cond;
+    public IfBuilder(Builder outerScope, String condition, Expression exp1, Expression exp2){
+        super(outerScope);
+        switch (condition){
             case "<":
-                instrWar = new IfMniejsze(wyr1, wyr2);
+                cond = new CondLess(exp1, exp2);
                 break;
             case "==":
-                instrWar = new IfRowne(wyr1, wyr2);
+                cond = new CondEqual(exp1, exp2);
                 break;
             case ">":
-                instrWar = new IfWieksze(wyr1, wyr2);
+                cond = new CondGreater(exp1, exp2);
                 break;
             case "<=":
-                instrWar = new IfMniejszeRowne(wyr1, wyr2);
+                cond = new CondLessEq(exp1, exp2);
                 break;
             case ">=":
-                instrWar = new IfWiekszeRowne(wyr1, wyr2);
+                cond = new CondGreaterEq(exp1, exp2);
                 break;
         }
-        instructionNesting.peek().addIntruction(instrWar);
-        instructionNesting.push(instrWar);
+        instructionNesting.peek().addIntruction(cond);
+        instructionNesting.push(cond);
     }
 
     @Override

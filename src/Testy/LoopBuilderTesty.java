@@ -24,7 +24,7 @@ public class LoopBuilderTesty {
         Block wzor = new Block();
         wzor.addDeclaration('x', new Literal(7));
         wzor.addIntruction(new Przypisanie('x', new Literal(561)));
-        InstrukcjaWarunkowa warunkowa = new IfRowne(new Zmienna('x'), new Literal(1));
+        Conditional warunkowa = new CondEqual(new Zmienna('x'), new Literal(1));
         warunkowa.addIntruction(new Print(new Zmienna('x')));
         PetlaFor petla = new PetlaFor(wzor, 'k', new Literal(6));
         petla.addIntruction(warunkowa);

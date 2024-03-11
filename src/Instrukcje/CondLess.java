@@ -2,8 +2,8 @@ package Instrukcje;
 
 import Wyrazenia.Expression;
 
-public class IfMniejsze extends  InstrukcjaWarunkowa{
-    public IfMniejsze(Expression wyr1, Expression wyr2){
+public class CondLess extends Conditional {
+    public CondLess(Expression wyr1, Expression wyr2){
         super(wyr1, wyr2);
     }
     @Override

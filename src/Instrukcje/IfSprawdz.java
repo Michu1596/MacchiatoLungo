@@ -1,8 +1,8 @@
 package Instrukcje;
 
 public class IfSprawdz extends InstrukcjaPojedyncza{
-    final protected InstrukcjaWarunkowa doSprawdzenia;
-    public IfSprawdz(InstrukcjaWarunkowa instr){
+    final protected Conditional doSprawdzenia;
+    public IfSprawdz(Conditional instr){
         doSprawdzenia = instr;
     }
 
