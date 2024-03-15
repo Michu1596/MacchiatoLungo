@@ -4,9 +4,9 @@ import Instrukcje.Block;
 import Instrukcje.Procedure;
 import Instrukcje.ProcedureCall;
 import Wyjatki.MacchiatosError;
-import Wyjatki.NieprawidloweArgumentyProcedury;
+import Wyjatki.InvalidProcedureArgument;
 import Wyjatki.NiezadeklarowanaProcedura;
-import Wyjatki.NiezadeklarowanaZmienna;
+import Wyjatki.UndeclaredVariable;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ public class ProcedureCallTesty {
     public void procBezArg(){
         Procedure bezArg = new Procedure(block);
         block.addProcedure("procBezArg", bezArg);
-        assertThrows(NieprawidloweArgumentyProcedury.class, () -> new ProcedureCall("procBezArg",
+        assertThrows(InvalidProcedureArgument.class, () -> new ProcedureCall("procBezArg",
                                                     List.of(new Literal(25)), block));
     }
     @Test
@@ -52,12 +52,12 @@ public class ProcedureCallTesty {
         ProcedureCall wewnWyw = new ProcedureCall("proc",
                     List.of(new Variable('x'), new Variable('y')), wewn);
         wewn.addIntruction(wewnWyw);
-        assertDoesNotThrow(() -> block.wykonaj());
+        assertDoesNotThrow(() -> block.execute());
 
         ProcedureCall zewnWyw = new ProcedureCall("proc",
                 List.of(new Variable('x'), new Variable('y')), block);
         wewn.addIntruction(wewnWyw);
 
-        assertThrows(NiezadeklarowanaZmienna.class, () -> zewnWyw.wykonaj());
+        assertThrows(UndeclaredVariable.class, () -> zewnWyw.execute());
     }
 }

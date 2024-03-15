@@ -1,10 +1,10 @@
 package Wyrazenia;
 
-import Instrukcje.Wartosciowanie;
-import Wyjatki.BladWyrazenia;
+import Instrukcje.Scope;
+import Wyjatki.ExpressionError;
 
 public interface Expression {
-    int ewaluuj(Wartosciowanie wart) throws BladWyrazenia;
+    int evaluate(Scope wart) throws ExpressionError;
 
     @Override
     String toString();

@@ -5,7 +5,7 @@ import Wyrazenia.*;
 
 public class Debugger {
     static private int licznik = 0;
-    protected Instrukcja ktoraNastepna;
+    protected Instruction ktoraNastepna;
 
     public static void main(String[] args){
 
@@ -54,12 +54,12 @@ public class Debugger {
         }*/
         Debugger debugger = new Debugger();
         int i = 0;
-        InstrukcjaPojedyncza nast = program.nastepnaInstrukcjaPojedyncza(debugger);
+        SingleInstruction nast = program.nextSingleInstruction(debugger);
         while (nast != null && i < 1000){
-            nast.wykonaj();
+            nast.execute();
             //System.out.println(nast.toString());
             String nastepna2 = debugger.ktoraNastepna.toString();
-            nast = program.nastepnaInstrukcjaPojedyncza(debugger);
+            nast = program.nextSingleInstruction(debugger);
             //System.out.println("*************\n");
             i++;
         }
@@ -71,10 +71,10 @@ public class Debugger {
 
     }
 
-    public void setKtoraNastepna(Instrukcja nastepna){
+    public void setNextInstruction(Instruction nastepna){
         ktoraNastepna = nastepna;
     }
-    public Instrukcja getKtoraNastepna(){
+    public Instruction getNextInstruction(){
         return ktoraNastepna;
     }
 }

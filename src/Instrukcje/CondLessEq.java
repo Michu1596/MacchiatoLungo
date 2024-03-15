@@ -3,17 +3,17 @@ package Instrukcje;
 import Wyrazenia.Expression;
 
 public class CondLessEq extends Conditional {
-    public CondLessEq(Expression wyr1, Expression wyr2){
-        super(wyr1, wyr2);
+    public CondLessEq(Expression exp1, Expression exp2){
+        super(exp1, exp2);
     }
     @Override
-    protected void sprawdz(){
-        sprawdzonoWarunek = true;
-        warunekZaszedl = wyr1.ewaluuj(wartNadrzedne) <= wyr2.ewaluuj(wartNadrzedne);
+    protected void check(){
+        conditionChecked = true;
+        conditionOccurred = exp1.evaluate(parentScope) <= exp2.evaluate(parentScope);
     }
 
     @Override
     public String toString(){
-        return "IF( " + wyr1.toString() + " <= " + wyr2.toString() + " ){" + '\n' + instrukcje.toString()  + "}" + '\n';
+        return "IF( " + exp1.toString() + " <= " + exp2.toString() + " ){" + '\n' + instructions.toString()  + "}" + '\n';
     }
 }

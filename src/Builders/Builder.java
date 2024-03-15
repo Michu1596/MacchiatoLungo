@@ -15,7 +15,7 @@ import java.util.Stack;
  */
 public abstract class Builder {
     protected Stack<complexInstruction> instructionNesting; // represents the hierarchy of nested instructions
-    protected Stack<InstrukcjaZWartosciowaniem> scopesNesting; // represents the hierarchy of nested scopes
+    protected Stack<InstructionWithScope> scopesNesting; // represents the hierarchy of nested scopes
     protected Stack<Block> proceduresVisibilityNesting;
     protected Builder parent; //pole uzupelniane w momencie dodawania instrukcji zlozonej do jakiegos zakrsu
     // widocznosci; wartosc ta jest zwracana w momencie zamkniecia zakresu widocznosci.

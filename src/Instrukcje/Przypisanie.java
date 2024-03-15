@@ -3,30 +3,30 @@ package Instrukcje;
 import Wyjatki.MacchiatosError;
 import Wyrazenia.Expression;
 
-public class Przypisanie extends InstrukcjaPojedyncza{
-    final private char nazwa;
+public class Przypisanie extends SingleInstruction {
+    final private char name;
     private Expression expression;
-    public Przypisanie(char nazwa, Expression expression){
+    public Przypisanie(char name, Expression expression){
         super();
-        this.nazwa = nazwa;
+        this.name = name;
         this.expression = expression;
     }
 
     @Override
-    public void wykonaj(){
+    public void execute(){
         try {
-            wartNadrzedne.set(nazwa, expression.ewaluuj(wartNadrzedne));
+            parentScope.set(name, expression.evaluate(parentScope));
         }
         catch (MacchiatosError e){
-            e.blednaInstrukcja = this;
-            e.aktualneWartosciowanie = wartNadrzedne;
+            e.invalidInstruction = this;
+            e.currentValuation = parentScope;
             throw e;
         }
     }
 
     @Override
     public String toString(){
-        return "PRZYPISANIE: " + nazwa + " = " + expression.toString() + '\n';
+        return "ASSIGNMENT: " + name + " = " + expression.toString() + '\n';
     }
 
 }

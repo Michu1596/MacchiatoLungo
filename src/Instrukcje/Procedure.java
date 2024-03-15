@@ -1,6 +1,6 @@
 package Instrukcje;
 
-import KlasyPomocnicze.ZakresWidocznosciProcedur;
+import KlasyPomocnicze.ProcedureVisibilityScope;
 import Wyjatki.DoubleDeclaration;
 import Wykonanie.Debugger;
 import Wyrazenia.Expression;
@@ -8,122 +8,123 @@ import Wyrazenia.Expression;
 import java.util.*;
 
 /**
- * W momencie deklaracji procedury w bloku procedura zyskuje dostep do wartosciowania bloku. Co przeklada sie na to, ze
- * korzysta ze Statycznego wiazania zmiennych
+ * In the moment of declaration of a procedure in a block, the procedure gains access to the valuation of the block. This
+ * translates into the use of Static variable binding
  */
-public class Procedure extends InstrukcjaZWartosciowaniem{
-    protected Set<Character> argumenty; // sluzy do upewnienia sie ze nazwy argumentow, w deklaracji procedury,
-    // nie powtarzaja sie
-    protected Set<Character> zadklarowaneZmienne; // odpowiada zmiennym z ciagu deklaracji w procedurze; nie zaliczaja
-    //sie do nich zmienne o nazwach argumentow
-    protected List<Deklaracja> wartosciArgumentow; //deklaracje zmiennych odpowiadajacych argumentom znajdujace sie na
-    // poczatku listy instrukcji. z poczatku wyrazenie = null. Jest uzupelniane w momencie wywolania procedury
+public class Procedure extends InstructionWithScope {
+    protected Set<Character> args;    
+    // used to check if the same variable is not declared twice
+    protected Set<Character> declaredVariables;
+    // variables from the declaration sequence in the procedure; the arguments are not included
+    protected List<Declaration> argsValues;
+    // variable declarations corresponding to the arguments at the beginning of the instruction list. Initially, the
+    // expression is null. It is filled in when the procedure is called
 
-    protected ZakresWidocznosciProcedur proceduryWewnetrzne;
+    protected ProcedureVisibilityScope innerProcedures;
 
     /**
-     * Procedura musi znajdowac sie w jakims bloku i wymaga informacji o nim
-     * @param zakresZewnetrzny zakres widocznosci w ktorym zadeklarowana jest procedura
-     * @param argumenty tablica char zawierajace podane w kolejnosci nazwy argumentow
+     * Procedure has to be inside a block and requires information about it
+     * @param outerScope visibility scope in which the procedure is declared
+     * @param args sequence of variables that are the arguments of the procedure
      */
-    public Procedure(InstrukcjaZWartosciowaniem zakresZewnetrzny, char argumenty[]){
-        super(zakresZewnetrzny.wartWewnetrzne);
-        this.argumenty = new LinkedHashSet<Character>(); //pragniemy zachowac porzadek dodawania elementow
-        this.wartosciArgumentow = new ArrayList<Deklaracja>();
-        zadklarowaneZmienne = new HashSet<Character>();
+    public Procedure(InstructionWithScope outerScope, char args[]){
+        super(outerScope.innerScope);
+        this.args = new LinkedHashSet<Character>(); // we want to keep the order of adding elements
+        this.argsValues = new ArrayList<Declaration>();
+        declaredVariables = new HashSet<Character>();
 
-        // jak rowniez zagwarantowac to ze sie nie powtorza
-        for (char arg : argumenty) {
-            if(this.argumenty.contains(arg))
+        // we want to make sure that the same variable is not declared twice
+        for (char arg : args) {
+            if(this.args.contains(arg))
                 throw new DoubleDeclaration(arg);
-            this.argumenty.add(arg);
-            Deklaracja dekl = new Deklaracja(arg, null); //przy konstrukcji obiektu dajemy tu nulla,
-            //podmieniamy na prawdziwe wyrazenie w momencie wywolania procedury
-            wartosciArgumentow.add(dekl);
-            dekl.wartNadrzedne = wartWewnetrzne;
-            instrukcje.dodajInstrukcje(dekl);
-            this.argumenty.add(arg);
+            this.args.add(arg);
+            Declaration declaration = new Declaration(arg, null);
+            // null is replaced by the actual expression when the procedure is called
+            argsValues.add(declaration);
+            declaration.parentScope = innerScope;
+            instructions.addInstruction(declaration);
+            this.args.add(arg);
         }
 
     }
 
     /**
-     * konstruktor procedury bezparametrowej
-     * @param zakresZewnetrzny  zakres widocznosci w ktorym zadeklarowana jest procedura
+     * parameterless procedure constructor
+     * @param outerScope  visibility scope in which the procedure is declared
      */
-    public Procedure(InstrukcjaZWartosciowaniem zakresZewnetrzny){
-        super(zakresZewnetrzny.wartWewnetrzne);
-        this.argumenty = new LinkedHashSet<Character>(); //pragniemy zachowac porzadek dodawania elementow
-        this.wartosciArgumentow = new ArrayList<Deklaracja>();
-        zadklarowaneZmienne = new HashSet<Character>();
+    public Procedure(InstructionWithScope outerScope){
+        super(outerScope.innerScope);
+        this.args = new LinkedHashSet<Character>(); //we want to keep the order of adding elements
+        this.argsValues = new ArrayList<Declaration>();
+        declaredVariables = new HashSet<Character>();
 
 
     }
 
     /**
-     * Przekazanie argumentow do procedury nastepuje w ten sposob, ze w momencie wywolania podajemy porcedurze
-     * liste literalow, ktore sa wynikiem ewaluacji wyrazen w miejscu wywolania procedury.
-     * @param wyrazenia Lista wyrazen podanych w kolejnosci wystepowania argumentow
+     * Passing arguments to the procedure is done by providing the procedure with a list of literals, which are the
+     * result of evaluating expressions at the moment of calling the procedure.
+     * @param expressions list of expressions to be passed as arguments
      */
-    public void ustawArgumenty(List<Expression> wyrazenia){
-        Iterator<Expression> wyrazenieZWywolania = wyrazenia.iterator();
-        Iterator<Deklaracja> deklaracjaArgumentu = wartosciArgumentow.iterator();
-        while (deklaracjaArgumentu.hasNext()){
-            Deklaracja argument = deklaracjaArgumentu.next();
-            argument.setWyrazenie(wyrazenieZWywolania.next());
-            argument.widocznoscProcedur = widocznoscProcedur;
+    public void setArguments(List<Expression> expressions){
+        Iterator<Expression> expressionIterator = expressions.iterator();
+        Iterator<Declaration> argumentDeclaration = argsValues.iterator();
+        while (argumentDeclaration.hasNext()){
+            Declaration argument = argumentDeclaration.next();
+            argument.setExpression(expressionIterator.next());
+            argument.procedureVisibilityScope = procedureVisibilityScope;
         }
     }
 
     /**
-     * nalezy pamietac by te metode wywolywac przed dodaniem jakichkolwiek instrukcji
-     * @param zmienna
-     * @param wartosc
+     * this method should be called before adding any instructions
+     * @param variableName
+     * @param value
      */
-    public void addVariable(char zmienna, Expression wartosc){
-        if(zadklarowaneZmienne.contains(zmienna))
-            throw new DoubleDeclaration(zmienna);
-        zadklarowaneZmienne.add(zmienna);
-        Deklaracja dekl = new Deklaracja(zmienna, wartosc);
-        dekl.wartNadrzedne = wartWewnetrzne;
-        instrukcje.dodajInstrukcje(dekl);
+    public void addVariable(char variableName, Expression value){
+        if(declaredVariables.contains(variableName))
+            throw new DoubleDeclaration(variableName);
+        declaredVariables.add(variableName);
+        Declaration declaration = new Declaration(variableName, value);
+        declaration.parentScope = innerScope;
+        instructions.addInstruction(declaration);
     }
 
-    public void dodajProcedure(String nazwaProcedury, Procedure procedure){
-        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedure); //obsluga po2jnej deklaracji znajduje sie
-        // w tej metodzie
-        procedure.widocznoscProcedur = proceduryWewnetrzne;
+    public void addProcedure(String procedureNAme, Procedure procedure){
+        innerProcedures.declareProcedure(procedureNAme, procedure);
+        // double declaration is handled in this method
+        procedure.procedureVisibilityScope = innerProcedures;
     }
 
     /**
-     * metoda przydatna do wypisywania naglowka porcedury. drukuje liste parametrow
-     * @return jednoliterowe nazwy zmiennych bedace parametrami
+     * method useful for printing the header of the procedure. It prints the list of parameters
+     * @return one-letter names of the parameters
      */
-    public String getArgumenty(){
-        return argumenty.toString();
+    public String getArgs(){
+        return args.toString();
     }
 
-    public int getLiczbaPArametrow(){
-        return argumenty.size();
+    public int getNumberOfParameters(){
+        return args.size();
     }
 
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        return instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
+    public SingleInstruction nextSingleInstruction(Debugger debugger){
+        return instructions.nextSingleInstruction(debugger);
     }
     @Override
-    public Instrukcja nastepnaInstrukcja(){
-        return instrukcje.nastepnaInstrukcja();
+    public Instruction nextInstruction(){
+        return instructions.nextInstruction();
     }
     @Override
-    public void wykonaj(){
-        instrukcje.wykonaj();
+    public void execute(){
+        instructions.execute();
     }
     @Override
     public String toString(){
-        if(argumenty != null)
-            return getArgumenty() + '\n' + instrukcje.toString();
+        if(args != null)
+            return getArgs() + '\n' + instructions.toString();
         else
-            return instrukcje.toString();
+            return instructions.toString();
     }
 }

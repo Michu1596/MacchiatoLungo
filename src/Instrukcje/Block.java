@@ -1,74 +1,74 @@
 package Instrukcje;
 
-import KlasyPomocnicze.ZakresWidocznosciProcedur;
+import KlasyPomocnicze.ProcedureVisibilityScope;
 import Wykonanie.Debugger;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Expression;
 
 import java.util.*;
 
-public class Block extends InstrukcjaZWartosciowaniem{
-    private Set<Character> zadklarowaneZmienne;
-    protected ZakresWidocznosciProcedur proceduryWewnetrzne;
+public class Block extends InstructionWithScope {
+    private Set<Character> declaredVariables;
+    protected ProcedureVisibilityScope innerProcedures;
     public Block(){
-        super(); //tworzy nowe wartosciowanie
-        proceduryWewnetrzne = new ZakresWidocznosciProcedur();
-        zadklarowaneZmienne = new HashSet<>();
+        super(); // makes new scope
+        innerProcedures = new ProcedureVisibilityScope();
+        declaredVariables = new HashSet<>();
     }
-    public Block(InstrukcjaZWartosciowaniem instr){ // blok zagnieżdżony
-        super(instr.wartWewnetrzne); //przyslania zmienne
-        zadklarowaneZmienne = new HashSet<>();
-        proceduryWewnetrzne = new ZakresWidocznosciProcedur();
-    }
-
-    //metoda potrzebna do tworzenia bloku bezposrednio zagniezdzonego w innym bloku
-    public void connectOuterBlock(Block instr){ // blok jako Instrukcja Z Deklaracjami Procedur
-        proceduryWewnetrzne = new ZakresWidocznosciProcedur(instr.proceduryWewnetrzne);
-    }
-    public void addDeclaration(char zmienna, Expression wartosc){
-        if(zadklarowaneZmienne.contains(zmienna))
-            throw new DoubleDeclaration(zmienna);
-        zadklarowaneZmienne.add(zmienna);
-        Deklaracja dekl = new Deklaracja(zmienna, wartosc);
-        dekl.wartNadrzedne = wartWewnetrzne;
-        instrukcje.dodajInstrukcje(dekl);
+    public Block(InstructionWithScope instr){ // nested block
+        super(instr.innerScope); // shadowing variables
+        declaredVariables = new HashSet<>();
+        innerProcedures = new ProcedureVisibilityScope();
     }
 
-    public void addProcedure(String nazwaProcedury, Procedure procedure){
-        proceduryWewnetrzne.deklarujProcedure(nazwaProcedury, procedure); //obsluga po2jnej deklaracji znajduje sie
-        // w tej metodzie
-        procedure.widocznoscProcedur = proceduryWewnetrzne;
+    // method needed to create a block directly nested in another block
+    public void connectOuterBlock(Block instr){ // block as instruction with scope
+        innerProcedures = new ProcedureVisibilityScope(instr.innerProcedures);
     }
-    @Override
-    public Procedure getProcedura(String nazwa){
-        return proceduryWewnetrzne.get(nazwa);
-    }
-    @Override
-    public void wykonaj() {
-        instrukcje.wykonaj();
+    public void addDeclaration(char variableName, Expression exp){
+        if(declaredVariables.contains(variableName))
+            throw new DoubleDeclaration(variableName);
+        declaredVariables.add(variableName);
+        Declaration declaration = new Declaration(variableName, exp);
+        declaration.parentScope = innerScope;
+        instructions.addInstruction(declaration);
     }
 
+    public void addProcedure(String procedureName, Procedure procedure){
+        innerProcedures.declareProcedure(procedureName, procedure);
+        // double declaration handling is in this method
+        procedure.procedureVisibilityScope = innerProcedures;
+    }
     @Override
-    public Instrukcja nastepnaInstrukcja(){
-        return instrukcje.nastepnaInstrukcja();
+    public Procedure getProcedure(String name){
+        return innerProcedures.get(name);
+    }
+    @Override
+    public void execute() {
+        instructions.execute();
     }
 
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        return instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
+    public Instruction nextInstruction(){
+        return instructions.nextInstruction();
+    }
+
+    @Override
+    public SingleInstruction nextSingleInstruction(Debugger debugger){
+        return instructions.nextSingleInstruction(debugger);
     }
     @Override
-    public void addIntruction(Instrukcja instr){
-        instr.wartNadrzedne = wartWewnetrzne; //
-        instr.widocznoscProcedur = proceduryWewnetrzne;
-        instrukcje.dodajInstrukcje(instr);
+    public void addIntruction(Instruction instr){
+        instr.parentScope = innerScope; //
+        instr.procedureVisibilityScope = innerProcedures;
+        instructions.addInstruction(instr);
     }
     @Override
-    public ZakresWidocznosciProcedur getWidocznoscProcedur() {
-        return proceduryWewnetrzne;
+    public ProcedureVisibilityScope getProcedureVisibilityScope() {
+        return innerProcedures;
     }
     @Override
     public String toString(){
-        return "BLOK: { " + '\n' + instrukcje.toString() + '}' + '\n';
+        return "BLOCK: { " + '\n' + instructions.toString() + '}' + '\n';
     }
 }

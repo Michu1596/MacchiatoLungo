@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Wartosciowanie;
+import Instrukcje.Scope;
 
 public class Subtraction implements Expression {
     private Expression wyr1;
@@ -10,8 +10,8 @@ public class Subtraction implements Expression {
         this.wyr2 = wyr2;
     }
     @Override
-    public int ewaluuj(Wartosciowanie wart){
-        return wyr1.ewaluuj(wart) - wyr2.ewaluuj(wart);
+    public int evaluate(Scope wart){
+        return wyr1.evaluate(wart) - wyr2.evaluate(wart);
     }
 
     @Override

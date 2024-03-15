@@ -7,19 +7,19 @@ import Wyjatki.PodwojnaDeklaracjaProcedury;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ZakresWidocznosciProcedur {
-    protected ZakresWidocznosciProcedur nadrzedny;
+public class ProcedureVisibilityScope {
+    protected ProcedureVisibilityScope nadrzedny;
     protected Map<String, Procedure> procedury;
 
-    public ZakresWidocznosciProcedur(){
+    public ProcedureVisibilityScope(){
         procedury = new HashMap<String, Procedure>();
     }
-    public ZakresWidocznosciProcedur(ZakresWidocznosciProcedur nadrzedny){
+    public ProcedureVisibilityScope(ProcedureVisibilityScope nadrzedny){
         procedury = new HashMap<String, Procedure>();
         this.nadrzedny = nadrzedny;
     }
 
-    public void deklarujProcedure(String nazwaProcedury, Procedure procedure){
+    public void declareProcedure(String nazwaProcedury, Procedure procedure){
         if (procedury.containsKey(nazwaProcedury))
             throw new PodwojnaDeklaracjaProcedury(nazwaProcedury);
         else {
@@ -47,7 +47,7 @@ public class ZakresWidocznosciProcedur {
     public String toString(){
         String wynik ="";
         for (Map.Entry<String, Procedure> para : procedury.entrySet())
-            wynik += para.getKey() + "( " + para.getValue().getArgumenty() + " )" + '\n';
+            wynik += para.getKey() + "( " + para.getValue().getArgs() + " )" + '\n';
 
         return wynik;
     }

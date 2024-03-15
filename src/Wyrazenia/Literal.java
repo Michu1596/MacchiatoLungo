@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Wartosciowanie;
+import Instrukcje.Scope;
 
 public class Literal implements Expression {
     final private int wartosc;
@@ -8,7 +8,7 @@ public class Literal implements Expression {
         this.wartosc = wartosc;
     }
     @Override
-    public int ewaluuj(Wartosciowanie wart){
+    public int evaluate(Scope wart){
         return wartosc;
     }
     public int ewaluuj(){

@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Wartosciowanie;
+import Instrukcje.Scope;
 
 public class Variable implements Expression {
     final private char nazwaZmiennej;
@@ -8,7 +8,7 @@ public class Variable implements Expression {
         this.nazwaZmiennej = nazwaZmiennej;
     }
     @Override
-    public int ewaluuj(Wartosciowanie wart){
+    public int evaluate(Scope wart){
         return wart.get(nazwaZmiennej);
     }
     @Override

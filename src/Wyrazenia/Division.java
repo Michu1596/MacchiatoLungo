@@ -1,7 +1,7 @@
 package Wyrazenia;
 
-import Instrukcje.Wartosciowanie;
-import Wyjatki.BladWyrazenia;
+import Instrukcje.Scope;
+import Wyjatki.ExpressionError;
 
 public class Division implements Expression {
     private Expression wyr1;
@@ -11,10 +11,10 @@ public class Division implements Expression {
         this.wyr2 = wyr2;
     }
     @Override
-    public int ewaluuj(Wartosciowanie wart){
-        if(wyr2.ewaluuj(wart) == 0)
-            throw new BladWyrazenia("Proba podznielenia przez zero");
-        return wyr1.ewaluuj(wart) / wyr2.ewaluuj(wart);
+    public int evaluate(Scope wart){
+        if(wyr2.evaluate(wart) == 0)
+            throw new ExpressionError("Proba podznielenia przez zero");
+        return wyr1.evaluate(wart) / wyr2.evaluate(wart);
     }
 
     @Override

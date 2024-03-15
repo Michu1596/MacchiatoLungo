@@ -2,18 +2,18 @@ package Instrukcje;
 
 import Wyrazenia.Expression;
 
-public class Print extends InstrukcjaPojedyncza{
-    private Expression wyr1;
-    public Print(Expression wyr1){
+public class Print extends SingleInstruction {
+    private Expression exp1;
+    public Print(Expression exp1){
         super();
-        this.wyr1 = wyr1;
+        this.exp1 = exp1;
     }
     @Override
-    public void wykonaj(){
-        System.out.println(wyr1.ewaluuj(wartNadrzedne));
+    public void execute(){
+        System.out.println(exp1.evaluate(parentScope));
     }
     @Override
     public String toString(){
-        return "PRINT( " + wyr1.toString() + " )" + '\n';
+        return "PRINT( " + exp1.toString() + " )" + '\n';
     }
 }

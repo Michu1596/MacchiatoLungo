@@ -4,51 +4,51 @@ import Wykonanie.Debugger;
 import Wyrazenia.Literal;
 import Wyrazenia.Expression;
 
-public class ForLoop extends InstrukcjaZWartosciowaniem{
-    private Deklaracja deklaracja;
+public class ForLoop extends InstructionWithScope {
+    private Declaration declaration;
     protected Expression expression;
-    protected int powtorzenia;
-    private int licznikPetli;
-    private boolean zainicjowano;
-    final private char nazwaZmiennej;
-    public ForLoop(InstrukcjaZWartosciowaniem instr, char nazwaZmiennej, Expression expression){
-        // zakladam że petla musi byc w bloku albo innej petli
-        super(instr.wartWewnetrzne); // przyslaniecie zmiennych
-        zainicjowano = false;
-        licznikPetli = 0;
-        this.nazwaZmiennej = nazwaZmiennej;
-        this.deklaracja = new Deklaracja(nazwaZmiennej, new Literal(0)); // zaczyanmy od 0
-        this.deklaracja.wartNadrzedne = wartWewnetrzne;
+    protected int repetitions;
+    private int loopCounter;
+    private boolean initialized;
+    final private char variableName;
+    public ForLoop(InstructionWithScope instr, char variableName, Expression expression){
+        // assumption: loop has to be inside a block or another loop
+        super(instr.innerScope); // shadowing the parent scope
+        initialized = false;
+        loopCounter = 0;
+        this.variableName = variableName;
+        this.declaration = new Declaration(variableName, new Literal(0)); // start from 0
+        this.declaration.parentScope = innerScope;
         this.expression = expression;
     }
 
     @Override
-    public void wykonaj(){
-        powtorzenia = expression.ewaluuj(wartWewnetrzne);
-        deklaracja.wykonaj();
-        for (int i = 0; i<powtorzenia; i++){
-            wartWewnetrzne.set(nazwaZmiennej, i);
-            instrukcje.wykonaj();
-            licznikPetli++;
+    public void execute(){
+        repetitions = expression.evaluate(innerScope);
+        declaration.execute();
+        for (int i = 0; i< repetitions; i++){
+            innerScope.set(variableName, i);
+            instructions.execute();
+            loopCounter++;
         }
     }
 
     @Override
-    public Instrukcja nastepnaInstrukcja(){
-        if(zainicjowano == false){
-            zainicjowano = true;
-            powtorzenia = expression.ewaluuj(wartWewnetrzne);
-            return  deklaracja;
+    public Instruction nextInstruction(){
+        if(initialized == false){
+            initialized = true;
+            repetitions = expression.evaluate(innerScope);
+            return declaration;
         }
-        if(licznikPetli < powtorzenia) {
-            Instrukcja nastepna = instrukcje.nastepnaInstrukcja();
-            if (nastepna == null) { // doszlismy do konca
-                licznikPetli++;
-                instrukcje.zeruj();
-                return instrukcje.nastepnaInstrukcja();
+        if(loopCounter < repetitions) {
+            Instruction next = instructions.nextInstruction();
+            if (next == null) { // we actually reached the end of the loop
+                loopCounter++;
+                instructions.reset();
+                return instructions.nextInstruction();
             }
             else
-                return nastepna;
+                return next;
         }
         else
             return null;
@@ -56,39 +56,37 @@ public class ForLoop extends InstrukcjaZWartosciowaniem{
 
 
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        if(zainicjowano == false){
-            zainicjowano = true;
-            powtorzenia = expression.ewaluuj(wartWewnetrzne);
-            debugger.setKtoraNastepna(instrukcje.pierwszaInstrukcja());
-            return  deklaracja;
+    public SingleInstruction nextSingleInstruction(Debugger debugger){
+        if(initialized == false){
+            initialized = true;
+            repetitions = expression.evaluate(innerScope);
+            debugger.setNextInstruction(instructions.firstInstruction());
+            return declaration;
         }
-        if(licznikPetli < powtorzenia) {
-            //zabezpiecznie na wypadek null
-            InstrukcjaPojedyncza nastepna = instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
-            if(nastepna == null) {
-                licznikPetli++;
-                if(licznikPetli < powtorzenia)
-                    wartWewnetrzne.set(nazwaZmiennej, licznikPetli); // ustawienie zmiennej to nie instrukcja
-                instrukcje.zeruj();
-                return nastepnaInstrukcjaPojedyncza(debugger);
+        if(loopCounter < repetitions) {
+            SingleInstruction next = instructions.nextSingleInstruction(debugger);
+            if(next == null) {
+                loopCounter++;
+                if(loopCounter < repetitions)
+                    innerScope.set(variableName, loopCounter); // setting the variable is not a part of the loop
+                instructions.reset();
+                return nextSingleInstruction(debugger);
             }
-            if(debugger.getKtoraNastepna() == null){
-                debugger.setKtoraNastepna(instrukcje.pierwszaInstrukcja());
+            if(debugger.getNextInstruction() == null){
+                debugger.setNextInstruction(instructions.firstInstruction());
             }
-            return nastepna;
+            return next;
         }
         else{
-            zainicjowano = false; // resetujemy petle
-            //policzonoWyrazenie = false;
-            licznikPetli = 0;
+            initialized = false; // loop reset
+            loopCounter = 0;
             return null;
         }
     }
 
     @Override
     public String toString(){
-        return "FOR: " + nazwaZmiennej + " " + expression.toString()  + "{" + '\n' + instrukcje.toString() + "}" + '\n';
+        return "FOR: " + variableName + " " + expression.toString()  + "{" + '\n' + instructions.toString() + "}" + '\n';
     }
 
 }

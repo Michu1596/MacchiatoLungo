@@ -1,7 +1,7 @@
 package Instrukcje;
 
 
-import Wyjatki.NieprawidloweArgumentyProcedury;
+import Wyjatki.InvalidProcedureArgument;
 import Wykonanie.Debugger;
 import Wyrazenia.Literal;
 import Wyrazenia.Expression;
@@ -11,79 +11,81 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Debugger natrafiajac na instrukcje WywolanieProcedury od razu wchodzi do wnetrza procedury i uzyskuje dostep do
- * wartosciociowania widocznego w bloku w ktorym procedura zostala zadeklarowana
+ * When debugger encounters a ProcedureCall instruction, it immediately enters the procedure and gains access to the
+ * valuation visible in the block in which the procedure was declared
  */
 public class ProcedureCall extends complexInstruction {
-    protected String nazwaProcedury;
-    protected List<Expression> argumenty;
+    protected String procedureName;
+    protected List<Expression> arguments;
     protected Procedure procedure;
-    protected boolean zainicjalizowano; // uzywane przy debugowaniu. jesli wartosc jest nieustawiona a nastapilo
-    // wywolanie to nalezy przekazac procedure argumenty
+    protected boolean initialized;
+    // used during debugging. If the value is not set and a call occurs, the procedure should be passed the arguments
+
 
     /**
-     * Instrukcja WywolanieProcedury w momencie tworzenia musi wiedziec czy metoda dostepna jest w jej zakresie
-     * @param nazwa nazwa procedury
-     * @param argumenty lista wyrazen podanych w kolejnosci wystepowania argumentow
-     * @param zakres mowi o tym w zakresie Jakiej innej instrukcji znajduje sie wywowalnie
+     *  Instruction ProcedureCall has to know if the procedure is available in its scope
+     * @param procedureName procedure name
+     * @param arguments list of expressions that are the arguments of the procedure
+     * @param scope in which instruction's scope the procedure is declared
      */
-    public ProcedureCall(String nazwa, List<Expression> argumenty, complexInstruction zakres){
-        zainicjalizowano = false;
-        nazwaProcedury = nazwa;
-        procedure = zakres.getProcedura(nazwa);
-        if (procedure.getLiczbaPArametrow() != argumenty.size())
-            throw new NieprawidloweArgumentyProcedury();
-        this.argumenty = argumenty;
+    public ProcedureCall(String procedureName, List<Expression> arguments, complexInstruction scope){
+        initialized = false;
+        this.procedureName = procedureName;
+        procedure = scope.getProcedure(procedureName);
+        if (procedure.getNumberOfParameters() != arguments.size())
+            throw new InvalidProcedureArgument();
+        this.arguments = arguments;
     }
-    public ProcedureCall(String nazwa, complexInstruction zakres){
-        zainicjalizowano = false;
-        nazwaProcedury = nazwa;
-        procedure = zakres.getProcedura(nazwa);
-        if (procedure.getLiczbaPArametrow() != 0)
-            throw new NieprawidloweArgumentyProcedury();
+    public ProcedureCall(String procedureName, complexInstruction scope){
+        initialized = false;
+        this.procedureName = procedureName;
+        procedure = scope.getProcedure(procedureName);
+        if (procedure.getNumberOfParameters() != 0)
+            throw new InvalidProcedureArgument();
     }
 
     /**
-     * metoda dajaca dostep do nastepnej instrukcji w procedurze. W momencie wywolania inicjalizuje wartosci argumentow
-     * procedury. Wylicza ich wartosci i tworzy liste Literalow ktora zostaje przekazana procedurze. Dzieje sie tak
-     * poniewaz chcemy przekazac procedurze argumenty przez wartosc i potrzebujemy mechanizmu wymuszajacego ich
-     * kopiowanie.
+     * method giving access to the next instruction in the procedure. At the time of calling, it initializes the values
+     * of the procedure's arguments. It calculates their values and creates a list of Literals that is passed to the
+     * procedure. This is done because we want to pass the procedure arguments by value and we need a mechanism to force
+     * their copying.
+     *
      * @param debugger
      * @return
      */
 
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        if(!zainicjalizowano){
-            List<Expression> wartosciWyrazen = new ArrayList<>();
-            for(Expression expression : argumenty) // tworzy liste literalow zawierajacych wartosci wyrazen obliczone
-                                                 // w miejscu wywolania procedury
-                wartosciWyrazen.add(new Literal(expression.ewaluuj(wartNadrzedne)));
-            procedure.ustawArgumenty(wartosciWyrazen);
+    public SingleInstruction nextSingleInstruction(Debugger debugger){
+        if(!initialized){
+            List<Expression> expressionsValues = new ArrayList<>();
+            for(Expression expression : arguments)
+                // makes a list of literals containing the values of the expressions calculated at the time of the call
+                expressionsValues.add(new Literal(expression.evaluate(parentScope)));
+            procedure.setArguments(expressionsValues);
         }
-        Instrukcja nastepnaInst = debugger.getKtoraNastepna();
-        InstrukcjaPojedyncza instr = procedure.nastepnaInstrukcjaPojedyncza(debugger);
-        if(debugger.getKtoraNastepna() == null) // jesli dojdziemy do konca procedury to nastepna instrukcja to ta ktora
-                                                // znajduje sie po wywolaniu
-            debugger.setKtoraNastepna(nastepnaInst);
-        if(instr == null)                       //jesli dojdzeimy do konca wykonania to aczynamy od poczatku
-            zainicjalizowano = false;
+        Instruction nextInstruction = debugger.getNextInstruction();
+        SingleInstruction instr = procedure.nextSingleInstruction(debugger);
+        if(debugger.getNextInstruction() == null)
+            // if we reach the end of the procedure, the next instruction is the one that follows the call
+            debugger.setNextInstruction(nextInstruction);
+        if(instr == null) // if we reach the end of the procedure, we start from the beginning
+            initialized = false;
         return instr;
     }
     @Override
-    public Instrukcja nastepnaInstrukcja(){
-        return instrukcje.nastepnaInstrukcja();
+    public Instruction nextInstruction(){
+        return instructions.nextInstruction();
     }
     @Override
-    public void wykonaj(){
-        procedure.ustawArgumenty(argumenty);
-        procedure.wykonaj();
+    public void execute(){
+        procedure.setArguments(arguments);
+        procedure.execute();
     }
     @Override
     public String toString(){
-        if (argumenty != null)
-            return nazwaProcedury + "( " + argumenty.toString() + " )";
+        if (arguments != null)
+            return procedureName + "( " + arguments.toString() + " )";
         else
-            return nazwaProcedury + "()\n";
+            return procedureName + "()\n";
     }
 }

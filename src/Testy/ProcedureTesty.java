@@ -34,7 +34,7 @@ public class ProcedureTesty {
     @Test
     public void zmienne(){
         Procedure proc = new Procedure(block, arg);
-        assertEquals("[a, b, c]", proc.getArgumenty());
+        assertEquals("[a, b, c]", proc.getArgs());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ProcedureTesty {
     @Test
     public void ustawArgumenty(){
         Procedure proc = new Procedure(block, arg);
-        proc.ustawArgumenty( List.of(new Literal(123), new Literal(456), new Literal(789)));
+        proc.setArguments( List.of(new Literal(123), new Literal(456), new Literal(789)));
         assertEquals("[a, b, c]\n" +
                 "DEKLARACJA: a = 123\n" +
                 "DEKLARACJA: b = 456\n" +
@@ -72,7 +72,7 @@ public class ProcedureTesty {
                 List.of(new Literal(123), new Literal(456), new Literal(789)),
                 block));
 
-        assertDoesNotThrow(() -> block.wykonaj()); //mozna zadeklarowac w procedurze zmiennej o tej samej nazwei co
+        assertDoesNotThrow(() -> block.execute()); //mozna zadeklarowac w procedurze zmiennej o tej samej nazwei co
         // argument
     }
 

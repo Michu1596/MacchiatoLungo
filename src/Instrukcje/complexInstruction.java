@@ -1,21 +1,18 @@
 package Instrukcje;
 
-public abstract class complexInstruction extends Instrukcja{
-    protected SekwencjaInstrukcji instrukcje;
+public abstract class complexInstruction extends Instruction {
+    protected InstructionsSequence instructions;
 
     protected complexInstruction(){
-        instrukcje = new SekwencjaInstrukcji();
+        instructions = new InstructionsSequence();
     }
 
-    /*public InstrukcjaZlozona(InstrukcjaZlozona nadrzedna){
-        widocznoscProcedur = nadrzedna.widocznoscProcedur;
-    }*/
-    public Procedure getProcedura(String nazwa){
-        return widocznoscProcedur.get(nazwa);
+    public Procedure getProcedure(String nazwa){
+        return procedureVisibilityScope.get(nazwa);
     }
-    public void addIntruction(Instrukcja instr){
-        instr.wartNadrzedne = wartNadrzedne;
-        instr.widocznoscProcedur = widocznoscProcedur;
-        instrukcje.dodajInstrukcje(instr);
+    public void addIntruction(Instruction instr){
+        instr.parentScope = parentScope;
+        instr.procedureVisibilityScope = procedureVisibilityScope;
+        instructions.addInstruction(instr);
     }
 }

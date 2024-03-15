@@ -2,37 +2,37 @@ package Wykonanie;
 import java.io.PrintWriter;
 import java.util.*;
 
-import Instrukcje.Instrukcja;
-import Instrukcje.InstrukcjaPojedyncza;
-import Instrukcje.Wartosciowanie;
-import KlasyPomocnicze.ZakresWidocznosciProcedur;
+import Instrukcje.Instruction;
+import Instrukcje.SingleInstruction;
+import Instrukcje.Scope;
+import KlasyPomocnicze.ProcedureVisibilityScope;
 import Wyjatki.MacchiatosError;
 
 public class Program {
-    protected Instrukcja program;
-    protected InstrukcjaPojedyncza nastepnaPojedyncza;
-    public Program(Instrukcja program){
+    protected Instruction program;
+    protected SingleInstruction nastepnaPojedyncza;
+    public Program(Instruction program){
         this.program = program;
     }
 
     public void wykonanieBezDebugowania(){
 
         try {
-            program.wykonaj();
+            program.execute();
         }
         catch (MacchiatosError e){
             System.out.println("Napotkano blad: " + e.getClass() + e);
         }
     }
 
-    protected void cont(Instrukcja nast, Debugger debugger){
+    protected void cont(Instruction nast, Debugger debugger){
         if(nast == null){
             System.out.println("Program skończył się");
             return;
         }
         while (nast != null){
-            nast.wykonaj();
-            nast = program.nastepnaInstrukcjaPojedyncza(debugger);
+            nast.execute();
+            nast = program.nextSingleInstruction(debugger);
         }
 
     }
@@ -41,10 +41,10 @@ public class Program {
         Debugger poprzedniDebugger = new Debugger();
         while (i < ile && nastepnaPojedyncza != null){
             try {
-                nastepnaPojedyncza.wykonaj();
+                nastepnaPojedyncza.execute();
                 // zapisujemy stan nastepnej instrukcji zeby ja wyswitlic, a nie nastena nastepna instrukcje
-                poprzedniDebugger.setKtoraNastepna(debugger.getKtoraNastepna());
-                nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debugger);
+                poprzedniDebugger.setNextInstruction(debugger.getNextInstruction());
+                nastepnaPojedyncza = program.nextSingleInstruction(debugger);
                 i++;
             }
             catch (MacchiatosError e){
@@ -58,13 +58,13 @@ public class Program {
             return false;
         }
         System.out.println("Nastepna instrukcja:");
-        System.out.println(poprzedniDebugger.getKtoraNastepna().toString());
+        System.out.println(poprzedniDebugger.getNextInstruction().toString());
         return true;
     }
     public void wykonajZDebugowaniem(){
         Debugger debug = new Debugger();
         Scanner sc= new Scanner(System.in);
-        nastepnaPojedyncza = program.nastepnaInstrukcjaPojedyncza(debug);
+        nastepnaPojedyncza = program.nextSingleInstruction(debug);
 
         boolean petla = true;
         while (petla) {
@@ -84,7 +84,7 @@ public class Program {
                 case 'd': {
                     komenda = komenda.substring(1);
                     komenda = komenda.trim(); // wycinamy spacje
-                    Wartosciowanie doWyswitlenia = nastepnaPojedyncza.display(Integer.parseInt(komenda));
+                    Scope doWyswitlenia = nastepnaPojedyncza.display(Integer.parseInt(komenda));
                     if(doWyswitlenia == null){
                         System.out.println("Za duzy parametr dla komendy d");
                     }
@@ -107,8 +107,8 @@ public class Program {
                     try (PrintWriter plikWy = new PrintWriter(nazwaPlikuWy, "UTF-8")
                     )
                     {
-                        Wartosciowanie doWyswietlenia = nastepnaPojedyncza.display(0);
-                        ZakresWidocznosciProcedur procedury = nastepnaPojedyncza.getWidocznoscProcedur();
+                        Scope doWyswietlenia = nastepnaPojedyncza.display(0);
+                        ProcedureVisibilityScope procedury = nastepnaPojedyncza.getProcedureVisibilityScope();
                         if(procedury != null)
                             plikWy.println(doWyswietlenia.toString() + '\n' + procedury.toString());
                         else

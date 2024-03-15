@@ -4,66 +4,66 @@ import Wykonanie.Debugger;
 import Wyrazenia.Expression;
 
 public abstract class Conditional extends complexInstruction {
-    protected Expression wyr1;
-    protected Expression wyr2;
-    protected boolean sprawdzonoWarunek;
-    protected boolean warunekZaszedl;
-    protected SekwencjaInstrukcji wPrzeciwnymWypadku;
+    protected Expression exp1;
+    protected Expression exp2;
+    protected boolean conditionChecked;
+    protected boolean conditionOccurred;
+    protected InstructionsSequence elseCase;
     protected Conditional(){
         super();
     }
-    protected Conditional(Expression wyr1, Expression wyr2){
+    protected Conditional(Expression exp1, Expression exp2){
         super();
-        wPrzeciwnymWypadku = new SekwencjaInstrukcji();
-        sprawdzonoWarunek = false;
-        this.wyr1 = wyr1;
-        this.wyr2 = wyr2;
+        elseCase = new InstructionsSequence();
+        conditionChecked = false;
+        this.exp1 = exp1;
+        this.exp2 = exp2;
     }
-    protected abstract void sprawdz();
+    protected abstract void check();
 
     @Override
-    public void wykonaj(){
-        sprawdz();
-        if(warunekZaszedl)
-            instrukcje.wykonaj();
+    public void execute(){
+        check();
+        if(conditionOccurred)
+            instructions.execute();
         else
-            wPrzeciwnymWypadku.wykonaj();
+            elseCase.execute();
     }
 
     @Override
-    public Instrukcja nastepnaInstrukcja(){
-        if(!sprawdzonoWarunek) {
-            sprawdz();
-            return new IfSprawdz(this);
+    public Instruction nextInstruction(){
+        if(!conditionChecked) {
+            check();
+            return new ConditionCheck(this);
         }
-        Instrukcja nast;
-        if (warunekZaszedl)
-            nast = instrukcje.nastepnaInstrukcja();
+        Instruction next;
+        if (conditionOccurred)
+            next = instructions.nextInstruction();
         else
-            nast = wPrzeciwnymWypadku.nastepnaInstrukcja();
-        if(nast == null) //jak dojdziemy do konca to zaczyanmy od poczatku
-            sprawdzonoWarunek = false;
-        return nast;
+            next = elseCase.nextInstruction();
+        if(next == null) // as we reached the end, we start from the beginning
+            conditionChecked = false;
+        return next;
     }
     @Override
-    public InstrukcjaPojedyncza nastepnaInstrukcjaPojedyncza(Debugger debugger){
-        if(!sprawdzonoWarunek) {
-            sprawdz();
-            return new IfSprawdz(this);
+    public SingleInstruction nextSingleInstruction(Debugger debugger){
+        if(!conditionChecked) {
+            check();
+            return new ConditionCheck(this);
         }
-        InstrukcjaPojedyncza nast;
-        if (warunekZaszedl)
-            nast = instrukcje.nastepnaInstrukcjaPojedyncza(debugger);
+        SingleInstruction next;
+        if (conditionOccurred)
+            next = instructions.nextSingleInstruction(debugger);
 
         else
-            nast = wPrzeciwnymWypadku.nastepnaInstrukcjaPojedyncza(debugger);
+            next = elseCase.nextSingleInstruction(debugger);
 
-        if(nast == null) //jak dojdziemy do konca to zaczyanmy od poczatku
-            sprawdzonoWarunek = false;
-        return nast;
+        if(next == null) // as we reached the end, we start from the beginning
+            conditionChecked = false;
+        return next;
     }
-    public void dodajInstrukcjeElse(Instrukcja instr) {
-        instr.wartNadrzedne = wartNadrzedne;
-        wPrzeciwnymWypadku.dodajInstrukcje(instr);
+    public void addElseInstruction(Instruction instr) {
+        instr.parentScope = parentScope;
+        elseCase.addInstruction(instr);
     }
 }
