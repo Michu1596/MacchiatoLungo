@@ -2,9 +2,9 @@ package Wykonanie;
 import java.io.PrintWriter;
 import java.util.*;
 
-import Instrukcje.Instruction;
-import Instrukcje.SingleInstruction;
-import Instrukcje.Scope;
+import Instructions.Instruction;
+import Instructions.SingleInstruction;
+import Instructions.Scope;
 import KlasyPomocnicze.ProcedureVisibilityScope;
 import Wyjatki.MacchiatosError;
 

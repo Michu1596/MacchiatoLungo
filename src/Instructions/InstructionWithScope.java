@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 public abstract class InstructionWithScope extends complexInstruction {
     final protected Scope innerScope;

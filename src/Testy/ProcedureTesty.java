@@ -1,9 +1,9 @@
 package Testy;
 
-import Instrukcje.Block;
-import Instrukcje.Print;
-import Instrukcje.Procedure;
-import Instrukcje.ProcedureCall;
+import Instructions.Block;
+import Instructions.Print;
+import Instructions.Procedure;
+import Instructions.ProcedureCall;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;

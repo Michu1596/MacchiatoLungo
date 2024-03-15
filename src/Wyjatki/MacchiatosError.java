@@ -1,7 +1,7 @@
 package Wyjatki;
 
-import Instrukcje.Instruction;
-import Instrukcje.Scope;
+import Instructions.Instruction;
+import Instructions.Scope;
 
 public class MacchiatosError extends RuntimeException{
     public Instruction invalidInstruction;

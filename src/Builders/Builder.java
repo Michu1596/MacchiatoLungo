@@ -1,6 +1,6 @@
 package Builders;
 
-import Instrukcje.*;
+import Instructions.*;
 import Wyjatki.MacchiatosError;
 import Wykonanie.Program;
 import Wyrazenia.Expression;

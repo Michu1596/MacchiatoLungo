@@ -2,7 +2,7 @@ package Testy;
 
 
 import Builders.BlockBuilder;
-import Instrukcje.*;
+import Instructions.*;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;

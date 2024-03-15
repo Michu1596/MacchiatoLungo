@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 import KlasyPomocnicze.ProcedureVisibilityScope;
 import Wykonanie.Debugger;

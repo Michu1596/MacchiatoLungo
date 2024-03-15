@@ -1,6 +1,6 @@
 package Builders;
 
-import Instrukcje.ForLoop;
+import Instructions.ForLoop;
 import Wyrazenia.Expression;
 
 /**

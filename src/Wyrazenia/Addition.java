@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Scope;
+import Instructions.Scope;
 
 public class Addition implements Expression {
     private Expression wyr1;

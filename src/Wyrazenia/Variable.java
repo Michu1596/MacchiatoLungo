@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Scope;
+import Instructions.Scope;
 
 public class Variable implements Expression {
     final private char nazwaZmiennej;

@@ -1,6 +1,6 @@
 package Wykonanie;
 
-import Instrukcje.*;
+import Instructions.*;
 import Wyrazenia.*;
 
 public class Debugger {

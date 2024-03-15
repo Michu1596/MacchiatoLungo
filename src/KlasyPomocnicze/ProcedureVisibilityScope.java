@@ -1,6 +1,6 @@
 package KlasyPomocnicze;
 
-import Instrukcje.Procedure;
+import Instructions.Procedure;
 import Wyjatki.NiezadeklarowanaProcedura;
 import Wyjatki.PodwojnaDeklaracjaProcedury;
 

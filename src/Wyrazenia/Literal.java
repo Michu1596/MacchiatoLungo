@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Scope;
+import Instructions.Scope;
 
 public class Literal implements Expression {
     final private int wartosc;

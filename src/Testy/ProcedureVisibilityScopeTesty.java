@@ -1,7 +1,7 @@
 package Testy;
 
-import Instrukcje.Block;
-import Instrukcje.Procedure;
+import Instructions.Block;
+import Instructions.Procedure;
 import Wyjatki.NiezadeklarowanaProcedura;
 import org.junit.jupiter.api.BeforeEach;
 

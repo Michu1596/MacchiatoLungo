@@ -1,8 +1,8 @@
 package Testy;
 
-import Instrukcje.Block;
-import Instrukcje.Procedure;
-import Instrukcje.ProcedureCall;
+import Instructions.Block;
+import Instructions.Procedure;
+import Instructions.ProcedureCall;
 import Wyjatki.MacchiatosError;
 import Wyjatki.InvalidProcedureArgument;
 import Wyjatki.NiezadeklarowanaProcedura;

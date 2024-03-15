@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 public abstract class complexInstruction extends Instruction {
     protected InstructionsSequence instructions;

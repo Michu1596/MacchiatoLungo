@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 
 import Wyjatki.InvalidProcedureArgument;

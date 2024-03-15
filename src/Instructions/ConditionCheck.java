@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 public class ConditionCheck extends SingleInstruction {
     final protected Conditional toCheck;

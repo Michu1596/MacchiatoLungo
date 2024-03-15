@@ -1,6 +1,6 @@
 package Wyrazenia;
 
-import Instrukcje.Scope;
+import Instructions.Scope;
 import Wyjatki.ExpressionError;
 
 public class Division implements Expression {

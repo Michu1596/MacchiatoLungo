@@ -1,4 +1,4 @@
-package Instrukcje;
+package Instructions;
 
 import Wyjatki.MacchiatosError;
 import Wyrazenia.Expression;

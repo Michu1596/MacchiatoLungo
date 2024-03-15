@@ -1,8 +1,8 @@
 package Builders;
 
-import Instrukcje.Block;
-import Instrukcje.complexInstruction;
-import Instrukcje.Procedure;
+import Instructions.Block;
+import Instructions.complexInstruction;
+import Instructions.Procedure;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Expression;
 

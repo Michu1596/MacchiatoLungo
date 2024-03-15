@@ -1,7 +1,7 @@
 package Testy;
 
-import Instrukcje.Print;
-import Instrukcje.Przypisanie;
+import Instructions.Print;
+import Instructions.Przypisanie;
 import Wyrazenia.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

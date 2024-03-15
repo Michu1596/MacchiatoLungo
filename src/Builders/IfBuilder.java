@@ -1,6 +1,6 @@
 package Builders;
 
-import Instrukcje.*;
+import Instructions.*;
 import Wyrazenia.Expression;
 
 public class IfBuilder extends Builder{
