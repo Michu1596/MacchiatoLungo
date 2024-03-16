@@ -17,7 +17,7 @@ public class Debugger {
                 new Subtraction(new Variable('n'), new Literal(1)));
         Block wnetrzePetli = new Block(petla);
         wnetrzePetli.addDeclaration('p', new Literal(1));
-        wnetrzePetli.addIntruction(new Przypisanie('k',
+        wnetrzePetli.addIntruction(new Assignment('k',
                 new Addition(new Variable('k'),
                         new Literal(2))));
 
@@ -25,12 +25,12 @@ public class Debugger {
                 'i',
                 new Subtraction(new Variable('k'),
                         new Literal(2)));
-        petal2.addIntruction(new Przypisanie('i', new Addition(new Variable('i'),
+        petal2.addIntruction(new Assignment('i', new Addition(new Variable('i'),
                 new Literal(2))));
         Conditional warunkowa = new CondEqual(new Modulo(new Variable('k'),
                 new Variable('i')), new Literal(0));
         petal2.addIntruction(warunkowa);
-        warunkowa.addIntruction(new Przypisanie('p', new Literal(0)));
+        warunkowa.addIntruction(new Assignment('p', new Literal(0)));
 
         Conditional warunkowa2 = new CondEqual(new Variable('p'), new Literal(1));
         wnetrzePetli.addIntruction(petal2);

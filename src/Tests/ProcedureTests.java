@@ -1,4 +1,4 @@
-package Testy;
+package Tests;
 
 import Instructions.Block;
 import Instructions.Print;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Testy klasy Procedura
  */
-public class ProcedureTesty {
+public class ProcedureTests {
     protected Block block;
     char[] arg;
     @BeforeEach
@@ -26,19 +26,19 @@ public class ProcedureTesty {
         arg = new char[]{'a', 'b', 'c'};
     }
     @Test
-    public void powtorzoneArgumenty(){
-        char[] argumenty = {'a', 'b', 'c', 'a'};
-        assertThrows(DoubleDeclaration.class, () -> new Procedure(block, argumenty));
+    public void repeatedArguments(){
+        char[] args = {'a', 'b', 'c', 'a'};
+        assertThrows(DoubleDeclaration.class, () -> new Procedure(block, args));
     }
 
     @Test
-    public void zmienne(){
+    public void variables(){
         Procedure proc = new Procedure(block, arg);
         assertEquals("[a, b, c]", proc.getArgs());
     }
 
     @Test
-    public void deklaracje(){
+    public void declarations(){
         Procedure proc = new Procedure(block, arg);
         proc.addVariable('a', new Literal(123));
         proc.addVariable('b', new Variable('a'));
@@ -46,17 +46,17 @@ public class ProcedureTesty {
     }
 
     @Test
-    public void ustawArgumenty(){
+    public void setArguments(){
         Procedure proc = new Procedure(block, arg);
         proc.setArguments( List.of(new Literal(123), new Literal(456), new Literal(789)));
         assertEquals("[a, b, c]\n" +
-                "DEKLARACJA: a = 123\n" +
-                "DEKLARACJA: b = 456\n" +
-                "DEKLARACJA: c = 789\n", proc.toString());
+                "DECLARATION: a = 123\n" +
+                "DECLARATION: b = 456\n" +
+                "DECLARATION: c = 789\n", proc.toString());
     }
 
     @Test
-    public void bezparametrow(){
+    public void parameterless(){
         Procedure proc = new Procedure(block);
         proc.addIntruction(new Print(new Literal(125)));
         block.addProcedure("proc", proc);
@@ -64,7 +64,7 @@ public class ProcedureTesty {
         assertEquals("[]\nPRINT( 125 )\n", proc.toString());
     }
     @Test
-    public void argumentPlusDeklaracja(){
+    public void argumentAndDeclaration(){
         Procedure proc = new Procedure(block, arg);
         proc.addVariable('a', new Literal(123));
         block.addProcedure("proc", proc);
@@ -72,8 +72,8 @@ public class ProcedureTesty {
                 List.of(new Literal(123), new Literal(456), new Literal(789)),
                 block));
 
-        assertDoesNotThrow(() -> block.execute()); //mozna zadeklarowac w procedurze zmiennej o tej samej nazwei co
-        // argument
+        assertDoesNotThrow(() -> block.execute());
+        // can declare a variable in a procedure with the same name as the argument
     }
 
 }

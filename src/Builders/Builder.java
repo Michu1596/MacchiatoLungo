@@ -60,7 +60,7 @@ public abstract class Builder {
 
     public Builder assignment(char variable, Expression exp2){
         complexInstruction scope = instructionNesting.peek();
-        scope.addIntruction(new Przypisanie(variable, exp2));
+        scope.addIntruction(new Assignment(variable, exp2));
         return this;
     }
 

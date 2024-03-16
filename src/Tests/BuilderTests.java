@@ -1,4 +1,4 @@
-package Testy;
+package Tests;
 
 import Builders.BlockBuilder;
 import Builders.ProgramBuilder;
@@ -7,9 +7,9 @@ import Wyrazenia.Literal;
 import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-public class BuilderTesty {
+public class BuilderTests {
     @Test
-    public void niepoprawnaDeklaracja(){
+    public void invalidDeclaration(){
     assertThrows(MacchiatosError.class, ()-> new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Variable('x'))
@@ -19,7 +19,7 @@ public class BuilderTesty {
                 .getInstruction());
     }
     @Test
-    public void niepoprawnaRozpoczecieProceduryZArg(){
+    public void invalidOpeningArgumentProcedure(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Variable('x'))
@@ -39,7 +39,7 @@ public class BuilderTesty {
     }
 
     @Test
-    public void niepoprawnaRozpoczecieProceduryBezArg(){
+    public void invalidOpeningProcedureWithoutArg(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Variable('x'))
@@ -59,7 +59,7 @@ public class BuilderTesty {
     }
 
     @Test
-    public void niepoprawnaZbudowanie(){
+    public void invalidBuild(){
         assertThrows(MacchiatosError.class, ()-> new ProgramBuilder()
                 .declareVariable('x', new Literal(7))
                 .declareVariable('y', new Variable('x'))

@@ -1,4 +1,4 @@
-package Testy;
+package Tests;
 
 import Builders.BlockBuilder;
 import Instructions.*;
@@ -10,10 +10,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProcedureBuilderTesty {
+public class ProcedureBuilderTests {
     @Test
-    public void deklaracja(){
-        complexInstruction blok = new BlockBuilder()
+    public void declaration(){
+        complexInstruction block = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc", new char[] {'a', 'b', 'c'})
                 .declareVariable('a', new Literal(561))
@@ -23,20 +23,20 @@ public class ProcedureBuilderTesty {
                         new Literal(2),new Literal(1)))
                 .getInstruction();
 
-        Block wzor = new Block();
-        wzor.addDeclaration('x', new Literal(7));
-        Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
+        Block template = new Block();
+        template.addDeclaration('x', new Literal(7));
+        Procedure proc = new Procedure(template, new char[] {'a', 'b', 'c'});
         proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Variable('a')));
-        wzor.addProcedure("proc",proc);
-        wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
-                new Literal(2),new Literal(1)), wzor));
-        assertEquals(wzor.toString(), blok.toString());
+        template.addProcedure("proc",proc);
+        template.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
+                new Literal(2),new Literal(1)), template));
+        assertEquals(template.toString(), block.toString());
     }
 
     @Test
-    public void proceduraBezArgumentow(){
-        complexInstruction blok = new BlockBuilder()
+    public void procedureWithoutArgs(){
+        complexInstruction block = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc")
                 .declareVariable('a', new Literal(561))
@@ -45,33 +45,33 @@ public class ProcedureBuilderTesty {
                 .procedureCall("proc")
                 .getInstruction();
 
-        Block wzor = new Block();
-        wzor.addDeclaration('x', new Literal(7));
-        Procedure proc = new Procedure(wzor);
+        Block template = new Block();
+        template.addDeclaration('x', new Literal(7));
+        Procedure proc = new Procedure(template);
         proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Variable('x')));
-        wzor.addProcedure("proc",proc);
-        wzor.addIntruction(new ProcedureCall("proc", wzor));
-        assertEquals(wzor.toString(), blok.toString());
+        template.addProcedure("proc",proc);
+        template.addIntruction(new ProcedureCall("proc", template));
+        assertEquals(template.toString(), block.toString());
     }
 
     @Test
-    public void proceduraZArgumentami(){
-        complexInstruction procedura = new BlockBuilder()
+    public void procedureWithArgs(){
+        complexInstruction procedure = new BlockBuilder()
                 .declareVariable('x', new Literal(7))
                 .openProcedure("proc", new char[] {'a', 'b', 'c'})
                 .declareVariable('a', new Literal(561))
                 .print(new Variable('a'))
                 .getInstruction();
 
-        Block wzor = new Block();
-        wzor.addDeclaration('x', new Literal(7));
-        Procedure proc = new Procedure(wzor, new char[] {'a', 'b', 'c'});
+        Block template = new Block();
+        template.addDeclaration('x', new Literal(7));
+        Procedure proc = new Procedure(template, new char[] {'a', 'b', 'c'});
         proc.addVariable('a', new Literal(561));
         proc.addIntruction(new Print(new Variable('a')));
-        wzor.addProcedure("proc",proc);
-        wzor.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
-                new Literal(2),new Literal(1)), wzor));
-        assertEquals(proc.toString(), procedura.toString());
+        template.addProcedure("proc",proc);
+        template.addIntruction(new ProcedureCall("proc", List.of(new Literal(1),
+                new Literal(2),new Literal(1)), template));
+        assertEquals(proc.toString(), procedure.toString());
     }
 }

@@ -3,10 +3,10 @@ package Wyrazenia;
 import Instructions.Scope;
 import Wyjatki.ExpressionError;
 
-public class Mnozenie implements Expression {
+public class Multiplication implements Expression {
     private Expression wyr1;
     private Expression wyr2;
-    public Mnozenie(Expression wyr1, Expression wyr2){
+    public Multiplication(Expression wyr1, Expression wyr2){
         this.wyr1 = wyr1;
         this.wyr2 = wyr2;
     }

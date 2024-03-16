@@ -3,10 +3,10 @@ package Instructions;
 import Wyjatki.MacchiatosError;
 import Wyrazenia.Expression;
 
-public class Przypisanie extends SingleInstruction {
+public class Assignment extends SingleInstruction {
     final private char name;
     private Expression expression;
-    public Przypisanie(char name, Expression expression){
+    public Assignment(char name, Expression expression){
         super();
         this.name = name;
         this.expression = expression;
