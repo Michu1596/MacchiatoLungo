@@ -2,10 +2,10 @@ package Testy;
 
 import Instructions.Block;
 import Instructions.Procedure;
-import Wyjatki.NiezadeklarowanaProcedura;
+import Wyjatki.UndeclaredProcedure;
 import org.junit.jupiter.api.BeforeEach;
 
-import KlasyPomocnicze.ProcedureVisibilityScope;
+import SupportClasses.ProcedureVisibilityScope;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +32,7 @@ public class ProcedureVisibilityScopeTesty {
         ProcedureVisibilityScope poziom1 = new ProcedureVisibilityScope(poziom0);
         ProcedureVisibilityScope poziom2 = new ProcedureVisibilityScope(poziom1);
 
-        assertThrows(NiezadeklarowanaProcedura.class, () -> poziom2.get("niezadeklarowana"));
+        assertThrows(UndeclaredProcedure.class, () -> poziom2.get("niezadeklarowana"));
     }
 
     @Test

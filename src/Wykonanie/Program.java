@@ -5,7 +5,7 @@ import java.util.*;
 import Instructions.Instruction;
 import Instructions.SingleInstruction;
 import Instructions.Scope;
-import KlasyPomocnicze.ProcedureVisibilityScope;
+import SupportClasses.ProcedureVisibilityScope;
 import Wyjatki.MacchiatosError;
 
 public class Program {

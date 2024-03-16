@@ -5,7 +5,7 @@ import Instructions.Procedure;
 import Instructions.ProcedureCall;
 import Wyjatki.MacchiatosError;
 import Wyjatki.InvalidProcedureArgument;
-import Wyjatki.NiezadeklarowanaProcedura;
+import Wyjatki.UndeclaredProcedure;
 import Wyjatki.UndeclaredVariable;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;
@@ -41,7 +41,7 @@ public class ProcedureCallTesty {
     }
     @Test
     public void nieistniejacaProcedura(){
-        assertThrows(NiezadeklarowanaProcedura.class, () -> new ProcedureCall("nieistniejcProcedura", block));
+        assertThrows(UndeclaredProcedure.class, () -> new ProcedureCall("nieistniejcProcedura", block));
     }
     @Test
     public void wewnetrzneWywolanie(){

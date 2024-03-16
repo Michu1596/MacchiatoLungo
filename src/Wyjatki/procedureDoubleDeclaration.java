@@ -1,8 +1,8 @@
 package Wyjatki;
 
-public class PodwojnaDeklaracjaProcedury extends MacchiatosError {
+public class procedureDoubleDeclaration extends MacchiatosError {
     public String nazwa;
-    public PodwojnaDeklaracjaProcedury(String nazwa){
+    public procedureDoubleDeclaration(String nazwa){
         this.nazwa = nazwa;
     }
     public String toString(){

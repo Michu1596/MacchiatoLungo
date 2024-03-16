@@ -1,6 +1,6 @@
 package Instructions;
 
-import KlasyPomocnicze.ProcedureVisibilityScope;
+import SupportClasses.ProcedureVisibilityScope;
 import Wykonanie.Debugger;
 import Wyjatki.DoubleDeclaration;
 import Wyrazenia.Expression;
