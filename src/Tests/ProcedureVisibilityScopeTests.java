@@ -2,7 +2,7 @@ package Tests;
 
 import Instructions.Block;
 import Instructions.Procedure;
-import Wyjatki.UndeclaredProcedure;
+import Exceptions.UndeclaredProcedure;
 import org.junit.jupiter.api.BeforeEach;
 
 import SupportClasses.ProcedureVisibilityScope;

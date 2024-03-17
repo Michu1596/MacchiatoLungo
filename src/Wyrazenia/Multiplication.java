@@ -1,7 +1,7 @@
 package Wyrazenia;
 
 import Instructions.Scope;
-import Wyjatki.ExpressionError;
+import Exceptions.ExpressionError;
 
 public class Multiplication implements Expression {
     private Expression wyr1;

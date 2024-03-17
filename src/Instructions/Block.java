@@ -2,7 +2,7 @@ package Instructions;
 
 import SupportClasses.ProcedureVisibilityScope;
 import Wykonanie.Debugger;
-import Wyjatki.DoubleDeclaration;
+import Exceptions.DoubleDeclaration;
 import Wyrazenia.Expression;
 
 import java.util.*;

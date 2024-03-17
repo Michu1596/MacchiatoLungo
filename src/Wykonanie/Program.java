@@ -6,7 +6,7 @@ import Instructions.Instruction;
 import Instructions.SingleInstruction;
 import Instructions.Scope;
 import SupportClasses.ProcedureVisibilityScope;
-import Wyjatki.MacchiatosError;
+import Exceptions.MacchiatosError;
 
 public class Program {
     protected Instruction program;

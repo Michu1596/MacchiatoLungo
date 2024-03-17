@@ -1,6 +1,6 @@
 package Instructions;
 
-import Wyjatki.ExpressionError;
+import Exceptions.ExpressionError;
 import Wyrazenia.Expression;
 
 public class Declaration extends SingleInstruction {

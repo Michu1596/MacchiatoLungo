@@ -1,6 +1,6 @@
 package Instructions;
 
-import Wyjatki.MacchiatosError;
+import Exceptions.MacchiatosError;
 import Wyrazenia.Expression;
 
 public class Assignment extends SingleInstruction {

@@ -3,7 +3,7 @@ package Builders;
 import Instructions.Block;
 import Instructions.complexInstruction;
 import Instructions.Procedure;
-import Wyjatki.DoubleDeclaration;
+import Exceptions.DoubleDeclaration;
 import Wyrazenia.Expression;
 
 public class ProcedureBuilder extends  Builder{ //dziedziczenie wynika stad ze procedura musi byc wewnatrz bloku

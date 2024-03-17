@@ -4,7 +4,7 @@ import Instructions.Block;
 import Instructions.Print;
 import Instructions.Procedure;
 import Instructions.ProcedureCall;
-import Wyjatki.DoubleDeclaration;
+import Exceptions.DoubleDeclaration;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;
 import org.junit.jupiter.api.BeforeEach;

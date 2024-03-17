@@ -2,7 +2,7 @@ package Builders;
 
 import Instructions.Block;
 import Instructions.complexInstruction;
-import Wyjatki.DoubleDeclaration;
+import Exceptions.DoubleDeclaration;
 import Wyrazenia.Expression;
 
 /**

@@ -1,8 +1,8 @@
 package SupportClasses;
 
 import Instructions.Procedure;
-import Wyjatki.UndeclaredProcedure;
-import Wyjatki.procedureDoubleDeclaration;
+import Exceptions.UndeclaredProcedure;
+import Exceptions.procedureDoubleDeclaration;
 
 import java.util.HashMap;
 import java.util.Map;

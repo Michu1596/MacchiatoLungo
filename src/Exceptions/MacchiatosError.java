@@ -1,4 +1,4 @@
-package Wyjatki;
+package Exceptions;
 
 import Instructions.Instruction;
 import Instructions.Scope;
@@ -13,7 +13,7 @@ public class MacchiatosError extends RuntimeException{
     public MacchiatosError(){
         ;
     }
-    public MacchiatosError(String informacja){
-        super(informacja);
+    public MacchiatosError(String information){
+        super(information);
     }
 }

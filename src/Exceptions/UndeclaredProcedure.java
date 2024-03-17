@@ -1,4 +1,4 @@
-package Wyjatki;
+package Exceptions;
 
 public class UndeclaredProcedure extends MacchiatosError {
 }

@@ -2,7 +2,7 @@ package Tests;
 
 import Builders.BlockBuilder;
 import Builders.ProgramBuilder;
-import Wyjatki.MacchiatosError;
+import Exceptions.MacchiatosError;
 import Wyrazenia.Literal;
 import Wyrazenia.Variable;
 import org.junit.jupiter.api.Test;

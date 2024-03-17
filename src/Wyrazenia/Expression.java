@@ -1,7 +1,7 @@
 package Wyrazenia;
 
 import Instructions.Scope;
-import Wyjatki.ExpressionError;
+import Exceptions.ExpressionError;
 
 public interface Expression {
     int evaluate(Scope wart) throws ExpressionError;

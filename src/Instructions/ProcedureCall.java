@@ -1,7 +1,7 @@
 package Instructions;
 
 
-import Wyjatki.InvalidProcedureArgument;
+import Exceptions.InvalidProcedureArgument;
 import Wykonanie.Debugger;
 import Wyrazenia.Literal;
 import Wyrazenia.Expression;

@@ -1,7 +1,7 @@
 package Instructions;
 
-import Wyjatki.MacchiatosError;
-import Wyjatki.UndeclaredVariable;
+import Exceptions.MacchiatosError;
+import Exceptions.UndeclaredVariable;
 
 public class Scope {
     private final static int numberOfVariables = 26;
