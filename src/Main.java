@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        //Nowy przyklad - demonostruje statyczne wiazanie zmiennych
+        // New example - demonstrates static binding of variables
         Program program = new ProgramBuilder()
                 .declareVariable('x', ConstFactory.wartosc(101))
                 .declareVariable('y', ConstFactory.wartosc(1))
@@ -26,7 +26,7 @@ public class Main {
         program.executionWithDebug();
         //program.wykonanieBezDebugowania();
     }
-    public static void staryPrzyklad(String[] args){
+    public static void oldExample(String[] args){
         Program program = new ProgramBuilder()
                 .declareVariable('x', ConstFactory.wartosc(57))
                 .declareVariable('y', ConstFactory.wartosc(15))
@@ -43,7 +43,7 @@ public class Main {
         program.executionWithDebug();
         //program.wykonanieBezDebugowania();
     }
-    public static void przykladzPoprzedniegoZadania(String[] args){
+    public static void oldExample2(String[] args){
         Program program = new ProgramBuilder()
                 .declareVariable('n', ConstFactory.wartosc(30))
                 .openLoopInstruction('k', SubtractionFactory.subtraction(VariableFactory.nazwa('n'),
