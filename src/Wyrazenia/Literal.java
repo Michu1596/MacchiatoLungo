@@ -3,20 +3,20 @@ package Wyrazenia;
 import Instructions.Scope;
 
 public class Literal implements Expression {
-    final private int wartosc;
-    public Literal(int wartosc){
-        this.wartosc = wartosc;
+    final private int value;
+    public Literal(int value){
+        this.value = value;
     }
     @Override
-    public int evaluate(Scope wart){
-        return wartosc;
+    public int evaluate(Scope scope){
+        return value;
     }
     public int ewaluuj(){
-        return wartosc;
+        return value;
     }
 
     @Override
     public String toString(){
-        return Integer.toString(wartosc);
+        return Integer.toString(value);
     }
 }

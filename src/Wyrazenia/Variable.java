@@ -3,17 +3,17 @@ package Wyrazenia;
 import Instructions.Scope;
 
 public class Variable implements Expression {
-    final private char nazwaZmiennej;
-    public Variable(char nazwaZmiennej){
-        this.nazwaZmiennej = nazwaZmiennej;
+    final private char variableName;
+    public Variable(char variableName){
+        this.variableName = variableName;
     }
     @Override
-    public int evaluate(Scope wart){
-        return wart.get(nazwaZmiennej);
+    public int evaluate(Scope scope){
+        return scope.get(variableName);
     }
     @Override
     public String toString(){
-        return "" + nazwaZmiennej;
+        return "" + variableName;
     }
 
 }
