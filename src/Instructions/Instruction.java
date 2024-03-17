@@ -1,7 +1,7 @@
 package Instructions;
 
 import SupportClasses.ProcedureVisibilityScope;
-import Wykonanie.Debugger;
+import Execution.Debugger;
 
 public abstract class Instruction {
     protected Scope parentScope;

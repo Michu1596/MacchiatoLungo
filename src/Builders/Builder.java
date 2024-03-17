@@ -2,7 +2,7 @@ package Builders;
 
 import Instructions.*;
 import Exceptions.MacchiatosError;
-import Wykonanie.Program;
+import Execution.Program;
 import Wyrazenia.Expression;
 
 import java.util.List;

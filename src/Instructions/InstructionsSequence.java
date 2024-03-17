@@ -1,6 +1,6 @@
 package Instructions;
 
-import Wykonanie.Debugger;
+import Execution.Debugger;
 
 public class InstructionsSequence {
     private Instruction[] instructions;

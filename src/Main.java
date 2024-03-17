@@ -1,6 +1,6 @@
 import Builders.ProgramBuilder;
 import Factories.*;
-import Wykonanie.Program;
+import Execution.Program;
 import java.util.List;
 
 public class Main {
@@ -23,7 +23,7 @@ public class Main {
                 .build();
 
 
-        program.wykonajZDebugowaniem();
+        program.executionWithDebug();
         //program.wykonanieBezDebugowania();
     }
     public static void staryPrzyklad(String[] args){
@@ -40,7 +40,7 @@ public class Main {
                 .build();
 
 
-        program.wykonajZDebugowaniem();
+        program.executionWithDebug();
         //program.wykonanieBezDebugowania();
     }
     public static void przykladzPoprzedniegoZadania(String[] args){
@@ -67,7 +67,7 @@ public class Main {
                 .closeScope()
                 .closeScope()
                 .build();
-        program.wykonanieBezDebugowania();
+        program.executionWithoutDebug();
         //program.wykonajZDebugowaniem();
     }
 

@@ -2,7 +2,7 @@ package Instructions;
 
 
 import Exceptions.InvalidProcedureArgument;
-import Wykonanie.Debugger;
+import Execution.Debugger;
 import Wyrazenia.Literal;
 import Wyrazenia.Expression;
 

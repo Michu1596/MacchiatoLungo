@@ -1,6 +1,6 @@
 package Instructions;
 
-import Wykonanie.Debugger;
+import Execution.Debugger;
 import Wyrazenia.Expression;
 
 public abstract class Conditional extends complexInstruction {

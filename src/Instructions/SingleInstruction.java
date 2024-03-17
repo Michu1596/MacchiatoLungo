@@ -1,6 +1,6 @@
 package Instructions;
 
-import Wykonanie.Debugger;
+import Execution.Debugger;
 
 public abstract class SingleInstruction extends Instruction { // its execute method is called in debugger
     protected boolean executed;
